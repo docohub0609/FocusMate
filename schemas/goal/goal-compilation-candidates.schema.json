@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-compilation-candidates.schema.json",
+  "title": "GoalCompilationCandidates",
+  "type": "object",
+  "required": [
+    "subgoals",
+    "strategyCandidates",
+    "unknowns"
+  ],
+  "properties": {
+    "subgoals": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "stage",
+          "objective",
+          "userGoal",
+          "acceptableEvidence",
+          "sourceRefs",
+          "dependsOn",
+          "rubric"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "stage": {
+            "enum": [
+              "problemUnderstanding",
+              "feasibleStrategy",
+              "coreStateAndCorrectness",
+              "coreImplementation",
+              "boundaryAndTesting"
+            ]
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "userGoal": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "acceptableEvidence": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "enum": [
+                "confirmedProblemFeature",
+                "evaluatedUserExplanation",
+                "complexityCheck",
+                "codeStructureCheck",
+                "compileResult",
+                "runResult",
+                "publicSampleRunResult",
+                "targetedRunResult"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "sourceRefs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "dependsOn": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 24,
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "reason",
+                "sourceRefs"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "sourceRefs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "rubric": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "required": [
+                "check",
+                "sourceRefs"
+              ],
+              "properties": {
+                "check": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "sourceRefs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "strategyCandidates": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "approach",
+          "applicability",
+          "uncertainties",
+          "subgoalKeys",
+          "sourceRefs"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "approach": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "applicability": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uncertainties": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "subgoalKeys": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "sourceRefs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 100,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    }
+  },
+  "additionalProperties": false
+}

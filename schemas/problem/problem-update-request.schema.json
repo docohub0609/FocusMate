@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-update-request.schema.json",
+  "title": "ProblemUpdateRequest",
+  "type": "object",
+  "required": ["statement", "inputSpec", "outputSpec", "constraints", "examples", "language", "ioMode", "expectedDraftRevision"],
+  "properties": {
+    "statement": {"type": "string", "pattern": "\\S"},
+    "inputSpec": {"type": "string", "pattern": "\\S"},
+    "outputSpec": {"type": "string", "pattern": "\\S"},
+    "constraints": {"type": "string", "pattern": "\\S"},
+    "examples": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["input", "output"], "properties": {"input": {"type": "string"}, "output": {"type": "string"}}, "additionalProperties": false}},
+    "language": {"const": "python3"},
+    "ioMode": {"const": "standardInputOutput"},
+    "expectedDraftRevision": {"type": "integer", "minimum": 1}
+  },
+  "additionalProperties": false
+}

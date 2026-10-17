@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/final-oj-request.schema.json",
+  "title": "FinalOJRequest",
+  "type": "object",
+  "required": ["schemaVersion", "requestId", "goalId", "goalContractVersion", "submissionId"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "requestId": {"type": "string", "minLength": 1, "maxLength": 256},
+    "goalId": {"type": "string", "minLength": 1, "maxLength": 256},
+    "goalContractVersion": {"type": "integer", "minimum": 1},
+    "submissionId": {"type": "string", "minLength": 1, "maxLength": 256}
+  },
+  "additionalProperties": false
+}

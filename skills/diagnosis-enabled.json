@@ -1,0 +1,47 @@
+[
+  {
+    "path": "skills/array-and-hash",
+    "version": 5,
+    "hash": "sha256:fe789aa487bccbaee5ae129f2d85bcc92c42d6802e7a93431cc992f4e289a356"
+  },
+  {
+    "path": "skills/binary-search",
+    "version": 6,
+    "hash": "sha256:ea4fffc910bb7631903fd6d27de95b9946646628a89b17f4ccb14560f84a965d"
+  },
+  {
+    "path": "skills/constraint-and-complexity",
+    "version": 5,
+    "hash": "sha256:b4fdee1f4e7877de9d3001804d2e28dcd0f377e32b00c2e05cad234460e266d5"
+  },
+  {
+    "path": "skills/dynamic-programming",
+    "version": 4,
+    "hash": "sha256:8274224ed6226a6da0ea266553d56cc6d4cee200a173914080743dfe701aa710"
+  },
+  {
+    "path": "skills/problem-understanding",
+    "version": 5,
+    "hash": "sha256:f9f1f4d64be8bf8d0dcd41edc08cd5c3055ea7052bf73f5fdd61544f92bcc150"
+  },
+  {
+    "path": "skills/stack-and-queue",
+    "version": 4,
+    "hash": "sha256:b06a4bb1a36d3e657a0102aa6515bdd2d482cccbb5ec46ec70c37ad52c8747c6"
+  },
+  {
+    "path": "skills/testing-and-edge-cases",
+    "version": 4,
+    "hash": "sha256:3fb8256f23c7a31bff26316b15f4fe1696a5be9f6312d584e37b925abc99a326"
+  },
+  {
+    "path": "skills/tree-and-graph",
+    "version": 7,
+    "hash": "sha256:6c78665ad78b794d4b6ccbff609fc5bd2ef97f43ea5121cb4252ece625117523"
+  },
+  {
+    "path": "skills/two-pointers-and-window",
+    "version": 5,
+    "hash": "sha256:558082e7cda87a9a3ee14e320b3dfcaec223d705bba35d2b16d7760b0b4726d8"
+  }
+]

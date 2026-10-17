@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-asset-build-status.schema.json",
+  "title": "VerifierAssetBuildStatus",
+  "type": "object",
+  "required": [
+    "jobId",
+    "schemaVersion",
+    "problemRef",
+    "status",
+    "phase",
+    "attempt",
+    "retryable",
+    "issueCode",
+    "message",
+    "allowedAction",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "repair": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["status", "reason"],
+          "properties": {
+            "status": {"enum": ["pending", "running", "submitted", "validating", "succeeded", "failed", "abstained", "interrupted", "exhausted"]},
+            "reason": {"type": "string", "minLength": 1, "maxLength": 200}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "warningCodes": {"type": "array", "maxItems": 1, "items": {"const": "MUTATION_CHALLENGE_UNAVAILABLE"}},
+    "assurance": {"enum": ["full", "limited"]},
+    "jobId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "status": {"enum": ["queued", "running", "paused", "completed", "failed"]},
+    "phase": {
+      "oneOf": [
+        {"enum": ["generating", "prechecking", "repairingCases", "sealing", "crossChecking"]},
+        {"type": "null"}
+      ]
+    },
+    "attempt": {"type": "integer", "minimum": 0},
+    "retryable": {"type": "boolean"},
+    "issueCode": {
+      "oneOf": [
+        {
+          "enum": [
+            "PROBLEM_FACTS_INSUFFICIENT",
+            "LLM_TEMPORARILY_UNAVAILABLE",
+            "LLM_CONFIGURATION_REQUIRED",
+            "VERIFIER_BUILDER_INTERNAL_ERROR",
+            "CANDIDATE_SCHEMA_INVALID",
+            "CANDIDATE_COMPILE_FAILED",
+            "GENERATOR_NON_DETERMINISTIC",
+            "GENERATOR_CASES_INVALID",
+            "GENERATOR_COVERAGE_INSUFFICIENT", "SMALL_REFERENCE_TIMEOUT",
+            "GENERATOR_REPAIR_INVALID", "GENERATOR_INPUT_LEGALITY_UNCONFIRMED",
+            "REFERENCE_PUBLIC_MISMATCH",
+            "REFERENCE_DISAGREEMENT",
+            "REFERENCE_EXECUTION_FAILED",
+            "MUTATION_EVIDENCE_INSUFFICIENT", "MUTATION_TEST_GAP",
+            "MUTATION_RESPONSE_INVALID",
+            "SANDBOX_STARTUP_TIMEOUT", "BUILD_BUDGET_EXCEEDED",
+            "BUILDER_LEASE_EXPIRED",
+            "SEALED_MATERIAL_MISMATCH"
+          ]
+        },
+        {"type": "null"}
+      ]
+    },
+    "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "allowedAction": {"enum": ["wait", "retry", "reviseProblem", "configureProvider", "none"]},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "updatedAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "running"}}, "required": ["status"]},
+      "then": {"properties": {"phase": {"enum": ["generating", "prechecking", "repairingCases", "sealing", "crossChecking"]}}},
+      "else": {"properties": {"phase": {"type": "null"}}}
+    }
+  ],
+  "additionalProperties": false
+}

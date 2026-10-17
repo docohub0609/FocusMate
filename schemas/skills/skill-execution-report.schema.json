@@ -1,0 +1,220 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "trail"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "invocation": {
+      "$ref": "https://focusmate.local/schemas/skills/skill-invocation.schema.json"
+    },
+    "failure": {
+      "type": "object",
+      "required": [
+        "stage",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "input",
+            "candidate",
+            "review",
+            "repair",
+            "repairReview"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "INVALID_INPUT",
+            "INVALID_CANDIDATE",
+            "INVALID_REVIEW",
+            "REVIEW_UNCERTAIN",
+            "REVIEW_FAILED",
+            "DEADLINE_EXCEEDED",
+            "INVALID_PROVIDER_RESPONSE",
+            "PROVIDER_UNAVAILABLE",
+            "PROVIDER_OUTPUT_INVALID",
+            "PROVIDER_FAILED",
+            "CONTEXT_BUILD_FAILED"
+          ]
+        }
+      }
+    },
+    "trail": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "stage",
+          "goalContext",
+          "raw",
+          "model",
+          "elapsedSeconds"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "stage": {
+            "enum": [
+              "input",
+              "candidate",
+              "review",
+              "repair",
+              "repairReview"
+            ]
+          },
+          "goalContext": {
+            "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+          },
+          "raw": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "elapsedSeconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "logicalRequests": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "promptVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requests": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "goalContext",
+          "systemPrompt",
+          "userPrompt"
+        ],
+        "properties": {
+          "stage": {
+            "enum": [
+              "input",
+              "candidate",
+              "review",
+              "repair",
+              "repairReview"
+            ]
+          },
+          "goalContext": {
+            "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+          },
+          "systemPrompt": {
+            "type": "string"
+          },
+          "userPrompt": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "contextSnapshots": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "$ref": "https://focusmate.local/schemas/context/context-snapshot.schema.json"
+      }
+    },
+    "summaryRecords": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object"
+      }
+    },
+    "contextFailure": {
+      "type": "object",
+      "required": [
+        "code"
+      ]
+    },
+    "conversationSummary": {
+      "$ref": "https://focusmate.local/schemas/context/conversation-summary.schema.json"
+    },
+    "supersededSummary": {
+      "$ref": "https://focusmate.local/schemas/context/conversation-summary.schema.json"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "invocation"
+        ],
+        "not": {
+          "required": [
+            "failure"
+          ]
+        },
+        "properties": {
+          "invocation": {
+            "required": [
+              "result"
+            ],
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "failure"
+        ],
+        "properties": {
+          "invocation": {
+            "not": {
+              "required": [
+                "result"
+              ]
+            },
+            "properties": {
+              "status": {
+                "const": "rejected"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/skills/skill-execution-report.schema.json",
+  "title": "SkillExecutionReport"
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/learning-action.schema.json",
+  "title": "LearningAction",
+  "type": "object",
+  "required": ["actionId", "schemaVersion", "createdAt", "goalContext", "actionType", "content", "reasonEvidenceRefs", "expectedUserAction", "verificationPlan", "status", "coachPolicy"],
+  "properties": {
+    "actionId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "actionType": {"enum": ["microTask", "hint", "reflectionQuestion", "testSuggestion", "clarificationRequest"]},
+    "content": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "reasonEvidenceRefs": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "expectedUserAction": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "verificationPlan": {
+      "type": "object", "required": ["requiredChecks"],
+      "properties": {
+        "requiredChecks": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "required": ["capability"],
+            "properties": {"capability": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}, "parameters": {"type": "object"}},
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {"enum": ["proposed", "presented", "waitingForEvidence", "verified", "dismissed", "expired"]},
+    "coachPolicy": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/coachPolicy"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "actionId": "action-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-08T10:05:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "subgoal", "subgoalId": "handle-edge-cases"},
+    "actionType": "reflectionQuestion", "content": "Which boundary case is still untested?",
+    "reasonEvidenceRefs": ["obs-001"], "expectedUserAction": "Describe one boundary case.",
+    "verificationPlan": {"requiredChecks": [{"capability": "userExplanationRubric", "parameters": {"rubricId": "boundary-case-v1"}}]},
+    "status": "presented", "coachPolicy": {"completeSolutionAllowed": false}
+  }]
+}

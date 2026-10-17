@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/process-verification-request.schema.json",
+  "title": "ProcessVerificationRequest",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "problemRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+    },
+    "contractVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "contractRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "currentCodeRef": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "materialRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "contentHash": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceType": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "ref",
+          "kind",
+          "version",
+          "contentHash"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "contextWindowTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reservedOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safetyMarginTokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contextWindowTokens",
+        "reservedOutputTokens",
+        "safetyMarginTokens"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "goalContext",
+    "problemRef",
+    "contractVersion",
+    "contractRef",
+    "actionId",
+    "currentCodeRef",
+    "materialRefs",
+    "sources",
+    "budget"
+  ],
+  "additionalProperties": false
+}

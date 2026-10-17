@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/submission-create-request.schema.json",
+  "title": "SubmissionCreateRequest",
+  "type": "object",
+  "required": ["goalContext", "problemRef", "codeVersion", "language", "idempotencyKey"],
+  "properties": {
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/goalLevelContext"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "codeVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "language": {"const": "python3"},
+    "idempotencyKey": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "goalContext": {"goalId": "goal-001", "scope": "goal"},
+    "problemRef": {"problemId": "problem-001", "problemVersion": 1},
+    "codeVersion": 1, "language": "python3", "idempotencyKey": "submit-click-001"
+  }]
+}

@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-contract.schema.json",
+  "title": "GoalContract",
+  "type": "object",
+  "required": [
+    "goalId",
+    "schemaVersion",
+    "version",
+    "createdAt",
+    "problemRef",
+    "objective",
+    "subgoals",
+    "navigationPolicy",
+    "finalCriterion",
+    "coachPolicy",
+    "contractStatus"
+  ],
+  "properties": {
+    "goalId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "schemaVersion": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"
+    },
+    "version": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "problemRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+    },
+    "objective": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "subgoals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "subgoalId",
+          "stage",
+          "objective",
+          "dependsOn",
+          "acceptableEvidence"
+        ],
+        "properties": {
+          "subgoalId": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+          },
+          "stage": {
+            "enum": [
+              "problemUnderstanding",
+              "feasibleStrategy",
+              "coreStateAndCorrectness",
+              "coreImplementation",
+              "boundaryAndTesting"
+            ]
+          },
+          "objective": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+          },
+          "dependsOn": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"
+          },
+          "acceptableEvidence": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "confirmedProblemFeature",
+                "evaluatedUserExplanation",
+                "complexityCheck",
+                "codeStructureCheck",
+                "compileResult",
+                "runResult",
+                "publicSampleRunResult",
+                "targetedRunResult"
+              ]
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "navigationPolicy": {
+      "type": "object",
+      "required": [
+        "mode",
+        "stageOrder",
+        "allowSkip",
+        "allowRevisit",
+        "offRouteHandling",
+        "stalledRouteFallback",
+        "processStagesRequiredForCompletion"
+      ],
+      "properties": {
+        "mode": {
+          "const": "adaptive"
+        },
+        "stageOrder": {
+          "const": "defaultOnly"
+        },
+        "allowSkip": {
+          "const": true
+        },
+        "allowRevisit": {
+          "const": true
+        },
+        "offRouteHandling": {
+          "const": "temporaryBranch"
+        },
+        "stalledRouteFallback": {
+          "const": "latestVerifiedSubgoal"
+        },
+        "processStagesRequiredForCompletion": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "finalCriterion": {
+      "type": "object",
+      "required": [
+        "verifierType",
+        "requiredVerdict"
+      ],
+      "properties": {
+        "verifierType": {
+          "const": "finalOj"
+        },
+        "requiredVerdict": {
+          "const": "AC"
+        }
+      },
+      "additionalProperties": false
+    },
+    "coachPolicy": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/goalCoachPolicy"
+    },
+    "contractStatus": {
+      "enum": [
+        "draft",
+        "frozen",
+        "superseded"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "goalId": "goal-001",
+      "schemaVersion": "1.0.0",
+      "version": 1,
+      "createdAt": "2026-08-08T10:01:00+08:00",
+      "problemRef": {
+        "problemId": "problem-001",
+        "problemVersion": 1
+      },
+      "objective": "Produce a Python solution accepted by the trusted OJ.",
+      "subgoals": [
+        {
+          "subgoalId": "understand-problem",
+          "stage": "problemUnderstanding",
+          "objective": "Understand the problem requirements.",
+          "dependsOn": [],
+          "acceptableEvidence": [
+            "confirmedProblemFeature",
+            "evaluatedUserExplanation"
+          ]
+        },
+        {
+          "subgoalId": "choose-strategy",
+          "stage": "feasibleStrategy",
+          "objective": "Choose a strategy that fits the constraints.",
+          "dependsOn": [],
+          "acceptableEvidence": [
+            "complexityCheck",
+            "evaluatedUserExplanation",
+            "codeStructureCheck"
+          ]
+        },
+        {
+          "subgoalId": "justify-state",
+          "stage": "coreStateAndCorrectness",
+          "objective": "Explain the maintained state and correctness.",
+          "dependsOn": [],
+          "acceptableEvidence": [
+            "evaluatedUserExplanation",
+            "codeStructureCheck",
+            "targetedRunResult"
+          ]
+        },
+        {
+          "subgoalId": "implement-core",
+          "stage": "coreImplementation",
+          "objective": "Implement the core strategy.",
+          "dependsOn": [],
+          "acceptableEvidence": [
+            "codeStructureCheck",
+            "compileResult",
+            "runResult"
+          ]
+        },
+        {
+          "subgoalId": "test-boundaries",
+          "stage": "boundaryAndTesting",
+          "objective": "Test boundaries and representative inputs.",
+          "dependsOn": [],
+          "acceptableEvidence": [
+            "publicSampleRunResult",
+            "targetedRunResult"
+          ]
+        }
+      ],
+      "navigationPolicy": {
+        "mode": "adaptive",
+        "stageOrder": "defaultOnly",
+        "allowSkip": true,
+        "allowRevisit": true,
+        "offRouteHandling": "temporaryBranch",
+        "stalledRouteFallback": "latestVerifiedSubgoal",
+        "processStagesRequiredForCompletion": false
+      },
+      "finalCriterion": {
+        "verifierType": "finalOj",
+        "requiredVerdict": "AC"
+      },
+      "coachPolicy": {
+        "completeSolutionAllowed": false
+      },
+      "contractStatus": "frozen"
+    }
+  ]
+}

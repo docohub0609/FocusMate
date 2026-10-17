@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/reference-oracle.schema.json",
+  "title": "ReferenceOracle",
+  "type": "object",
+  "required": ["oracleId", "schemaVersion", "oracleVersion", "problemRef", "verifierAssetRef", "language", "sourceCode", "contentHash", "origin", "resourcePolicyRef", "createdAt"],
+  "properties": {
+    "oracleId": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": "1.0.0"},
+    "oracleVersion": {"const": 1},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "verifierAssetRef": {"type": "object", "required": ["assetId", "assetVersion"], "properties": {"assetId": {"type": "string", "minLength": 1}, "assetVersion": {"type": "integer", "minimum": 1}}, "additionalProperties": false},
+    "language": {"const": "python3"},
+    "sourceCode": {"type": "string", "minLength": 1},
+    "contentHash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "origin": {"enum": ["internalProvided", "generatedCandidate"]},
+    "resourcePolicyRef": {"const": "python-default-v1"},
+    "createdAt": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false,
+  "examples": [{"oracleId": "oracle-001", "schemaVersion": "1.0.0", "oracleVersion": 1, "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "verifierAssetRef": {"assetId": "asset-001", "assetVersion": 1}, "language": "python3", "sourceCode": "n = int(input())\nprint(n * n)\n", "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "origin": "internalProvided", "resourcePolicyRef": "python-default-v1", "createdAt": "2026-09-06T12:00:00Z"}]
+}

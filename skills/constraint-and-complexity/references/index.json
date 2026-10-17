@@ -1,0 +1,16 @@
+{
+  "skillId": "constraint-and-complexity",
+  "version": 5,
+  "sections": [
+    {
+      "sectionId": "work-count",
+      "description": "用于循环或缓存成本估算。",
+      "fileRef": "references/work-count.md"
+    },
+    {
+      "sectionId": "resource-fit",
+      "description": "用于能否满足规模或资源限制。",
+      "fileRef": "references/resource-fit.md"
+    }
+  ]
+}

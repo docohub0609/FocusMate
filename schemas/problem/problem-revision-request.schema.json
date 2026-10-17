@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-revision-request.schema.json",
+  "title": "ProblemRevisionRequest",
+  "type": "object",
+  "required": ["baseVersion"],
+  "properties": {"baseVersion": {"type": "integer", "minimum": 1}},
+  "additionalProperties": false
+}

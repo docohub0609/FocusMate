@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-feature-confirmation-request.schema.json",
+  "title": "ProblemFeatureConfirmationRequest",
+  "$defs": {
+    "jsonValue": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    },
+    "feature": {
+      "type": "object",
+      "required": [
+        "featureKey",
+        "category",
+        "status",
+        "reason",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "featureKey": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9.]*$"
+        },
+        "category": {
+          "enum": [
+            "dataScale",
+            "inputStructure",
+            "outputStructure",
+            "resourceConstraint",
+            "domainTag"
+          ]
+        },
+        "status": {
+          "enum": [
+            "confirmed",
+            "hypothesis",
+            "unknown"
+          ]
+        },
+        "value": {
+          "$ref": "#/$defs/jsonValue"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "reason": {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+          }
+        },
+        "presentation": {
+          "type": "object",
+          "required": [
+            "title",
+            "labels"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "labels": {
+              "type": "object",
+              "maxProperties": 512,
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "confirmed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "confidence"
+            ],
+            "properties": {
+              "confidence": {
+                "const": 1
+              },
+              "evidenceRefs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "hypothesis"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "value",
+              "confidence"
+            ],
+            "properties": {
+              "confidence": {
+                "exclusiveMinimum": 0,
+                "exclusiveMaximum": 1
+              },
+              "evidenceRefs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidenceRefs": {
+                "maxItems": 0
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "value"
+                  ]
+                },
+                {
+                  "required": [
+                    "confidence"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "expectedDraftRevision",
+    "features"
+  ],
+  "properties": {
+    "expectedDraftRevision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "basedOnFeatureSetId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "features": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/feature"
+      },
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "category": {
+                "const": "dataScale"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "category": {
+                "const": "inputStructure"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "category": {
+                "const": "outputStructure"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "category": {
+                "const": "resourceConstraint"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "category": {
+                "const": "domainTag"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          }
+        }
+      ]
+    },
+    "requireCompletePresentation": {
+      "type": "boolean"
+    },
+    "ioProposalDecision": {
+      "const": "keepOriginal"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "expectedDraftRevision": 2,
+      "basedOnFeatureSetId": "features-ai-001",
+      "features": [
+        {
+          "featureKey": "dataScale.primary",
+          "category": "dataScale",
+          "status": "unknown",
+          "reason": "The problem does not state a supported scale.",
+          "evidenceRefs": []
+        },
+        {
+          "featureKey": "input.primary",
+          "category": "inputStructure",
+          "status": "confirmed",
+          "value": {
+            "type": "sequence",
+            "elementType": "integer"
+          },
+          "confidence": 1,
+          "reason": "The user confirmed the input structure.",
+          "evidenceRefs": [
+            "inputSpec:0"
+          ]
+        },
+        {
+          "featureKey": "output.primary",
+          "category": "outputStructure",
+          "status": "confirmed",
+          "value": {
+            "valueCount": 1
+          },
+          "confidence": 1,
+          "reason": "The user confirmed the output structure.",
+          "evidenceRefs": [
+            "outputSpec:0"
+          ]
+        },
+        {
+          "featureKey": "resource.primary",
+          "category": "resourceConstraint",
+          "status": "unknown",
+          "reason": "No resource limit is present.",
+          "evidenceRefs": []
+        },
+        {
+          "featureKey": "domain.primary",
+          "category": "domainTag",
+          "status": "confirmed",
+          "value": "array",
+          "confidence": 1,
+          "reason": "The user confirmed the surface domain.",
+          "evidenceRefs": [
+            "statement:0"
+          ]
+        }
+      ]
+    }
+  ]
+}

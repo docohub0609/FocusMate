@@ -1,0 +1,28 @@
+{
+  "skillId": "dynamic-programming",
+  "schemaVersion": "1.0.0",
+  "version": 4,
+  "createdAt": "2026-09-15T00:00:00Z",
+  "hash": "sha256:8274224ed6226a6da0ea266553d56cc6d4cee200a173914080743dfe701aa710",
+  "appliesTo": [
+    "dynamic-programming",
+    "state-transition"
+  ],
+  "capabilities": [
+    "structuredEvidence"
+  ],
+  "requiredInputs": [
+    "userRequest",
+    "goalRequirement",
+    "problemFacts",
+    "code",
+    "runEvidence"
+  ],
+  "requiredTools": [],
+  "goalStateWriteAllowed": false,
+  "inputSchemaRef": "schemas/input.schema.json",
+  "outputSchemaRef": "schemas/result.schema.json",
+  "coachPolicy": {
+    "completeSolutionAllowed": false
+  }
+}

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "reviewer-subtraction-incorrect",
+    "baseCaseId": "stack-and-queue-holdout-issue",
+    "analysis": {
+      "applicability": {
+        "status": "applicable",
+        "reason": "当前请求询问后缀表达式中减法两操作数的弹出次序，代码使用 stack.pop()/append 处理栈顶元素，属于待处理顺序与后进先出顺序检查范围。",
+        "evidenceRefs": [
+          "request",
+          "goal",
+          "fact:1",
+          "code:v2"
+        ]
+      },
+      "findings": [
+        {
+          "summary": "该次序不正确。按 fact:1，处理减号前栈从底到顶为 [8,3]，弹出从栈顶取：第一次 pop 得 3 赋给 first（这是减数），第二次 pop 得 8 赋给 second（这是被减数）；代码随后 append(first - second) 计算的是 3 - 8 = -7，与 8 3 - 应为 5 的事实不符。非交换运算需按 'second - first'（即 8 - 3）或先记录两个弹出值后交换使用，才能得到 5。该局部结论有题目事实支持，属静态推演；片段之外是否有其它修正未在材料中显示。",
+          "evidenceRefs": [
+            "code:v2",
+            "fact:1",
+            "request"
+          ]
+        }
+      ],
+      "unknowns": [
+        "材料只给出 8 3 - 的栈状态与这一小段 pop/append 代码，未展示遍历表达式、分割操作数与其它运算符（如除法）的代码，无法判断整段求值流程及除法是否也存在同样的操作数次序问题。",
+        "runEvidence 为空，没有实测记录；上述结论是依据 fact:1 的静态推演，不能表述为已运行验证的结果。"
+      ]
+    },
+    "expectedReviewStatus": "failed",
+    "requiredCheckStatuses": {
+      "evidenceSupport": "fail"
+    },
+    "basis": "3-8=-5；8-3=5",
+    "source": "authored-regression:reviewer-subtraction-incorrect",
+    "provenance": {
+      "draftedBy": "AI",
+      "humanReviewed": false
+    }
+  },
+  {
+    "id": "reviewer-subtraction-correct",
+    "baseCaseId": "stack-and-queue-holdout-issue",
+    "analysis": {
+      "applicability": {
+        "status": "applicable",
+        "reason": "当前请求询问后缀表达式中减法两操作数的弹出次序，代码使用 stack.pop()/append 处理栈顶元素，属于待处理顺序与后进先出顺序检查范围。",
+        "evidenceRefs": [
+          "request",
+          "goal",
+          "fact:1",
+          "code:v2"
+        ]
+      },
+      "findings": [
+        {
+          "summary": "该次序不正确。按 fact:1，处理减号前栈从底到顶为 [8,3]，弹出从栈顶取：第一次 pop 得 3 赋给 first（这是减数），第二次 pop 得 8 赋给 second（这是被减数）；代码随后 append(first - second) 计算的是 3 - 8 = -5，与 8 3 - 应为 5 的事实不符。非交换运算需按 'second - first'（即 8 - 3）或先记录两个弹出值后交换使用，才能得到 5。该局部结论有题目事实支持，属静态推演；片段之外是否有其它修正未在材料中显示。",
+          "evidenceRefs": [
+            "code:v2",
+            "fact:1",
+            "request"
+          ]
+        }
+      ],
+      "unknowns": [
+        "材料只给出 8 3 - 的栈状态与这一小段 pop/append 代码，未展示遍历表达式、分割操作数与其它运算符（如除法）的代码，无法判断整段求值流程及除法是否也存在同样的操作数次序问题。",
+        "runEvidence 为空，没有实测记录；上述结论是依据 fact:1 的静态推演，不能表述为已运行验证的结果。"
+      ]
+    },
+    "expectedReviewStatus": "passed",
+    "requiredCheckStatuses": {},
+    "basis": "3-8=-5；8-3=5",
+    "source": "authored-regression:reviewer-subtraction-correct",
+    "provenance": {
+      "draftedBy": "AI",
+      "humanReviewed": false
+    }
+  },
+  {
+    "id": "reviewer-combination-incorrect",
+    "baseCaseId": "constraint-and-complexity-development-correct",
+    "analysis": {
+      "applicability": {
+        "status": "applicable",
+        "reason": "当前请求在询问 n 不超过 30 时枚举次数的估算是否成立，属于规模与复杂度核对；题目事实给出 n 的上限和枚举的是所有 i<j 组合，当前代码也展示了该双重循环结构。",
+        "evidenceRefs": [
+          "request",
+          "fact:1",
+          "code:v2"
+        ]
+      },
+      "findings": [
+        {
+          "summary": "按当前代码，i 取 0 到 n-1，j 只取 i+1 到 n-1，因此每对 i<j 恰好被 check 一次；总调用次数是组合数 C(n,2)=n(n-1)/2。当 n=30 时，这个上界为 30×29/2=450 次。",
+          "evidenceRefs": [
+            "fact:1",
+            "code:v2"
+          ]
+        },
+        {
+          "summary": "若把 check(i,j) 的单次成本记为 C_check，则枚举部分的总时间成本为 450×C_check（n=30 时）；仅凭当前材料不能断言整体一定满足时限，因为题目没有给出时限，且 check 的内部成本未知。空间方面，当前展示的循环本身只使用循环变量和传入 n，不显示额外的与枚举次数同阶的辅助存储。",
+          "evidenceRefs": [
+            "fact:1",
+            "code:v2"
+          ]
+        }
+      ],
+      "unknowns": [
+        "题目未给时间限制，无法判断 450 次枚举（或乘以 check 成本后）是否一定满足时限。",
+        "check(i,j) 的单次复杂度和实际内部操作未知；若其成本并非常数，需要再乘以 n=30 时的 450 次调用。",
+        "当前没有运行证据，无法确认实测耗时或实际执行结果。"
+      ]
+    },
+    "expectedReviewStatus": "failed",
+    "requiredCheckStatuses": {
+      "evidenceSupport": "fail"
+    },
+    "basis": "30*29//2=435",
+    "source": "authored-regression:reviewer-combination-incorrect",
+    "provenance": {
+      "draftedBy": "AI",
+      "humanReviewed": false
+    }
+  },
+  {
+    "id": "reviewer-combination-correct",
+    "baseCaseId": "constraint-and-complexity-development-correct",
+    "analysis": {
+      "applicability": {
+        "status": "applicable",
+        "reason": "当前请求在询问 n 不超过 30 时枚举次数的估算是否成立，属于规模与复杂度核对；题目事实给出 n 的上限和枚举的是所有 i<j 组合，当前代码也展示了该双重循环结构。",
+        "evidenceRefs": [
+          "request",
+          "fact:1",
+          "code:v2"
+        ]
+      },
+      "findings": [
+        {
+          "summary": "按当前代码，i 取 0 到 n-1，j 只取 i+1 到 n-1，因此每对 i<j 恰好被 check 一次；总调用次数是组合数 C(n,2)=n(n-1)/2。当 n=30 时，这个上界为 30×29/2=435 次。",
+          "evidenceRefs": [
+            "fact:1",
+            "code:v2"
+          ]
+        },
+        {
+          "summary": "若把 check(i,j) 的单次成本记为 C_check，则枚举部分的总时间成本为 435×C_check（n=30 时）；仅凭当前材料不能断言整体一定满足时限，因为题目没有给出时限，且 check 的内部成本未知。空间方面，当前展示的循环本身只使用循环变量和传入 n，不显示额外的与枚举次数同阶的辅助存储。",
+          "evidenceRefs": [
+            "fact:1",
+            "code:v2"
+          ]
+        }
+      ],
+      "unknowns": [
+        "题目未给时间限制，无法判断 435 次枚举（或乘以 check 成本后）是否一定满足时限。",
+        "check(i,j) 的单次复杂度和实际内部操作未知；若其成本并非常数，需要再乘以 n=30 时的 435 次调用。",
+        "当前没有运行证据，无法确认实测耗时或实际执行结果。"
+      ]
+    },
+    "expectedReviewStatus": "passed",
+    "requiredCheckStatuses": {},
+    "basis": "30*29//2=435",
+    "source": "authored-regression:reviewer-combination-correct",
+    "provenance": {
+      "draftedBy": "AI",
+      "humanReviewed": false
+    }
+  }
+]

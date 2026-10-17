@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-oracle-candidate.schema.json",
+  "title": "VerifierOracleCandidate",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "role",
+    "problemRef",
+    "problemContentHash",
+    "featureSetId",
+    "source"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "role": {
+      "const": "slowOracle"
+    },
+    "problemRef": {
+      "type": "object",
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "properties": {
+        "problemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problemVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "featureSetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 262144
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schemaVersion": "1.0.0",
+      "role": "slowOracle",
+      "problemRef": {
+        "problemId": "problem-001",
+        "problemVersion": 1
+      },
+      "problemContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "featureSetId": "features-001",
+      "source": "print(1)\n"
+    }
+  ]
+}

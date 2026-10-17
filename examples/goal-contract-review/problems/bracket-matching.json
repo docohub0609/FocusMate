@@ -1,0 +1,13 @@
+{
+  "statement": "给定一个仅包含圆括号()、方括号[]和花括号{}的非空字符串，判断整个字符串是否合法。\n每个左括号必须由同类型右括号闭合，右括号必须对应一个尚未闭合的左括号，括号对必须正确嵌套，不能交叉。",
+  "inputSpec": "第一行是字符串长度n。\n第二行包含长度为n的括号字符串。",
+  "outputSpec": "整个字符串合法时输出YES，否则输出NO。",
+  "constraints": "1 <= n <= 100000\n字符串中只含()[]{}六种字符。",
+  "examples": [
+    {"input": "6\n{[()]}\n", "output": "YES\n"},
+    {"input": "4\n([)]\n", "output": "NO\n"},
+    {"input": "1\n(\n", "output": "NO\n"}
+  ],
+  "language": "python3",
+  "ioMode": "standardInputOutput"
+}

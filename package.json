@@ -1,0 +1,56 @@
+{
+  "name": "focusmate-v1",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/dev.mjs",
+    "dev:web": "node apps/web/server.mjs",
+    "dev:api": "python -m apps.api",
+    "dev:worker": "python -m services.oj_worker",
+    "health:worker": "python -m services.oj_worker --health",
+    "health:builder": "python -m services.verifier_builder --health",
+    "builder:once": "python -m services.verifier_builder --once --build-seconds 600",
+    "dev:builder": "python -m services.verifier_builder --poll --build-seconds 600",
+    "oj:check-runtime": "python tools/check-oj-runtime.py",
+    "oj:build-runner": "docker build -t focusmate-python-runner:v1 services/oj_worker/runner-image",
+    "test:oj-integration": "python tools/run-oj-integration.py",
+    "check:boundaries": "node tools/check-boundaries.mjs",
+    "test:node": "node --test tests/node/*.test.mjs",
+    "test:python": "python -m pytest tests/python",
+    "test": "npm run check:boundaries && npm run test:node && npm run test:python",
+    "check": "npm test && npm run typecheck:web && npm run build:web",
+    "typecheck:web": "tsc -p apps/web/tsconfig.json",
+    "build:web": "vite build --config apps/web/vite.config.mjs",
+    "preview:web": "vite preview --config apps/web/vite.config.mjs",
+    "test:web-browser": "node tools/experiments/t080_browser_check.mjs",
+    "test:web-editor": "node tools/experiments/t081_browser_check.mjs && node tools/experiments/t081_recovery_check.mjs",
+    "test:web-coach": "node tools/experiments/t082_browser_check.mjs"
+  },
+  "engines": {
+    "node": ">=22.12",
+    "python": ">=3.11"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.20.3",
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/lang-python": "^6.2.1",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.13",
+    "@tanstack/react-query": "^5.103.2",
+    "codemirror": "^6.0.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router": "^8.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1"
+  }
+}

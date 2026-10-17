@@ -1,0 +1,28 @@
+{
+  "skillId": "testing-and-edge-cases",
+  "schemaVersion": "1.0.0",
+  "version": 4,
+  "createdAt": "2026-09-15T00:00:00Z",
+  "hash": "sha256:3fb8256f23c7a31bff26316b15f4fe1696a5be9f6312d584e37b925abc99a326",
+  "appliesTo": [
+    "testing",
+    "edge-cases"
+  ],
+  "capabilities": [
+    "structuredEvidence"
+  ],
+  "requiredInputs": [
+    "userRequest",
+    "goalRequirement",
+    "problemFacts",
+    "code",
+    "runEvidence"
+  ],
+  "requiredTools": [],
+  "goalStateWriteAllowed": false,
+  "inputSchemaRef": "schemas/input.schema.json",
+  "outputSchemaRef": "schemas/result.schema.json",
+  "coachPolicy": {
+    "completeSolutionAllowed": false
+  }
+}

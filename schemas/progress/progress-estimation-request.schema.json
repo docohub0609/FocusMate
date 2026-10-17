@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/progress/progress-estimation-request.schema.json",
+  "title": "ProgressEstimationRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "goalContext",
+    "problemRef",
+    "contractVersion",
+    "contractRef",
+    "currentCodeRef",
+    "baselineRefs",
+    "sources",
+    "budget"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "problemRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+    },
+    "contractVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sessionRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contractRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "currentCodeRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baselineRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "kind",
+          "version",
+          "contentHash",
+          "sourceType",
+          "sourceId"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "goal",
+              "problemFact",
+              "code",
+              "observation",
+              "dialogue",
+              "runEvidence",
+              "hypothesis"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "contentHash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "sourceType": {
+            "enum": [
+              "contract",
+              "problem",
+              "code",
+              "observation",
+              "oj",
+              "publicRun",
+              "external"
+            ]
+          },
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contextWindowTokens",
+        "reservedOutputTokens",
+        "safetyMarginTokens"
+      ],
+      "properties": {
+        "contextWindowTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reservedOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safetyMarginTokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

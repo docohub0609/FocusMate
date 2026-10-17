@@ -1,0 +1,1 @@
+"""Independent, persistent coaching worker."""

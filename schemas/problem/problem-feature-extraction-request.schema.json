@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-feature-extraction-request.schema.json",
+  "title": "ProblemFeatureExtractionRequest",
+  "type": "object",
+  "properties": {
+    "problemPackage": {"$ref": "https://focusmate.local/schemas/problem/problem-package.schema.json"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"}
+  },
+  "oneOf": [{"required": ["problemPackage"]}, {"required": ["problemRef"]}],
+  "additionalProperties": false,
+  "examples": [{
+    "problemPackage": {
+      "problemId": "problem-001", "schemaVersion": "1.0.0", "version": 1,
+      "createdAt": "2026-08-15T10:00:00Z", "source": "userProvided",
+      "statement": "Given an integer array, find the required interval.",
+      "inputSpec": "The first line is n. The second line contains n integers.",
+      "outputSpec": "Output two integers: the left and right boundaries.",
+      "constraints": "1 <= n <= 100000",
+      "examples": [{"input": "3\n1 2 3\n", "output": "1 2\n"}],
+      "languagePolicy": {"allowed": ["python3"]},
+      "ioMode": "standardInputOutput", "verifierAssetStatus": "missing"
+    }
+  }]
+}

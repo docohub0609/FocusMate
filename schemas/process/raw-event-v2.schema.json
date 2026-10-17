@@ -1,0 +1,584 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/raw-event-v2.schema.json",
+  "title": "RawEventV2",
+  "type": "object",
+  "required": [
+    "eventId",
+    "schemaVersion",
+    "createdAt",
+    "goalContext",
+    "eventName",
+    "eventVersion",
+    "source",
+    "idempotencyKey",
+    "privacyLevel",
+    "payload",
+    "actor"
+  ],
+  "properties": {
+    "eventId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "eventName": {
+      "enum": [
+        "codeSnapshotCreated",
+        "runRequested",
+        "submissionRequested",
+        "ojResultProduced",
+        "helpRequested",
+        "actionFeedbackProvided",
+        "sessionPaused",
+        "sessionResumed",
+        "publicRunFinished",
+        "runFinished"
+      ]
+    },
+    "eventVersion": {
+      "const": 2
+    },
+    "source": {
+      "enum": [
+        "api",
+        "ojWorker",
+        "toolExecutor",
+        "developerFixture"
+      ]
+    },
+    "idempotencyKey": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "privacyLevel": {
+      "enum": [
+        "public",
+        "taskContent",
+        "sensitive"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    },
+    "actor": {
+      "enum": [
+        "user",
+        "model",
+        "system",
+        "simulated"
+      ]
+    },
+    "sessionRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "contractVersion": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "eventName": {
+          "const": "codeSnapshotCreated"
+        },
+        "source": {
+          "const": "api"
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "codeVersion",
+            "artifactRef",
+            "problemRef"
+          ],
+          "properties": {
+            "codeVersion": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+            },
+            "artifactRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "runRequested"
+        },
+        "source": {
+          "enum": [
+            "api",
+            "developerFixture"
+          ]
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "codeVersion",
+            "runMode",
+            "problemRef"
+          ],
+          "properties": {
+            "codeVersion": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+            },
+            "runMode": {
+              "enum": [
+                "publicExample",
+                "customInput"
+              ]
+            },
+            "inputRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            },
+            "runId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "runMode": {
+                    "const": "customInput"
+                  }
+                },
+                "required": [
+                  "runMode"
+                ]
+              },
+              "then": {
+                "required": [
+                  "inputRef"
+                ]
+              },
+              "else": {
+                "not": {
+                  "required": [
+                    "inputRef"
+                  ]
+                }
+              }
+            }
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "submissionRequested"
+        },
+        "source": {
+          "const": "api"
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/goalLevelContext"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "codeVersion",
+            "problemRef",
+            "submissionId"
+          ],
+          "properties": {
+            "codeVersion": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            },
+            "submissionId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "ojResultProduced"
+        },
+        "source": {
+          "const": "ojWorker"
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/goalLevelContext"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "submissionId",
+            "ojResultId",
+            "verdict",
+            "problemRef",
+            "codeVersion"
+          ],
+          "properties": {
+            "submissionId": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            },
+            "ojResultId": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            },
+            "verdict": {
+              "enum": [
+                "AC",
+                "WA",
+                "TLE",
+                "RE",
+                "CE"
+              ]
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            },
+            "codeVersion": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "helpRequested"
+        },
+        "source": {
+          "enum": [
+            "api",
+            "developerFixture"
+          ]
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/subgoalContext"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "requestType"
+          ],
+          "properties": {
+            "requestType": {
+              "enum": [
+                "hint",
+                "clarification",
+                "stuck"
+              ]
+            },
+            "messageRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "actionFeedbackProvided"
+        },
+        "source": {
+          "enum": [
+            "api",
+            "developerFixture"
+          ]
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/subgoalContext"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "actionId",
+            "feedback"
+          ],
+          "properties": {
+            "actionId": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            },
+            "feedback": {
+              "enum": [
+                "accepted",
+                "dismissed",
+                "notHelpful",
+                "completed"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "sessionPaused"
+        },
+        "source": {
+          "enum": [
+            "api",
+            "developerFixture"
+          ]
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/goalLevelContext"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "enum": [
+                "userRequested",
+                "leavingWorkspace"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        }
+      },
+      "required": [
+        "sessionRef"
+      ]
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "sessionResumed"
+        },
+        "source": {
+          "enum": [
+            "api",
+            "developerFixture"
+          ]
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "goalContext": {
+          "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/goalLevelContext"
+        },
+        "payload": {
+          "type": "object",
+          "required": [
+            "previousPauseEventId"
+          ],
+          "properties": {
+            "previousPauseEventId": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "sessionRef"
+      ]
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "publicRunFinished"
+        },
+        "source": {
+          "const": "toolExecutor"
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "runId",
+            "loopId",
+            "codeVersion",
+            "problemRef",
+            "status"
+          ],
+          "properties": {
+            "runId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "loopId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "codeVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            },
+            "status": {
+              "enum": [
+                "succeeded",
+                "failed",
+                "cancelled",
+                "interrupted"
+              ]
+            },
+            "sampleStatus": {
+              "enum": [
+                "passed",
+                "failed",
+                "infrastructureError"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "eventName": {
+          "const": "runFinished"
+        },
+        "source": {
+          "const": "ojWorker"
+        },
+        "privacyLevel": {
+          "const": "taskContent"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "runId",
+            "codeVersion",
+            "problemRef",
+            "runMode",
+            "status"
+          ],
+          "properties": {
+            "runId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "codeVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            },
+            "status": {
+              "enum": [
+                "finished",
+                "failed",
+                "interrupted"
+              ]
+            },
+            "runMode": {
+              "enum": [
+                "publicExample",
+                "customInput"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "goalContext": {
+            "properties": {
+              "scope": {
+                "const": "subgoal"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "contractVersion"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "developerFixture"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "actor": {
+            "const": "simulated"
+          }
+        }
+      }
+    }
+  ]
+}

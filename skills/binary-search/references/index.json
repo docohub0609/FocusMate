@@ -1,0 +1,16 @@
+{
+  "skillId": "binary-search",
+  "version": 6,
+  "sections": [
+    {
+      "sectionId": "target-and-domain",
+      "description": "用于搜索目标、合法域和端点含义。",
+      "fileRef": "references/target-and-domain.md"
+    },
+    {
+      "sectionId": "progress-and-return",
+      "description": "用于循环不结束或返回位置疑问。",
+      "fileRef": "references/progress-and-return.md"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/skills/skill-descriptor.schema.json",
+  "title": "SkillDescriptor",
+  "type": "object",
+  "required": ["skillId", "schemaVersion", "version", "createdAt", "hash", "appliesTo", "capabilities", "requiredInputs", "inputSchemaRef", "outputSchemaRef", "coachPolicy"],
+  "properties": {
+    "skillId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "version": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "appliesTo": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "capabilities": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "requiredInputs": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"},
+    "requiredTools": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9._-]{0,127}$"}},
+    "goalStateWriteAllowed": {"const": false},
+    "inputSchemaRef": {"type": "string", "format": "uri-reference"},
+    "outputSchemaRef": {"type": "string", "format": "uri-reference"},
+    "coachPolicy": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/coachPolicy"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "skillId": "problem-understanding", "schemaVersion": "1.0.0", "version": 1,
+    "createdAt": "2026-08-08T10:00:00+08:00",
+    "hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "appliesTo": ["algorithmProblem"], "capabilities": ["structuredEvidence"],
+    "requiredInputs": ["problemPackage"], "inputSchemaRef": "./input.schema.json",
+    "outputSchemaRef": "./result.schema.json", "coachPolicy": {"completeSolutionAllowed": false}
+  }]
+}

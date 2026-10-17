@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Graph Skill sample result",
+  "type": "object",
+  "required": ["findings", "unknowns"],
+  "properties": {
+    "findings": {
+      "type": "array", "items": {
+        "type": "object", "required": ["summary", "evidenceRefs"],
+        "properties": {
+          "summary": {"type": "string", "minLength": 1},
+          "evidenceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "unknowns": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": false,
+  "examples": [{"findings": [], "unknowns": ["尚未提供实现与运行结果，不能判断具体代码表现。"]}]
+}

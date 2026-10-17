@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/manager/manager-session-v2.schema.json",
+  "title": "ManagerSessionV2",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "problemRef": {
+      "type": "object",
+      "properties": {
+        "problemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problemVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "additionalProperties": false
+    },
+    "contractVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "codeVersion": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "allowedTools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "seconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "model": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tool": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "execution": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "seconds",
+        "model",
+        "tool",
+        "execution"
+      ],
+      "additionalProperties": false
+    },
+    "status": {
+      "enum": [
+        "active",
+        "paused",
+        "waiting_user"
+      ]
+    },
+    "messages": {
+      "type": "array"
+    },
+    "rounds": {
+      "type": "object"
+    },
+    "steps": {
+      "type": "object"
+    },
+    "currentRoundId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outbox": {
+      "type": "array"
+    },
+    "cancellations": {
+      "type": "array"
+    },
+    "mode": {
+      "const": "dynamicCoaching"
+    },
+    "workGoals": {
+      "type": "object"
+    },
+    "currentWorkGoalIds": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "checks": {
+      "type": "object"
+    },
+    "decisions": {
+      "type": "array"
+    },
+    "completed": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "sessionId",
+    "revision",
+    "goalContext",
+    "problemRef",
+    "contractVersion",
+    "codeVersion",
+    "allowedTools",
+    "limits",
+    "status",
+    "messages",
+    "rounds",
+    "steps",
+    "currentRoundId",
+    "outbox",
+    "cancellations",
+    "workGoals",
+    "checks",
+    "decisions",
+    "completed"
+  ],
+  "additionalProperties": false
+}

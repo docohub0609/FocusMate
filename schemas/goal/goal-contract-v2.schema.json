@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-contract-v2.schema.json",
+  "title": "GoalContractV2",
+  "type": "object",
+  "required": [
+    "goalId",
+    "schemaVersion",
+    "version",
+    "createdAt",
+    "problemRef",
+    "objective",
+    "finalCriterion",
+    "coachPolicy",
+    "contractStatus",
+    "problemContentHash"
+  ],
+  "properties": {
+    "goalId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "version": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "problemRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+    },
+    "objective": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "finalCriterion": {
+      "type": "object",
+      "required": [
+        "verifierType",
+        "requiredVerdict"
+      ],
+      "properties": {
+        "verifierType": {
+          "const": "finalOj"
+        },
+        "requiredVerdict": {
+          "const": "AC"
+        }
+      },
+      "additionalProperties": false
+    },
+    "coachPolicy": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/goalCoachPolicy"
+    },
+    "contractStatus": {
+      "enum": [
+        "draft",
+        "frozen",
+        "superseded"
+      ]
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-freeze-request.schema.json",
+  "title": "ProblemFreezeRequest",
+  "type": "object",
+  "required": ["featureSetId", "expectedDraftRevision"],
+  "properties": {
+    "featureSetId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "expectedDraftRevision": {"type": "integer", "minimum": 1}
+  },
+  "additionalProperties": false
+}

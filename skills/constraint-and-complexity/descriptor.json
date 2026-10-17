@@ -1,0 +1,28 @@
+{
+  "skillId": "constraint-and-complexity",
+  "schemaVersion": "1.0.0",
+  "version": 5,
+  "createdAt": "2026-09-15T00:00:00Z",
+  "hash": "sha256:b4fdee1f4e7877de9d3001804d2e28dcd0f377e32b00c2e05cad234460e266d5",
+  "appliesTo": [
+    "constraints",
+    "complexity"
+  ],
+  "capabilities": [
+    "structuredEvidence"
+  ],
+  "requiredInputs": [
+    "userRequest",
+    "goalRequirement",
+    "problemFacts",
+    "code",
+    "runEvidence"
+  ],
+  "requiredTools": [],
+  "goalStateWriteAllowed": false,
+  "inputSchemaRef": "schemas/input.schema.json",
+  "outputSchemaRef": "schemas/result.schema.json",
+  "coachPolicy": {
+    "completeSolutionAllowed": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "skillId": "problem-understanding",
+  "version": 5,
+  "sections": [
+    {
+      "sectionId": "objects-and-outputs",
+      "description": "核对值与位置、一个解与所有解、最优值与方案；用于用户询问题目要返回什么。",
+      "fileRef": "references/objects-and-outputs.md"
+    },
+    {
+      "sectionId": "constraints-and-examples",
+      "description": "逐个绑定对象与数字，分清每个位置与每种数值的次数限制。",
+      "fileRef": "references/constraints-and-examples.md"
+    }
+  ]
+}

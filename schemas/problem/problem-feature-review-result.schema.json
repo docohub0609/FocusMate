@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-feature-review-result.schema.json",
+  "title": "ProblemFeatureReviewResult",
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": [
+        "itemId",
+        "featureKey",
+        "category",
+        "verdict",
+        "issue",
+        "evidenceRefs",
+        "evidence"
+      ],
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "pattern": "^(feature-(0|[1-9][0-9]*)|io-proposal)$"
+        },
+        "featureKey": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9.]*$"
+        },
+        "category": {
+          "enum": [
+            "dataScale",
+            "inputStructure",
+            "outputStructure",
+            "resourceConstraint",
+            "domainTag",
+            "ioConvention"
+          ]
+        },
+        "verdict": {
+          "$ref": "problem-feature-review-candidates.schema.json#/$defs/verdict"
+        },
+        "issue": {
+          "$ref": "problem-feature-review-candidates.schema.json#/$defs/issue"
+        },
+        "evidenceRefs": {
+          "$ref": "problem-feature-review-candidates.schema.json#/$defs/evidenceRefs"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "problem-features.schema.json#/$defs/evidence"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "problem-feature-review-candidates.schema.json#/$defs/verdictConsistency"
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "status",
+    "promptVersion",
+    "problemRef",
+    "problemContentHash",
+    "inputHash",
+    "createdAt",
+    "items"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "completed",
+        "unavailable"
+      ]
+    },
+    "promptVersion": {
+      "enum": [
+        "problem-feature-review-v1",
+        "problem-feature-review-v2",
+        "problem-feature-review-io-v3",
+        "problem-feature-review-io-v4",
+        "problem-feature-review-io-v5"
+      ]
+    },
+    "problemRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "inputHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "providerResponseId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "failureCode": {
+      "enum": [
+        "REVIEW_UNAVAILABLE",
+        "REVIEW_INVALID"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "model",
+          "providerResponseId"
+        ],
+        "properties": {
+          "items": {
+            "minItems": 1
+          }
+        },
+        "not": {
+          "required": [
+            "failureCode"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "failureCode"
+        ],
+        "properties": {
+          "items": {
+            "maxItems": 0
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "model"
+              ]
+            },
+            {
+              "required": [
+                "providerResponseId"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

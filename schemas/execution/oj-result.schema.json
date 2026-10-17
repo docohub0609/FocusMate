@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/oj-result.schema.json",
+  "title": "OJResult",
+  "type": "object",
+  "required": ["ojResultId", "schemaVersion", "createdAt", "goalContext", "submissionId", "problemRef", "codeVersion", "verifierAssetRef", "verdict", "testSummary", "resourceSummary", "stderrCategory", "comparisonPolicy", "source"],
+  "properties": {
+    "assurance": {"const": "limited"},
+    "warningCodes": {"const": ["MUTATION_CHALLENGE_UNAVAILABLE"]},
+    "ojResultId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "submissionId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "codeVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "verifierAssetRef": {
+      "type": "object", "required": ["assetId", "assetVersion", "status"],
+      "properties": {
+        "assetId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+        "assetVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+        "status": {"enum": ["missing", "building", "crossChecking", "ready", "rejected"]}
+      },
+      "additionalProperties": false
+    },
+    "verdict": {"enum": ["AC", "WA", "TLE", "RE", "CE"]},
+    "testSummary": {
+      "type": "object", "required": ["passed", "total", "firstFailedCase"],
+      "properties": {
+        "passed": {"type": "integer", "minimum": 0},
+        "total": {"type": "integer", "minimum": 1},
+        "firstFailedCase": {"type": ["integer", "null"], "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "resourceSummary": {
+      "type": "object", "required": ["totalWallTimeMs", "peakMemoryBytes"],
+      "properties": {
+        "totalWallTimeMs": {"type": "integer", "minimum": 0},
+        "totalExecutionTimeMs": {"type": ["integer", "null"], "minimum": 0},
+        "peakMemoryBytes": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "stderrCategory": {"enum": [null, "syntaxError", "runtimeError", "resourceLimit", "outputLimit"]},
+    "comparisonPolicy": {
+      "type": "object",
+      "required": ["normalizeLineEndings", "ignoreOneFinalNewline", "caseSensitive", "otherWhitespaceSensitive"],
+      "properties": {
+        "normalizeLineEndings": {"const": true},
+        "ignoreOneFinalNewline": {"const": true},
+        "caseSensitive": {"const": true},
+        "otherWhitespaceSensitive": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "source": {"const": "trustedOjWorker"}
+  },
+  "dependentRequired": {"assurance": ["warningCodes"], "warningCodes": ["assurance"]},
+  "additionalProperties": false,
+  "examples": [
+  {
+    "ojResultId": "oj-result-001",
+    "schemaVersion": "1.0.0",
+    "createdAt": "2026-08-08T10:08:00+08:00",
+    "goalContext": {
+      "goalId": "goal-001",
+      "scope": "goal"
+    },
+    "submissionId": "submission-001",
+    "problemRef": {
+      "problemId": "problem-001",
+      "problemVersion": 1
+    },
+    "codeVersion": 1,
+    "verifierAssetRef": {
+      "assetId": "asset-001",
+      "assetVersion": 1,
+      "status": "ready"
+    },
+    "verdict": "AC",
+    "testSummary": {
+      "passed": 5,
+      "total": 5,
+      "firstFailedCase": null
+    },
+    "resourceSummary": {
+      "totalWallTimeMs": 12,
+      "peakMemoryBytes": 1048576
+    },
+    "stderrCategory": null,
+    "comparisonPolicy": {
+      "normalizeLineEndings": true,
+      "ignoreOneFinalNewline": true,
+      "caseSensitive": true,
+      "otherWhitespaceSensitive": true
+    },
+    "source": "trustedOjWorker"
+  },
+  {
+    "ojResultId": "oj-result-001",
+    "schemaVersion": "1.0.0",
+    "createdAt": "2026-08-08T10:08:00+08:00",
+    "goalContext": {
+      "goalId": "goal-001",
+      "scope": "goal"
+    },
+    "submissionId": "submission-001",
+    "problemRef": {
+      "problemId": "problem-001",
+      "problemVersion": 1
+    },
+    "codeVersion": 1,
+    "verifierAssetRef": {
+      "assetId": "asset-001",
+      "assetVersion": 1,
+      "status": "ready"
+    },
+    "verdict": "AC",
+    "testSummary": {
+      "passed": 5,
+      "total": 5,
+      "firstFailedCase": null
+    },
+    "resourceSummary": {
+      "totalWallTimeMs": 12,
+      "peakMemoryBytes": 1048576
+    },
+    "stderrCategory": null,
+    "comparisonPolicy": {
+      "normalizeLineEndings": true,
+      "ignoreOneFinalNewline": true,
+      "caseSensitive": true,
+      "otherWhitespaceSensitive": true
+    },
+    "source": "trustedOjWorker",
+    "assurance": "limited",
+    "warningCodes": [
+      "MUTATION_CHALLENGE_UNAVAILABLE"
+    ]
+  }
+]
+}

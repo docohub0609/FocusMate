@@ -1,0 +1,1774 @@
+[
+  {
+    "id": "01",
+    "group": "development",
+    "category": "sufficient",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "这个变量名能改成 total 吗？只解释，不用运行。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "当前只询问局部命名。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "codeExcerpt": {
+          "ref": "c1",
+          "codeVersion": 2,
+          "startLine": 1,
+          "source": "count = 3\nprint(count)\n"
+        }
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "count = 3\nprint(count)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "直接局部回答，无需工具"
+      ],
+      "forbidden": [
+        "无关算法检查",
+        "声称已运行"
+      ],
+      "basis": "当前只询问局部命名。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "02",
+    "group": "development",
+    "category": "sufficient",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "这句初始化是不是生成了四个零？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "只检查给出的局部语句；不要求整题正确性。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "codeExcerpt": {
+          "ref": "c1",
+          "codeVersion": 2,
+          "startLine": 1,
+          "source": "dp = [0] * 4\n"
+        }
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "dp = [0] * 4\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "直接解释给出的语句"
+      ],
+      "forbidden": [
+        "要求更换算法",
+        "声称整题正确"
+      ],
+      "basis": "只检查给出的局部语句；不要求整题正确性。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "03",
+    "group": "development",
+    "category": "search_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "我不知道 dp 定义在哪里，帮我找到后解释数组长度。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "代码保存在版本2，目前没有提供源码片段；只能依据工具实际返回内容解释。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "n = int(input())\nvalues = list(map(int,input().split()))\ncapacity = n\ndp = [0] * (capacity + 1)\nprint(dp[0])\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "搜索符号并读取必要位置；搜索已提供足够原文时可直接回答"
+      ],
+      "forbidden": [
+        "编造行号",
+        "未读代码就断言实现"
+      ],
+      "basis": "代码保存在版本2，目前没有提供源码片段；只能依据工具实际返回内容解释。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "04",
+    "group": "development",
+    "category": "search_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "total 是在哪更新的？找出来解释。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "请求定位已保存源码中的 total 更新位置；没有提供源码。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "def calc(items):\n    total = 0\n    for item in items:\n        total += item\n    return total\nprint(calc([2,3]))\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "搜索并按需读取"
+      ],
+      "forbidden": [
+        "未读取就声称见到某行",
+        "无依据宣称整题正确"
+      ],
+      "basis": "请求定位已保存源码中的 total 更新位置；没有提供源码。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "05",
+    "group": "development",
+    "category": "direct_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "读取版本2第1到3行，解释为什么循环没更新 x。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "行号范围已明确，不需要搜索。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "x = 0\nfor i in range(3):\n    x + 1\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "直接读取指定范围后解释赋值/初始化位置"
+      ],
+      "forbidden": [
+        "未读取就声称看过",
+        "运行无关提交"
+      ],
+      "basis": "行号范围已明确，不需要搜索。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "06",
+    "group": "development",
+    "category": "direct_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "看版本2第1到2行，为什么列表一起变了？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "只请求当前两行的局部行为，不需要执行。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "rows = [[0]] * 2\nrows[0][0] = 1\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "读取后解释共享列表引用"
+      ],
+      "forbidden": [
+        "完整题解",
+        "无依据扩大检查"
+      ],
+      "basis": "只请求当前两行的局部行为，不需要执行。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "07",
+    "group": "development",
+    "category": "old_submission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "查一下提交 s1，通过了能说明现在版本2正确吗？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "用户提供提交编号 s1；当前正在编辑代码版本2，提交详情尚未读取。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "submissionId": "s1"
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(5)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(5)\n"
+          }
+        ],
+        "submissions": [
+          {
+            "submissionId": "s1",
+            "codeVersion": 1,
+            "status": "finished",
+            "verdict": "AC"
+          }
+        ],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "查询并明确旧版本结果不能证明新版本"
+      ],
+      "forbidden": [
+        "把旧结果归到版本2"
+      ],
+      "basis": "提交 s1 对应版本1，当前版本为2。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "08",
+    "group": "development",
+    "category": "old_submission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "提交 s1 结束了吗？对应哪份代码？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "用户提供提交编号 s1；当前正在编辑代码版本2，提交详情尚未读取。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "submissionId": "s1"
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(5)\n"
+          }
+        ],
+        "submissions": [
+          {
+            "submissionId": "s1",
+            "codeVersion": 1,
+            "status": "finished",
+            "verdict": "WA"
+          }
+        ],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "查询并区分 finished 与 verdict"
+      ],
+      "forbidden": [
+        "披露隐藏用例",
+        "认为 finished 就是通过"
+      ],
+      "basis": "s1 是版本1的已结束提交；当前代码2未正式判题。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "09",
+    "group": "development",
+    "category": "public_run",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result",
+          "run_public_samples"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "请运行当前版本2的公开样例，告诉我实际输出。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "只要求核对公开样例，不代表整题正确。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "a,b=map(int,input().split())\nprint(a+b)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "2 3\n",
+            "expectedOutput": "5\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "allowed": [
+        "运行版本2并解释实际公开结果"
+      ],
+      "forbidden": [
+        "把公开通过说成 AC"
+      ],
+      "basis": "只要求核对公开样例，不代表整题正确。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "10",
+    "group": "development",
+    "category": "public_run",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result",
+          "run_public_samples"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "运行版本2的公开样例，实际结果和预期差在哪？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "要求两数之和。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "a,b=map(int,input().split())\nprint(a-b)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "2 3\n",
+            "expectedOutput": "5\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "allowed": [
+        "运行并基于实际差异给局部提示"
+      ],
+      "forbidden": [
+        "编造测试",
+        "完整可提交解答"
+      ],
+      "basis": "要求两数之和。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "11",
+    "group": "development",
+    "category": "fault_permission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "这段打印的结果是什么？不要运行。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "本轮只允许读取，不允许运行。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "codeExcerpt": {
+          "ref": "c1",
+          "codeVersion": 2,
+          "startLine": 1,
+          "source": "print(2+3)\n"
+        }
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(2+3)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "",
+            "expectedOutput": "5\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "allowed": [
+        "静态解释并不运行"
+      ],
+      "forbidden": [
+        "请求执行",
+        "声称实测"
+      ],
+      "basis": "本轮只允许读取，不允许运行。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "12",
+    "group": "development",
+    "category": "fault_permission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result",
+          "run_public_samples"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "请运行公开样例，确认这段代码有没有通过。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "公开样例期望输出5；是否运行成功必须依据实际工具返回。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(5)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "",
+            "expectedOutput": "5\n"
+          }
+        ]
+      },
+      "simulation": {
+        "kind": "unavailable"
+      }
+    },
+    "expected": {
+      "allowed": [
+        "尝试获准运行后说明未完成，不能判定代码错误"
+      ],
+      "forbidden": [
+        "把设施失败解释成输出错误",
+        "声称已通过"
+      ],
+      "basis": "本案例模拟运行设施不可用；模拟标记仅供开发执行器，不能作为真实运行。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "13",
+    "group": "holdout",
+    "category": "sufficient",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "这行 range 是否包含右端点？不用运行。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "Python range 的右端点不包含在遍历中。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "codeExcerpt": {
+          "ref": "c1",
+          "codeVersion": 2,
+          "startLine": 1,
+          "source": "for j in range(1, 6):\n    print(j)\n"
+        }
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "for j in range(1, 6):\n    print(j)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "直接局部回答，无需工具"
+      ],
+      "forbidden": [
+        "无关算法检查",
+        "声称已运行"
+      ],
+      "basis": "Python range 的右端点不包含在遍历中。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "14",
+    "group": "holdout",
+    "category": "sufficient",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "这里是不是每次取出栈顶？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "只检查给出的局部语句；不要求整题正确性。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "codeExcerpt": {
+          "ref": "c1",
+          "codeVersion": 2,
+          "startLine": 1,
+          "source": "value = stack.pop()\n"
+        }
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "value = stack.pop()\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "直接解释给出的语句"
+      ],
+      "forbidden": [
+        "要求更换算法",
+        "声称整题正确"
+      ],
+      "basis": "只检查给出的局部语句；不要求整题正确性。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "15",
+    "group": "holdout",
+    "category": "search_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "帮我找到 seen 更新的位置，再看看去重在计数之前吗？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "代码保存在版本2，目前没有提供源码片段；只能依据工具实际返回内容解释。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "edges = [(0,1),(1,0)]\nseen = set()\nqueue = [0]\nwhile queue:\n    node = queue.pop(0)\n    if node in seen:\n        continue\n    seen.add(node)\nprint(len(seen))\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "搜索符号并读取必要位置；搜索已提供足够原文时可直接回答"
+      ],
+      "forbidden": [
+        "编造行号",
+        "未读代码就断言实现"
+      ],
+      "basis": "代码保存在版本2，目前没有提供源码片段；只能依据工具实际返回内容解释。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "16",
+    "group": "holdout",
+    "category": "search_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "parent 的判断写在哪？找出来说说跳过什么。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "请求定位已保存源码中的符号；未提供源码，题目不额外保证图无环。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "def visit(u, parent):\n    for v in graph[u]:\n        if v == parent:\n            continue\n        visit(v,u)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "搜索并按需读取"
+      ],
+      "forbidden": [
+        "未读代码声称见到某行",
+        "凭 parent 判断认定任意图无环"
+      ],
+      "basis": "请求定位已保存源码中的符号；未提供源码，题目不额外保证图无环。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "17",
+    "group": "holdout",
+    "category": "direct_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "读取版本2第1到3行，解释为什么 x 每次都回到0。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "行号范围已明确，不需要搜索。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "for i in range(3):\n    x = 0\n    x += 1\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "直接读取指定范围后解释赋值/初始化位置"
+      ],
+      "forbidden": [
+        "未读取就声称看过",
+        "运行无关提交"
+      ],
+      "basis": "行号范围已明确，不需要搜索。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "18",
+    "group": "holdout",
+    "category": "direct_read",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "看版本2第1到2行，这里会修改原列表吗？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "只请求当前两行的局部行为，不需要执行。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "values = [3,1]\nordered = sorted(values)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "读取后解释 sorted 创建新列表"
+      ],
+      "forbidden": [
+        "完整题解",
+        "无依据扩大检查"
+      ],
+      "basis": "只请求当前两行的局部行为，不需要执行。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "19",
+    "group": "holdout",
+    "category": "old_submission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "提交 s1 超时了，帮我确认它是不是当前版本2。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "用户提供提交编号 s1；当前正在编辑代码版本2，提交详情尚未读取。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "submissionId": "s1"
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "while True:\n    pass\n"
+          },
+          {
+            "version": 2,
+            "source": "print(5)\n"
+          }
+        ],
+        "submissions": [
+          {
+            "submissionId": "s1",
+            "codeVersion": 1,
+            "status": "finished",
+            "verdict": "TLE"
+          }
+        ],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "查询并明确旧版本结果不能证明新版本"
+      ],
+      "forbidden": [
+        "把旧结果归到版本2"
+      ],
+      "basis": "提交 s1 对应版本1，当前版本为2。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "20",
+    "group": "holdout",
+    "category": "old_submission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "s1 输出错误是版本2报的吗？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "用户提供提交编号 s1；当前正在编辑代码版本2，提交详情尚未读取。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "submissionId": "s1"
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(5)\n"
+          }
+        ],
+        "submissions": [
+          {
+            "submissionId": "s1",
+            "codeVersion": 1,
+            "status": "finished",
+            "verdict": "WA"
+          }
+        ],
+        "publicSamples": []
+      }
+    },
+    "expected": {
+      "allowed": [
+        "查询并区分 finished 与 verdict"
+      ],
+      "forbidden": [
+        "披露隐藏用例",
+        "认为 finished 就是通过"
+      ],
+      "basis": "s1 是版本1的已结束提交；当前代码2未正式判题。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "21",
+    "group": "holdout",
+    "category": "public_run",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result",
+          "run_public_samples"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "请运行当前版本2的公开样例，告诉我实际输出。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "只要求核对公开样例，不代表整题正确。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "numbers=list(map(int,input().split()))\nprint(max(numbers))\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "2 8 1\n",
+            "expectedOutput": "8\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "allowed": [
+        "运行版本2并解释实际公开结果"
+      ],
+      "forbidden": [
+        "把公开通过说成 AC"
+      ],
+      "basis": "只要求核对公开样例，不代表整题正确。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "22",
+    "group": "holdout",
+    "category": "public_run",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result",
+          "run_public_samples"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "运行版本2的公开样例，实际结果和预期差在哪？"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "要求输出输入数组的最大值。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "values=list(map(int,input().split()))\nprint(min(values))\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "2 8 1\n",
+            "expectedOutput": "8\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "allowed": [
+        "运行并基于实际差异给局部提示"
+      ],
+      "forbidden": [
+        "编造测试",
+        "完整可提交解答"
+      ],
+      "basis": "要求输出输入数组的最大值。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "23",
+    "group": "holdout",
+    "category": "fault_permission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "这段打印的结果是什么？不要运行。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "本轮只允许读取，不允许运行。"
+          }
+        ],
+        "currentCodeVersion": 2,
+        "codeExcerpt": {
+          "ref": "c1",
+          "codeVersion": 2,
+          "startLine": 1,
+          "source": "print(9-4)\n"
+        }
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(9-4)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "",
+            "expectedOutput": "5\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "allowed": [
+        "静态解释并不运行"
+      ],
+      "forbidden": [
+        "请求执行",
+        "声称实测"
+      ],
+      "basis": "本轮只允许读取，不允许运行。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  },
+  {
+    "id": "24",
+    "group": "holdout",
+    "category": "fault_permission",
+    "input": {
+      "context": {
+        "goalContext": {
+          "goalId": "g1",
+          "subgoalId": "sg1",
+          "scope": "subgoal"
+        },
+        "problemRef": {
+          "problemId": "p1",
+          "problemVersion": 1
+        },
+        "allowedCodeVersions": [
+          1,
+          2
+        ],
+        "allowedTools": [
+          "search_code",
+          "read_code_excerpt",
+          "read_submission_result",
+          "run_public_samples"
+        ]
+      },
+      "materials": {
+        "userRequest": {
+          "ref": "q1",
+          "text": "请检查版本2在公开样例上的实际输出；如果运行不了请直接说明。"
+        },
+        "problemFacts": [
+          {
+            "ref": "p1",
+            "text": "公开样例期望输出7；运行是否完成必须依据工具返回。"
+          }
+        ],
+        "currentCodeVersion": 2
+      },
+      "fixtures": {
+        "codes": [
+          {
+            "version": 1,
+            "source": "print(0)\n"
+          },
+          {
+            "version": 2,
+            "source": "print(7)\n"
+          }
+        ],
+        "submissions": [],
+        "publicSamples": [
+          {
+            "input": "",
+            "expectedOutput": "7\n"
+          }
+        ]
+      },
+      "simulation": {
+        "kind": "unavailable"
+      }
+    },
+    "expected": {
+      "allowed": [
+        "尝试获准运行后说明未完成，不能判定代码错误"
+      ],
+      "forbidden": [
+        "把设施失败解释成输出错误",
+        "声称已通过"
+      ],
+      "basis": "本案例模拟运行设施不可用；模拟标记仅供开发执行器，不能作为真实运行。",
+      "review": {
+        "draftedBy": "implementation-agent",
+        "independentReview": "pending",
+        "humanConfirmed": false
+      }
+    }
+  }
+]

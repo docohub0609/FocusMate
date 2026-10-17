@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-reference-candidate.schema.json",
+  "title": "VerifierReferenceCandidate",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "role",
+    "problemRef",
+    "problemContentHash",
+    "featureSetId",
+    "source",
+    "mutants"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "role": {
+      "const": "fastReference"
+    },
+    "problemRef": {
+      "type": "object",
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "properties": {
+        "problemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problemVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "featureSetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 262144
+    },
+    "mutants": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "mutantKey",
+          "defectTag",
+          "source"
+        ],
+        "properties": {
+          "mutantKey": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "defectTag": {
+            "enum": [
+              "offByOne",
+              "wrongBoundary",
+              "duplicates",
+              "wrongOrder",
+              "overflow",
+              "wrongInitialization",
+              "disconnected",
+              "wrongCondition",
+              "missingCase"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 262144
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schemaVersion": "1.0.0",
+      "role": "fastReference",
+      "problemRef": {
+        "problemId": "problem-001",
+        "problemVersion": 1
+      },
+      "problemContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "featureSetId": "features-001",
+      "source": "print(1)\n",
+      "mutants": [
+        {
+          "mutantKey": "off-by-one",
+          "defectTag": "offByOne",
+          "source": "print(2)\n"
+        }
+      ]
+    }
+  ]
+}

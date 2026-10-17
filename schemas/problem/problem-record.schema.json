@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-record.schema.json",
+  "title": "ProblemRecord",
+  "type": "object",
+  "required": ["problemPackage", "lifecycle"],
+  "properties": {
+    "problemPackage": {"$ref": "https://focusmate.local/schemas/problem/problem-package.schema.json"},
+    "lifecycle": {
+      "type": "object",
+      "required": ["status", "draftRevision", "contentHash", "updatedAt"],
+      "properties": {
+        "status": {"enum": ["draft", "frozen"]},
+        "draftRevision": {"type": "integer", "minimum": 1},
+        "contentHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "updatedAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+        "frozenAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+        "confirmedFeatureSetId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+      },
+      "allOf": [{
+        "if": {"properties": {"status": {"const": "frozen"}}, "required": ["status"]},
+        "then": {"required": ["frozenAt", "confirmedFeatureSetId"]},
+        "else": {"not": {"anyOf": [{"required": ["frozenAt"]}, {"required": ["confirmedFeatureSetId"]}]}}
+      }],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

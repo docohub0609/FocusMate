@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/observation.schema.json",
+  "title": "Observation",
+  "type": "object",
+  "required": ["observationId", "schemaVersion", "createdAt", "goalContext", "sourceEventIds", "trigger", "priority", "evidence", "uncertainty", "delta"],
+  "properties": {
+    "observationId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "sourceEventIds": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "trigger": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "priority": {"enum": ["silentUpdate", "observationReady", "evaluationReady", "verificationReady"]},
+    "evidence": {"type": "object"},
+    "uncertainty": {"type": "array", "items": {"type": "string"}},
+    "delta": {"type": "object"},
+    "artifactRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "observationId": "obs-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-08T10:04:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "subgoal", "subgoalId": "implement-solution"},
+    "sourceEventIds": ["event-001"], "trigger": "runFinished", "priority": "observationReady",
+    "evidence": {"verdict": "WA"}, "uncertainty": ["first failure"], "delta": {"newResult": true},
+    "artifactRef": "code:1"
+  }]
+}

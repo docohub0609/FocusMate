@@ -1,0 +1,241 @@
+[
+  {
+    "name": "mixed-numbers-wrong",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "数组长度n至少为1、最多为100；每个元素的值介于0和10000之间。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "dataScale.n",
+      "category": "dataScale",
+      "status": "confirmed",
+      "reason": "待审核候选",
+      "evidenceRefs": [
+        "constraints:0"
+      ],
+      "value": {
+        "variable": "n",
+        "maximum": 10000
+      },
+      "confidence": 1
+    },
+    "expected": "contradicted"
+  },
+  {
+    "name": "mixed-numbers-correct",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "数组长度n至少为1、最多为100；每个元素的值介于0和10000之间。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "dataScale.n",
+      "category": "dataScale",
+      "status": "confirmed",
+      "reason": "待审核候选",
+      "evidenceRefs": [
+        "constraints:0"
+      ],
+      "value": {
+        "variable": "n",
+        "maximum": 100
+      },
+      "confidence": 1
+    },
+    "expected": "supported"
+  },
+  {
+    "name": "paraphrased-chinese-correct",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "每个输入数组至少有一个元素，但无论数值多大，元素个数都不能超过一百个。每个元素不超过一万。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "dataScale.n",
+      "category": "dataScale",
+      "status": "confirmed",
+      "reason": "待审核候选",
+      "evidenceRefs": [
+        "constraints:0"
+      ],
+      "value": {
+        "variable": "n",
+        "maximum": 100
+      },
+      "confidence": 1
+    },
+    "expected": "supported"
+  },
+  {
+    "name": "time-unit-correct",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "1 <= n <= 100。程序执行时间限制为2秒。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "resource.time",
+      "category": "resourceConstraint",
+      "status": "confirmed",
+      "reason": "待审核候选",
+      "evidenceRefs": [
+        "constraints:0"
+      ],
+      "value": {
+        "timeLimitMs": 2000
+      },
+      "confidence": 1
+    },
+    "expected": "supported"
+  },
+  {
+    "name": "time-unit-wrong",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "1 <= n <= 100。程序执行时间限制为2秒。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "resource.time",
+      "category": "resourceConstraint",
+      "status": "confirmed",
+      "reason": "待审核候选",
+      "evidenceRefs": [
+        "constraints:0"
+      ],
+      "value": {
+        "timeLimitMs": 2
+      },
+      "confidence": 1
+    },
+    "expected": "contradicted"
+  },
+  {
+    "name": "missing-time-bound",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "数组长度n至少为1、最多为100；每个元素的值介于0和10000之间。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "resource.time",
+      "category": "resourceConstraint",
+      "status": "confirmed",
+      "reason": "待审核候选",
+      "evidenceRefs": [
+        "constraints:0"
+      ],
+      "value": {
+        "timeLimitMs": 2000
+      },
+      "confidence": 1
+    },
+    "expected": "insufficient"
+  },
+  {
+    "name": "unknown-time-correct",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "数组长度n至少为1、最多为100；每个元素的值介于0和10000之间。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "resource.time",
+      "category": "resourceConstraint",
+      "status": "unknown",
+      "reason": "待审核候选",
+      "evidenceRefs": []
+    },
+    "expected": "supported"
+  },
+  {
+    "name": "unknown-time-overlooks-source",
+    "problem": {
+      "statement": "给定一个整数数组，输出所有元素之和。",
+      "inputSpec": "第一行包含数组长度n，第二行包含n个整数。",
+      "outputSpec": "输出一个整数，表示数组元素之和。",
+      "constraints": "1 <= n <= 100。程序执行时间限制为2秒。",
+      "examples": [
+        {
+          "input": "3\n1 2 3\n",
+          "output": "6\n"
+        }
+      ],
+      "language": "python3",
+      "ioMode": "standardInputOutput"
+    },
+    "candidate": {
+      "featureKey": "resource.time",
+      "category": "resourceConstraint",
+      "status": "unknown",
+      "reason": "待审核候选",
+      "evidenceRefs": []
+    },
+    "expected": "contradicted"
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-witness-review.schema.json",
+  "title": "VerifierWitnessReview",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "role",
+    "problemRef",
+    "problemContentHash",
+    "featureSetId",
+    "reviews"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "role": {
+      "const": "witnessReviewer"
+    },
+    "problemRef": {
+      "type": "object",
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "properties": {
+        "problemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problemVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "featureSetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviews": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "mutantKey",
+          "judgment",
+          "reason",
+          "featureKeys"
+        ],
+        "properties": {
+          "mutantKey": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "judgment": {
+            "enum": [
+              "legal",
+              "illegal",
+              "unknown"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096,
+            "pattern": "\\S"
+          },
+          "featureKeys": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,14 @@
+{
+  "statement": "给定R行C列网格，以及起点和终点的行列坐标，判断是否存在从起点到终点的路径。行列坐标都从0开始。\n字符0表示可通行格子，字符1表示障碍。每步只能向上、下、左、右移动到网格内的可通行相邻格子，不能斜走或穿过障碍。\n如果起点或终点是障碍，视为不存在路径；起终点是同一可通行格子时，视为存在路径。",
+  "inputSpec": "第一行包含R和C。\n随后R行，每行包含C个字符0或1，不含空格。\n最后一行包含sr、sc、tr、tc，依次表示起点行、起点列、终点行、终点列。",
+  "outputSpec": "存在路径时输出YES，否则输出NO。",
+  "constraints": "1 <= R, C <= 1000\n0 <= sr, tr < R\n0 <= sc, tc < C",
+  "examples": [
+    {"input": "2 3\n000\n110\n0 0 1 2\n", "output": "YES\n"},
+    {"input": "2 2\n01\n10\n0 0 1 1\n", "output": "NO\n"},
+    {"input": "1 1\n0\n0 0 0 0\n", "output": "YES\n"},
+    {"input": "1 1\n1\n0 0 0 0\n", "output": "NO\n"}
+  ],
+  "language": "python3",
+  "ioMode": "standardInputOutput"
+}

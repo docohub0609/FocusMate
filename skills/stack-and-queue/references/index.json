@@ -1,0 +1,21 @@
+{
+  "skillId": "stack-and-queue",
+  "version": 4,
+  "sections": [
+    {
+      "sectionId": "operation-order",
+      "description": "用于 FIFO、LIFO 或后缀运算的顺序问题。",
+      "fileRef": "references/operation-order.md"
+    },
+    {
+      "sectionId": "matching-and-completion",
+      "description": "用于括号、待处理对象或结束残留。",
+      "fileRef": "references/matching-and-completion.md"
+    },
+    {
+      "sectionId": "monotonic-candidates",
+      "description": "用于单调栈/队列的淘汰理由。",
+      "fileRef": "references/monotonic-candidates.md"
+    }
+  ]
+}

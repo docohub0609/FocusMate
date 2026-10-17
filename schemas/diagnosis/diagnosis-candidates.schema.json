@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/diagnosis/diagnosis-candidates.schema.json",
+  "title": "DiagnosisCandidates",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "maxItems": 64,
+            "minItems": 1
+          },
+          "subgoals": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "subgoalId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2400
+                  },
+                  "maxItems": 64,
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "subgoalId",
+                "reason",
+                "evidenceRefs"
+              ]
+            }
+          },
+          "findings": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2400
+                  },
+                  "maxItems": 64,
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "text",
+                "evidenceRefs"
+              ]
+            }
+          },
+          "unknowns": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2400
+                  },
+                  "maxItems": 64,
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "text",
+                "evidenceRefs"
+              ]
+            }
+          },
+          "history": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "relation": {
+                "enum": [
+                  "same",
+                  "new",
+                  "unknown"
+                ]
+              },
+              "previousQuestionRefs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "maxItems": 64
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2400
+              },
+              "evidenceRefs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "maxItems": 64,
+                "minItems": 1
+              }
+            },
+            "required": [
+              "relation",
+              "previousQuestionRefs",
+              "reason",
+              "evidenceRefs"
+            ]
+          },
+          "dependsOn": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "maxItems": 64
+          }
+        },
+        "required": [
+          "questionKey",
+          "question",
+          "evidenceRefs",
+          "subgoals",
+          "findings",
+          "unknowns",
+          "history",
+          "dependsOn"
+        ]
+      }
+    },
+    "contractConcerns": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "maxItems": 64,
+            "minItems": 1
+          }
+        },
+        "required": [
+          "text",
+          "evidenceRefs"
+        ]
+      }
+    }
+  },
+  "required": [
+    "questions",
+    "contractConcerns"
+  ]
+}

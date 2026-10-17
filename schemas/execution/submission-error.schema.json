@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/submission-error.schema.json",
+  "title": "SubmissionError",
+  "type": "object",
+  "required": ["requestId", "schemaVersion", "createdAt", "code", "message", "fieldErrors"],
+  "properties": {
+    "requestId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "code": {"enum": ["INVALID_GOAL_REQUEST", "PROBLEM_VERSION_NOT_FROZEN", "GOAL_NOT_FOUND", "GOAL_CONTEXT_MISMATCH", "INVALID_CODE_SNAPSHOT", "CODE_SNAPSHOT_NOT_FOUND", "CODE_CONTEXT_MISMATCH", "INVALID_SUBMISSION_REQUEST", "VERIFIER_ASSET_REJECTED", "SUBMISSION_NOT_FOUND", "SUBMISSION_STATE_TRANSITION_INVALID", "SUBMISSION_STORAGE_INTERNAL_ERROR"]},
+    "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "fieldErrors": {"type": "array", "items": {"type": "object", "required": ["field", "code", "message"], "properties": {"field": {"type": "string"}, "code": {"type": "string"}, "message": {"type": "string"}}, "additionalProperties": false}}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "requestId": "request-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-23T10:10:00Z",
+    "code": "CODE_CONTEXT_MISMATCH", "message": "The code snapshot belongs to another goal.", "fieldErrors": []
+  }]
+}

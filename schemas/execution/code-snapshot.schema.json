@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/code-snapshot.schema.json",
+  "title": "CodeSnapshot",
+  "type": "object",
+  "required": ["codeSnapshotId", "schemaVersion", "createdAt", "goalContext", "codeVersion", "language", "sourceCode", "contentHash"],
+  "properties": {
+    "codeSnapshotId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json#/$defs/goalLevelContext"},
+    "codeVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "language": {"const": "python3"},
+    "sourceCode": {"type": "string", "minLength": 1, "pattern": ".*\\S.*"},
+    "contentHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "codeSnapshotId": "code-snapshot-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-23T10:05:00Z",
+    "goalContext": {"goalId": "goal-001", "scope": "goal"}, "codeVersion": 1, "language": "python3",
+    "sourceCode": "print(input())\n", "contentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  }]
+}

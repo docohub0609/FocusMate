@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Graph Skill sample input",
+  "type": "object",
+  "required": ["problemFacts", "code", "runEvidence"],
+  "properties": {
+    "problemFacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+    "code": {
+      "type": "object", "required": ["snapshotRef", "text"],
+      "properties": {"snapshotRef": {"type": "string", "minLength": 1}, "text": {"type": "string"}},
+      "additionalProperties": false
+    },
+    "runEvidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object", "required": ["ref", "text"],
+      "properties": {"ref": {"type": "string", "minLength": 1}, "text": {"type": "string", "minLength": 1}},
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "examples": [{"problemFacts": [{"ref": "statement:1", "text": "图中可能存在自环。"}], "code": {"snapshotRef": "code:sample-1", "text": ""}, "runEvidence": []}]
+}

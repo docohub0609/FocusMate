@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/skills/skill-invocation.schema.json",
+  "title": "SkillInvocation",
+  "type": "object",
+  "required": ["invocationId", "schemaVersion", "createdAt", "goalContext", "skillRef", "selectionReasons", "inputRefs", "status"],
+  "properties": {
+    "invocationId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "skillRef": {
+      "type": "object", "required": ["skillId", "skillVersion", "skillHash"],
+      "properties": {
+        "skillId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+        "skillVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+        "skillHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "selectionReasons": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "inputRefs": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "status": {"enum": ["requested", "succeeded", "rejected"]},
+    "result": {"type": "object", "not": {"required": ["goalStateUpdate"]}},
+    "resultRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "succeeded"}}, "required": ["status"]},
+    "then": {"oneOf": [{"required": ["result"]}, {"required": ["resultRef"]}]}
+  }],
+  "additionalProperties": false,
+  "examples": [{
+    "invocationId": "invoke-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-08T10:06:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "subgoal", "subgoalId": "understand-problem"},
+    "skillRef": {"skillId": "problem-understanding", "skillVersion": 1, "skillHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    "selectionReasons": ["problem intake"], "inputRefs": ["problem-001:1"], "status": "succeeded",
+    "result": {"evidence": ["input format identified"]}, "unknowns": []
+  }]
+}

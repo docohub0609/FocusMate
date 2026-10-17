@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/progress/progress-estimation-report.schema.json",
+  "title": "ProgressEstimationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "reportId",
+    "createdAt",
+    "goalContext",
+    "status",
+    "verified",
+    "promptVersion",
+    "modelRequests",
+    "durationSeconds"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "reportId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "status": {
+      "enum": [
+        "estimated",
+        "failed"
+      ]
+    },
+    "verified": {
+      "const": false
+    },
+    "promptVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result": {
+      "$ref": "https://focusmate.local/schemas/progress/progress-estimation-candidates.schema.json"
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "materialUnknowns": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "materialSnapshot": {
+      "type": "object"
+    },
+    "contextSnapshot": {
+      "$ref": "https://focusmate.local/schemas/context/context-snapshot.schema.json"
+    },
+    "response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "raw"
+      ],
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw": {
+          "type": "string"
+        }
+      }
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "reason"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "input",
+            "context",
+            "provider",
+            "output"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "modelRequests": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "durationSeconds": {
+      "type": "number",
+      "minimum": 0
+    },
+    "modelConfig": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "estimated"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "result",
+          "evidenceRefs",
+          "materialUnknowns",
+          "materialSnapshot",
+          "contextSnapshot",
+          "response"
+        ],
+        "not": {
+          "required": [
+            "failure"
+          ]
+        }
+      },
+      "else": {
+        "required": [
+          "failure"
+        ],
+        "not": {
+          "required": [
+            "result"
+          ]
+        }
+      }
+    }
+  ]
+}

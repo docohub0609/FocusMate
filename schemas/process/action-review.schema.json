@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/action-review.schema.json",
+  "title": "ActionReview",
+  "type": "object",
+  "properties": {
+    "checks": {
+      "type": "object",
+      "properties": {
+        "fact": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "uncertain"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "candidateQuote": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "materialRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 24,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "verdict",
+            "reason",
+            "candidateQuote",
+            "materialRefs"
+          ],
+          "additionalProperties": false
+        },
+        "references": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "uncertain"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "candidateQuote": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "materialRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 24,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "verdict",
+            "reason",
+            "candidateQuote",
+            "materialRefs"
+          ],
+          "additionalProperties": false
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "uncertain"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "candidateQuote": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "materialRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 24,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "verdict",
+            "reason",
+            "candidateQuote",
+            "materialRefs"
+          ],
+          "additionalProperties": false
+        },
+        "permission": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "uncertain"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "candidateQuote": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "materialRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 24,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "verdict",
+            "reason",
+            "candidateQuote",
+            "materialRefs"
+          ],
+          "additionalProperties": false
+        },
+        "followUp": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "uncertain"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "candidateQuote": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "materialRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 24,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "verdict",
+            "reason",
+            "candidateQuote",
+            "materialRefs"
+          ],
+          "additionalProperties": false
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "enum": [
+                "pass",
+                "fail",
+                "uncertain"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "candidateQuote": {
+              "type": "string",
+              "maxLength": 4000
+            },
+            "materialRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 24,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "verdict",
+            "reason",
+            "candidateQuote",
+            "materialRefs"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "fact",
+        "references",
+        "scope",
+        "permission",
+        "followUp",
+        "coverage"
+      ],
+      "additionalProperties": false
+    },
+    "issueChecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issueId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "status": {
+            "enum": [
+              "resolved",
+              "stillPresent",
+              "initialReviewIncorrect",
+              "uncertain"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "materialRefs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "minItems": 1,
+            "maxItems": 24,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "issueId",
+          "status",
+          "reason",
+          "materialRefs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 6,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "checks"
+  ],
+  "additionalProperties": false
+}

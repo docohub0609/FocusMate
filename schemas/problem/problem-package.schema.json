@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-package.schema.json",
+  "title": "ProblemPackage",
+  "type": "object",
+  "required": ["problemId", "schemaVersion", "version", "createdAt", "source", "statement", "inputSpec", "outputSpec", "constraints", "examples", "languagePolicy", "ioMode", "verifierAssetStatus"],
+  "properties": {
+    "title": {"type": "string", "maxLength": 120},
+    "problemId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "version": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "source": {"const": "userProvided"},
+    "statement": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "inputSpec": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "outputSpec": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "constraints": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["input", "output"],
+        "properties": {"input": {"type": "string"}, "output": {"type": "string"}},
+        "additionalProperties": false
+      }
+    },
+    "languagePolicy": {
+      "type": "object",
+      "required": ["allowed"],
+      "properties": {"allowed": {"const": ["python3"]}},
+      "additionalProperties": false
+    },
+    "ioMode": {"const": "standardInputOutput"},
+    "verifierAssetStatus": {"enum": ["missing", "building", "crossChecking", "ready", "rejected"]}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "problemId": "problem-001", "schemaVersion": "1.0.0", "version": 1,
+    "createdAt": "2026-08-08T10:00:00+08:00", "source": "userProvided",
+    "statement": "Return the sum of two integers.", "inputSpec": "Two integers.",
+    "outputSpec": "Their sum.", "constraints": "-1000 <= a,b <= 1000",
+    "examples": [{"input": "1 2\n", "output": "3\n"}],
+    "languagePolicy": {"allowed": ["python3"]}, "ioMode": "standardInputOutput",
+    "verifierAssetStatus": "missing"
+  }]
+}

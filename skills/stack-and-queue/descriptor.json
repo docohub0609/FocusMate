@@ -1,0 +1,28 @@
+{
+  "skillId": "stack-and-queue",
+  "schemaVersion": "1.0.0",
+  "version": 4,
+  "createdAt": "2026-09-15T00:00:00Z",
+  "hash": "sha256:b06a4bb1a36d3e657a0102aa6515bdd2d482cccbb5ec46ec70c37ad52c8747c6",
+  "appliesTo": [
+    "stack",
+    "queue"
+  ],
+  "capabilities": [
+    "structuredEvidence"
+  ],
+  "requiredInputs": [
+    "userRequest",
+    "goalRequirement",
+    "problemFacts",
+    "code",
+    "runEvidence"
+  ],
+  "requiredTools": [],
+  "goalStateWriteAllowed": false,
+  "inputSchemaRef": "schemas/input.schema.json",
+  "outputSchemaRef": "schemas/result.schema.json",
+  "coachPolicy": {
+    "completeSolutionAllowed": false
+  }
+}

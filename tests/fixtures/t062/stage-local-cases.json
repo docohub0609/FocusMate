@@ -1,0 +1,989 @@
+[
+  {
+    "id": "dev-01",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-dp-coin",
+        "subgoalId": "state",
+        "scope": "subgoal"
+      },
+      "codeVersion": 1,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "解释零钱兑换的一维状态"
+        },
+        "problem": {
+          "text": "给定硬币和金额，返回最少硬币数；无法组成时返回 -1。"
+        },
+        "code": "def coin_change(coins, amount):\n    pass\n",
+        "userStatement": "我只抄了函数签名，还没想好 dp[i] 表示什么。"
+      }
+    },
+    "expected": {
+      "stage": "draft",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-01",
+        "u-dev-01"
+      ],
+      "reasoning": "只有签名且状态含义未知，没有可观察的算法行为。",
+      "mustExplain": [
+        "当前缺少状态定义",
+        "现在运行不能回答状态含义"
+      ],
+      "forbiddenConclusions": [
+        "已进入实现",
+        "代码正确"
+      ]
+    }
+  },
+  {
+    "id": "dev-02",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-interval",
+        "subgoalId": "strategy",
+        "scope": "subgoal"
+      },
+      "codeVersion": 2,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "形成合并区间策略"
+        },
+        "problem": {
+          "text": "合并所有重叠区间。"
+        },
+        "code": "def merge(intervals):\n    intervals.sort()\n    return []\n",
+        "userStatement": "我猜先排序，再比较当前区间和结果末尾，但边界还没推完。"
+      }
+    },
+    "expected": {
+      "stage": "strategy_hypothesis",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-02",
+        "u-dev-02"
+      ],
+      "reasoning": "用户已提出排序扫描候选，但实现只是占位返回。",
+      "mustExplain": [
+        "策略仍是假设",
+        "无需运行就能说明当前缺口"
+      ],
+      "forbiddenConclusions": [
+        "完整实现",
+        "样例通过"
+      ]
+    }
+  },
+  {
+    "id": "dev-03",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-two-sum",
+        "subgoalId": "loop",
+        "scope": "subgoal"
+      },
+      "codeVersion": 4,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "写出哈希扫描"
+        },
+        "problem": {
+          "text": "返回和为 target 的两个不同下标。"
+        },
+        "code": "def two_sum(nums, target):\n    seen = {}\n    for i, value in enumerate(nums):\n        need = target - value\n        if need in seen:\n",
+        "userStatement": "我停在 if 条件后，代码现在语法不完整，查询后的返回和保存也没写。"
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "syntaxValid": false,
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-03",
+        "u-dev-03"
+      ],
+      "reasoning": "核心循环已开始但当前快照语法未闭合，分支和返回缺失；阶段识别应保留在实现中而不是服务错误。",
+      "mustExplain": [
+        "已有部分实现",
+        "当前不具备运行条件"
+      ],
+      "forbiddenConclusions": [
+        "函数可用",
+        "整体完成"
+      ]
+    }
+  },
+  {
+    "id": "dev-04",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-prefix",
+        "subgoalId": "function",
+        "scope": "subgoal"
+      },
+      "codeVersion": 3,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "实现前缀和查询函数"
+        },
+        "problem": {
+          "text": "返回闭区间 [left,right] 的元素和。"
+        },
+        "code": "def range_sum(nums, left, right):\n    prefix = [0]\n    for value in nums:\n        prefix.append(prefix[-1] + value)\n    return prefix[right + 1] - prefix[left]\n",
+        "userStatement": "请只跑这个函数，输入 [2,-1,4]、0、1，告诉我返回值。"
+      }
+    },
+    "expected": {
+      "stage": "test_ready",
+      "shouldRunLocal": true,
+      "factRefs": [
+        "c-dev-04",
+        "u-dev-04"
+      ],
+      "reasoning": "函数语法完整且用户明确授权具体输入，可运行观察返回值；一次结果不证明整题正确。",
+      "mustExplain": [
+        "运行目的和输入",
+        "局部结果不等于整体正确"
+      ],
+      "forbiddenConclusions": [
+        "所有边界正确",
+        "Goal 完成"
+      ]
+    }
+  },
+  {
+    "id": "dev-05",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-graph",
+        "subgoalId": "status",
+        "scope": "subgoal"
+      },
+      "codeVersion": 2,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "判断当前保存的实现阶段，尚缺完整功能要求。"
+        },
+        "problem": {
+          "text": "目前只有题目标题，尚未提供完整功能要求、输入输出及限制。"
+        },
+        "code": "def reachable(n, edges):\n    graph = [[] for _ in range(n)]\n    return False\n",
+        "userStatement": "这是目前保存的代码。题目要求还没有补齐，你能判断写到哪个阶段了吗？"
+      }
+    },
+    "expected": {
+      "stage": "unknown",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "p-dev-05",
+        "c-dev-05"
+      ],
+      "reasoning": "无法对照完整任务要求判断现有实现是否完整；只能描述所见代码，整体阶段保留未知。",
+      "mustExplain": [
+        "缺少任务要求，不能确认整体实现阶段",
+        "可以描述当前已有内容"
+      ],
+      "forbiddenConclusions": [
+        "DFS 已完成",
+        "当前代码可测试"
+      ]
+    }
+  },
+  {
+    "id": "dev-06",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-knapsack",
+        "subgoalId": "transition",
+        "scope": "subgoal"
+      },
+      "codeVersion": 5,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "完成处理全部物品的 0/1 背包函数"
+        },
+        "problem": {
+          "text": "每件物品最多选一次，求容量内最大价值。"
+        },
+        "code": "capacity = 5\ndp = [0] * (capacity + 1)\nweight, value = 2, 3\nfor cap in range(capacity, weight - 1, -1):\n    dp[cap] = max(dp[cap], dp[cap - weight] + value)\n",
+        "userStatement": "我只写了单个物品更新，其余物品和完整函数还没写。请运行这几行，观察循环后 dp。"
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": true,
+      "factRefs": [
+        "c-dev-06",
+        "u-dev-06"
+      ],
+      "reasoning": "局部转移片段完整、设置已在原文中且用户明确要求观察变量，但整题函数尚未形成。",
+      "mustExplain": [
+        "只观察一次物品更新",
+        "局部可运行不等于整体就绪"
+      ],
+      "forbiddenConclusions": [
+        "背包题已通过",
+        "正式判题结果"
+      ]
+    }
+  },
+  {
+    "id": "dev-07",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-binary",
+        "subgoalId": "boundary",
+        "scope": "subgoal"
+      },
+      "codeVersion": 7,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "解释二分边界"
+        },
+        "problem": {
+          "text": "在升序数组中查找 target，找不到返回 -1。"
+        },
+        "code": "def search(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n",
+        "userStatement": "为什么循环条件是 left <= right？请解释，不要运行。"
+      }
+    },
+    "expected": {
+      "stage": "test_ready",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-07",
+        "u-dev-07"
+      ],
+      "reasoning": "完整函数可测试，但当前问题可直接依据代码解释，且用户明确不要运行。",
+      "mustExplain": [
+        "直接解释闭区间边界",
+        "尊重不运行要求"
+      ],
+      "forbiddenConclusions": [
+        "因为运行通过所以正确",
+        "自动运行"
+      ]
+    }
+  },
+  {
+    "id": "dev-08",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-window",
+        "subgoalId": "invariant",
+        "scope": "subgoal"
+      },
+      "codeVersion": 3,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "明确滑动窗口不变量"
+        },
+        "problem": {
+          "text": "求无重复字符的最长子串长度。"
+        },
+        "code": "def longest(s):\n    left = 0\n    best = 0\n    seen = set()\n    return best\n",
+        "userStatement": "我准备让窗口内没有重复字符，再移动 left。"
+      }
+    },
+    "expected": {
+      "stage": "strategy_hypothesis",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-08",
+        "u-dev-08"
+      ],
+      "reasoning": "窗口不变量已提出，但更新逻辑还未实现。",
+      "mustExplain": [
+        "候选不变量是什么",
+        "实现证据不足"
+      ],
+      "forbiddenConclusions": [
+        "窗口逻辑完成",
+        "返回值已验证"
+      ]
+    }
+  },
+  {
+    "id": "dev-09",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-tree",
+        "subgoalId": "base",
+        "scope": "subgoal"
+      },
+      "codeVersion": 1,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "设计树深度递归"
+        },
+        "problem": {
+          "text": "返回二叉树最大深度。"
+        },
+        "code": "def depth(node):\n    if node is None:\n        return 0\n    pass\n",
+        "userStatement": "空节点分支能不能先跑一下？"
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": true,
+      "factRefs": [
+        "c-dev-09",
+        "u-dev-09"
+      ],
+      "reasoning": "基例可作为完整函数调用 node=None 观察返回，但递归分支仍缺失。",
+      "mustExplain": [
+        "只验证空节点分支",
+        "其余输入仍未实现"
+      ],
+      "forbiddenConclusions": [
+        "递归正确",
+        "整题完成"
+      ]
+    }
+  },
+  {
+    "id": "dev-10",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-sort",
+        "subgoalId": "idea",
+        "scope": "subgoal"
+      },
+      "codeVersion": 1,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "选择稳定排序方法"
+        },
+        "problem": {
+          "text": "按分数降序，相同分数保持原顺序。"
+        },
+        "code": "def rank(items):\n    return items\n",
+        "userStatement": "还没决定用 sorted 的 key 还是自己写排序。"
+      }
+    },
+    "expected": {
+      "stage": "strategy_hypothesis",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-10",
+        "u-dev-10"
+      ],
+      "reasoning": "用户已明确提出sorted key与自行排序两个候选，尚未选定；有候选不等于已选择或实现。原draft预期过严，保留历史实验后修正。",
+      "mustExplain": [
+        "已有候选但尚未选定",
+        "现有返回不是实现"
+      ],
+      "forbiddenConclusions": [
+        "策略已确定",
+        "稳定性已满足"
+      ]
+    }
+  },
+  {
+    "id": "dev-11",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-lis",
+        "subgoalId": "current-version",
+        "scope": "subgoal"
+      },
+      "codeVersion": 6,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "实现最长递增子序列"
+        },
+        "problem": {
+          "text": "返回严格递增子序列的最大长度。"
+        },
+        "code": "def lis(nums):\n    dp = [1] * len(nums)\n    return max(dp, default=0)\n",
+        "userStatement": "当前版本的转移循环还没写；只是之前版本跑 [3,1,2] 得到 2。",
+        "runs": [
+          {
+            "text": "旧快照运行输出 2。",
+            "codeSnapshotRef": "c02"
+          }
+        ],
+        "historicalCodes": [
+          {
+            "ref": "c02",
+            "version": 5,
+            "text": "def lis(nums):\n    dp = [1] * len(nums)\n    for i in range(len(nums)):\n        for j in range(i):\n            if nums[j] < nums[i]:\n                dp[i] = max(dp[i], dp[j]+1)\n    return max(dp, default=0)\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-11",
+        "r-dev-11-1"
+      ],
+      "reasoning": "当前版本缺少转移循环；旧版本输出不能证明当前版本已有该行为。",
+      "mustExplain": [
+        "旧结果对应不同快照",
+        "当前实现缺少转移"
+      ],
+      "forbiddenConclusions": [
+        "当前版本返回 2",
+        "旧运行证明当前正确"
+      ]
+    }
+  },
+  {
+    "id": "dev-12",
+    "group": "development",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-palindrome",
+        "subgoalId": "guard",
+        "scope": "subgoal"
+      },
+      "codeVersion": 8,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "实现空列表安全的平均值函数"
+        },
+        "problem": {
+          "text": "空列表返回 None，否则返回算术平均值。"
+        },
+        "code": "def safe_average(values):\n    if not values:\n        return None\n    return sum(values) / len(values)\n",
+        "userStatement": "解释 if not values 为什么能保护除法；不需要运行，也不要把解释说成测试结论。"
+      }
+    },
+    "expected": {
+      "stage": "test_ready",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-dev-12",
+        "u-dev-12"
+      ],
+      "reasoning": "函数包含与题意一致的空列表保护且整体可运行；当前问题只需解释守卫条件。",
+      "mustExplain": [
+        "空列表在进入除法前返回",
+        "代码解释不等于测试通过"
+      ],
+      "forbiddenConclusions": [
+        "已经运行",
+        "所有数值类型都正确"
+      ]
+    }
+  },
+  {
+    "id": "hold-01",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-edit",
+        "subgoalId": "distance",
+        "scope": "subgoal"
+      },
+      "codeVersion": 1,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "推导编辑距离"
+        },
+        "problem": {
+          "text": "求两个字符串的最少插入、删除、替换次数。"
+        },
+        "code": "def distance(a, b):\n    return 0\n",
+        "userStatement": "我还不知道二维表的行列代表什么。"
+      }
+    },
+    "expected": {
+      "stage": "draft",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-01",
+        "u-hold-01"
+      ],
+      "reasoning": "状态尚未定义且固定返回只是占位。",
+      "mustExplain": [
+        "状态定义缺失",
+        "运行占位代码没有诊断价值"
+      ],
+      "forbiddenConclusions": [
+        "动态规划已开始",
+        "答案为 0"
+      ]
+    }
+  },
+  {
+    "id": "hold-02",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-topo",
+        "subgoalId": "approach",
+        "scope": "subgoal"
+      },
+      "codeVersion": 2,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "判断课程依赖是否可完成"
+        },
+        "problem": {
+          "text": "给出先修关系，判断是否有环。"
+        },
+        "code": "def can_finish(n, prereq):\n    indegree = [0] * n\n    return True\n",
+        "userStatement": "我想用入度为零的队列，但还没写建图和计数。"
+      }
+    },
+    "expected": {
+      "stage": "strategy_hypothesis",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-02",
+        "u-hold-02"
+      ],
+      "reasoning": "Kahn 思路已出现，关键步骤未实现。",
+      "mustExplain": [
+        "候选策略已形成",
+        "实现证据不足"
+      ],
+      "forbiddenConclusions": [
+        "无环",
+        "拓扑排序完成"
+      ]
+    }
+  },
+  {
+    "id": "hold-03",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-islands",
+        "subgoalId": "dfs",
+        "scope": "subgoal"
+      },
+      "codeVersion": 4,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "实现岛屿计数"
+        },
+        "problem": {
+          "text": "统计字符网格中由上下左右连接的 1 的块数。"
+        },
+        "code": "def islands(grid):\n    count = 0\n    for r in range(len(grid)):\n        for c in range(len(grid[0])):\n            if grid[r][c] == '1':\n                count += 1\n    return count\n",
+        "userStatement": "遍历写了，但访问标记和淹没相邻格子还没写。"
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-03",
+        "u-hold-03"
+      ],
+      "reasoning": "遍历骨架存在，但当前会把每个 1 单独计数。",
+      "mustExplain": [
+        "缺少连通访问逻辑",
+        "当前不具备目标语义"
+      ],
+      "forbiddenConclusions": [
+        "岛屿计数完成",
+        "代码正确"
+      ]
+    }
+  },
+  {
+    "id": "hold-04",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-gcd",
+        "subgoalId": "function",
+        "scope": "subgoal"
+      },
+      "codeVersion": 3,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "观察欧几里得算法"
+        },
+        "problem": {
+          "text": "返回两个非负整数的最大公约数。"
+        },
+        "code": "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a\n",
+        "userStatement": "请运行 gcd(48,18)，只告诉我实际返回和这个结果能说明什么。"
+      }
+    },
+    "expected": {
+      "stage": "test_ready",
+      "shouldRunLocal": true,
+      "factRefs": [
+        "c-hold-04",
+        "u-hold-04"
+      ],
+      "reasoning": "完整函数和明确调用已给出，可观察返回；单例不能证明所有输入。",
+      "mustExplain": [
+        "实际返回来自局部运行",
+        "单个输入的证据边界"
+      ],
+      "forbiddenConclusions": [
+        "全部输入正确",
+        "正式 AC"
+      ]
+    }
+  },
+  {
+    "id": "hold-05",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-lru",
+        "subgoalId": "snapshot",
+        "scope": "subgoal"
+      },
+      "codeVersion": 5,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "判断当前保存的实现阶段，尚缺完整功能要求。"
+        },
+        "problem": {
+          "text": "目前只有题目标题，尚未提供完整功能要求、输入输出及限制。"
+        },
+        "code": "class LRU:\n    def __init__(self, capacity):\n        self.capacity = capacity\n",
+        "userStatement": "这是目前保存的代码。题目要求还没有补齐，你能判断写到哪个阶段了吗？"
+      }
+    },
+    "expected": {
+      "stage": "unknown",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "p-hold-05",
+        "c-hold-05"
+      ],
+      "reasoning": "无法对照完整任务要求判断现有实现是否完整；只能描述所见代码，整体阶段保留未知。",
+      "mustExplain": [
+        "缺少任务要求，不能确认整体实现阶段",
+        "可以描述当前已有内容"
+      ],
+      "forbiddenConclusions": [
+        "get/put 已实现",
+        "类可测试"
+      ]
+    }
+  },
+  {
+    "id": "hold-06",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-dp-grid",
+        "subgoalId": "row",
+        "scope": "subgoal"
+      },
+      "codeVersion": 6,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "完成最小路径和的全部行转移"
+        },
+        "problem": {
+          "text": "只能向右或向下，求左上到右下最小路径和。"
+        },
+        "code": "grid = [[1, 3, 1], [1, 5, 1]]\ndp = [0] * len(grid[0])\ndp[0] = grid[0][0]\nfor col in range(1, len(dp)):\n    dp[col] = dp[col - 1] + grid[0][col]\n",
+        "userStatement": "其余行转移还没写。运行当前片段，只观察首行初始化后的 dp；这不是整题测试。"
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": true,
+      "factRefs": [
+        "c-hold-06",
+        "u-hold-06"
+      ],
+      "reasoning": "首行片段自足且用户明确限制观察对象，但其余行转移未提供。",
+      "mustExplain": [
+        "观察的是首行初始化",
+        "局部结果不扩展为整体结论"
+      ],
+      "forbiddenConclusions": [
+        "最小路径和实现完成",
+        "最终答案正确"
+      ]
+    }
+  },
+  {
+    "id": "hold-07",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-heap",
+        "subgoalId": "missing",
+        "scope": "subgoal"
+      },
+      "codeVersion": 3,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "观察堆顶更新"
+        },
+        "problem": {
+          "text": "返回数组中第 k 大元素。"
+        },
+        "code": "import heapq\ndef kth(nums, k):\n    heap = []\n    for value in nums:\n        if len(heap) < k:\n            heapq.heappush(heap, value)\n        elif value > heap[0]:\n            heapq.heapreplace(heap, value)\n    return heap[0]\n",
+        "userStatement": "帮我跑这个函数看看；我还没给 nums 和 k。"
+      }
+    },
+    "expected": {
+      "stage": "test_ready",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-07",
+        "u-hold-07"
+      ],
+      "reasoning": "函数整体成形，但当前调用缺少参数，而且局部函数提取不包含快照顶层的 heapq 导入。",
+      "mustExplain": [
+        "需要补充或明确实验输入",
+        "函数局部提取缺少 heapq 依赖"
+      ],
+      "forbiddenConclusions": [
+        "已经运行成功",
+        "把运行失败当成算法错误"
+      ]
+    }
+  },
+  {
+    "id": "hold-08",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-parentheses",
+        "subgoalId": "explain",
+        "scope": "subgoal"
+      },
+      "codeVersion": 4,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "解释括号栈逻辑"
+        },
+        "problem": {
+          "text": "判断括号字符串是否有效。"
+        },
+        "code": "def valid(text):\n    pairs = {')': '(', ']': '[', '}': '{'}\n    stack = []\n    for ch in text:\n        if ch in pairs.values():\n            stack.append(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return not stack\n",
+        "userStatement": "为什么最后要 return not stack？直接解释即可。"
+      }
+    },
+    "expected": {
+      "stage": "test_ready",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-08",
+        "u-hold-08"
+      ],
+      "reasoning": "问题可直接从完整代码解释，无需消耗运行。",
+      "mustExplain": [
+        "剩余左括号意味着未配对",
+        "无需运行"
+      ],
+      "forbiddenConclusions": [
+        "通过运行得出解释",
+        "整体目标完成"
+      ]
+    }
+  },
+  {
+    "id": "hold-09",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-rotate",
+        "subgoalId": "choice",
+        "scope": "subgoal"
+      },
+      "codeVersion": 1,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "选择数组旋转方案"
+        },
+        "problem": {
+          "text": "原地将数组向右旋转 k 步。"
+        },
+        "code": "def rotate(nums, k):\n    pass\n",
+        "userStatement": "我在考虑三次翻转，也可能用额外数组。"
+      }
+    },
+    "expected": {
+      "stage": "strategy_hypothesis",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-09",
+        "u-hold-09"
+      ],
+      "reasoning": "已有两个候选策略但尚未选择和实现。",
+      "mustExplain": [
+        "存在候选方案",
+        "未形成可执行实现"
+      ],
+      "forbiddenConclusions": [
+        "已采用翻转",
+        "空间复杂度已确定"
+      ]
+    }
+  },
+  {
+    "id": "hold-10",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-fibonacci",
+        "subgoalId": "old-run",
+        "scope": "subgoal"
+      },
+      "codeVersion": 9,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "实现斐波那契迭代"
+        },
+        "problem": {
+          "text": "返回 F(n)，F(0)=0，F(1)=1。"
+        },
+        "code": "def fib(n):\n    a, b = 0, 1\n    return a\n",
+        "userStatement": "当前版本还没写循环；版本 8 跑 fib(5) 是 5。",
+        "runs": [
+          {
+            "text": "fib(5) 输出 5。",
+            "codeSnapshotRef": "c02"
+          }
+        ],
+        "historicalCodes": [
+          {
+            "ref": "c02",
+            "version": 8,
+            "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a+b\n    return a\n"
+          }
+        ]
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "c-hold-10",
+        "r-hold-10-1"
+      ],
+      "reasoning": "当前版本 9 没有循环；版本 8 的输出不能替代当前实现证据。",
+      "mustExplain": [
+        "历史结果属于旧版本",
+        "当前代码固定返回 0"
+      ],
+      "forbiddenConclusions": [
+        "当前 fib(5)=5",
+        "当前版本已验证"
+      ]
+    }
+  },
+  {
+    "id": "hold-11",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-dijkstra",
+        "subgoalId": "evidence",
+        "scope": "subgoal"
+      },
+      "codeVersion": 2,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "判断当前保存的实现阶段，尚缺完整功能要求。"
+        },
+        "problem": {
+          "text": "目前只有题目标题，尚未提供完整功能要求、输入输出及限制。"
+        },
+        "code": "def shortest(graph, start):\n    distances = {start: 0}\n    return distances\n",
+        "userStatement": "这是目前保存的代码。题目要求还没有补齐，你能判断写到哪个阶段了吗？"
+      }
+    },
+    "expected": {
+      "stage": "unknown",
+      "shouldRunLocal": false,
+      "factRefs": [
+        "p-hold-11",
+        "c-hold-11"
+      ],
+      "reasoning": "无法对照完整任务要求判断现有实现是否完整；只能描述所见代码，整体阶段保留未知。",
+      "mustExplain": [
+        "缺少任务要求，不能确认整体实现阶段",
+        "可以描述当前已有内容"
+      ],
+      "forbiddenConclusions": [
+        "优先队列已完成",
+        "最短路可测试"
+      ]
+    }
+  },
+  {
+    "id": "hold-12",
+    "group": "holdout",
+    "input": {
+      "goalContext": {
+        "goalId": "goal-clamp",
+        "subgoalId": "guarded",
+        "scope": "subgoal"
+      },
+      "codeVersion": 5,
+      "localRunAllowed": true,
+      "materials": {
+        "goal": {
+          "requirement": "完成处理全部物品的 0/1 背包函数"
+        },
+        "problem": {
+          "text": "每件物品最多选一次，求容量内最大价值。"
+        },
+        "code": "capacity = 4\ndp = [0] * (capacity + 1)\nweight, value = 2, 3\nfor cap in range(weight, capacity + 1):\n    dp[cap] = max(dp[cap], dp[cap - weight] + value)\n",
+        "userStatement": "我只写了单个物品更新。请运行并观察 dp；即使这一次看着合理，也别说整个 0/1 背包正确。"
+      }
+    },
+    "expected": {
+      "stage": "implementation_in_progress",
+      "shouldRunLocal": true,
+      "factRefs": [
+        "c-hold-12",
+        "u-hold-12"
+      ],
+      "reasoning": "自足片段可运行，但正序更新会在同一轮重复使用当前物品，且完整多物品函数未实现。",
+      "mustExplain": [
+        "本次输出只是局部实验",
+        "局部运行有输出不证明整体正确"
+      ],
+      "forbiddenConclusions": [
+        "0/1 背包已完成",
+        "局部通过等于算法正确"
+      ]
+    }
+  }
+]

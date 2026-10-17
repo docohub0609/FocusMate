@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-input-generator-candidate.schema.json",
+  "title": "VerifierInputGeneratorCandidate",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "role",
+    "problemRef",
+    "problemContentHash",
+    "featureSetId",
+    "source",
+    "coveragePlan"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "role": {
+      "const": "inputGenerator"
+    },
+    "problemRef": {
+      "type": "object",
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "properties": {
+        "problemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problemVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "featureSetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 262144
+    },
+    "coveragePlan": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "tag",
+          "featureKeys"
+        ],
+        "properties": {
+          "tag": {
+            "enum": [
+              "minimumSize",
+              "maximumSize",
+              "randomSmall",
+              "randomLarge",
+              "duplicates",
+              "allEqual",
+              "sorted",
+              "reverseSorted",
+              "negativeValues",
+              "zeroValues",
+              "disconnected",
+              "cycle",
+              "singleElement",
+              "emptyAllowed",
+              "boundary"
+            ]
+          },
+          "featureKeys": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][A-Za-z0-9.]*$"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schemaVersion": "1.0.0",
+      "role": "inputGenerator",
+      "problemRef": {
+        "problemId": "problem-001",
+        "problemVersion": 1
+      },
+      "problemContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "featureSetId": "features-001",
+      "source": "print(1)\n",
+      "coveragePlan": [
+        {
+          "tag": "minimumSize",
+          "featureKeys": [
+            "dataScale.n"
+          ]
+        }
+      ]
+    }
+  ]
+}

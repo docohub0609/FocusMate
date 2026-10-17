@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/common/system-error.schema.json",
+  "title": "SystemError",
+  "type": "object",
+  "required": ["errorId", "schemaVersion", "createdAt", "goalContext", "category", "component", "code", "retryability", "safeMessage", "privacyLevel"],
+  "properties": {
+    "errorId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "category": {"enum": ["validation", "sandbox", "oj", "llm", "skill", "verifier"]},
+    "component": {"enum": ["web", "api", "core", "ojWorker", "skillExecutor", "processVerifier", "finalOjVerifier"]},
+    "code": {"type": "string"},
+    "retryability": {"enum": ["retryable", "nonRetryable"]},
+    "safeMessage": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "privacyLevel": {"enum": ["public", "taskContent", "sensitive"]},
+    "causeEventId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "detailRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "category": {"const": "validation"},
+        "component": {"enum": ["web", "api", "core"]},
+        "code": {"enum": ["EVENT_SCHEMA_INVALID", "EVENT_CONTEXT_INVALID", "EVENT_VERSION_UNSUPPORTED"]},
+        "retryability": {"const": "nonRetryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "sandbox"},
+        "component": {"const": "ojWorker"},
+        "code": {"const": "SANDBOX_START_FAILED"},
+        "retryability": {"const": "retryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "sandbox"},
+        "component": {"const": "ojWorker"},
+        "code": {"const": "SANDBOX_POLICY_VIOLATION"},
+        "retryability": {"const": "nonRetryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "oj"},
+        "component": {"enum": ["api", "core", "ojWorker"]},
+        "code": {"enum": ["OJ_WORKER_UNAVAILABLE", "OJ_TASK_EXPIRED"]},
+        "retryability": {"const": "retryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "oj"},
+        "component": {"enum": ["core", "ojWorker"]},
+        "code": {"const": "OJ_RESULT_INVALID"},
+        "retryability": {"const": "nonRetryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "llm"},
+        "component": {"enum": ["core", "skillExecutor"]},
+        "code": {"enum": ["LLM_UNAVAILABLE", "LLM_OUTPUT_INVALID"]},
+        "retryability": {"const": "retryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "skill"},
+        "component": {"enum": ["core", "skillExecutor"]},
+        "code": {"enum": ["SKILL_NOT_FOUND", "SKILL_OUTPUT_REJECTED"]},
+        "retryability": {"const": "nonRetryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "verifier"},
+        "component": {"enum": ["processVerifier", "finalOjVerifier"]},
+        "code": {"const": "VERIFIER_EXECUTION_FAILED"},
+        "retryability": {"const": "retryable"}
+      }
+    },
+    {
+      "properties": {
+        "category": {"const": "verifier"},
+        "component": {"enum": ["processVerifier", "finalOjVerifier"]},
+        "code": {"const": "VERIFIER_INPUT_INVALID"},
+        "retryability": {"const": "nonRetryable"}
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "examples": [{
+    "errorId": "error-001",
+    "schemaVersion": "1.0.0",
+    "createdAt": "2026-08-09T10:04:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "subgoal", "subgoalId": "implement-solution"},
+    "category": "validation",
+    "component": "api",
+    "code": "EVENT_SCHEMA_INVALID",
+    "retryability": "nonRetryable",
+    "safeMessage": "The event payload is invalid and must be corrected before retrying.",
+    "privacyLevel": "public",
+    "causeEventId": "event-001"
+  }]
+}

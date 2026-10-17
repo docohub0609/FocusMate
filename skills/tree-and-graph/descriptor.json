@@ -1,0 +1,28 @@
+{
+  "skillId": "tree-and-graph",
+  "schemaVersion": "1.0.0",
+  "version": 7,
+  "createdAt": "2026-09-15T00:00:00Z",
+  "hash": "sha256:6c78665ad78b794d4b6ccbff609fc5bd2ef97f43ea5121cb4252ece625117523",
+  "appliesTo": [
+    "graph",
+    "tree"
+  ],
+  "capabilities": [
+    "structuredEvidence"
+  ],
+  "requiredInputs": [
+    "userRequest",
+    "goalRequirement",
+    "problemFacts",
+    "code",
+    "runEvidence"
+  ],
+  "requiredTools": [],
+  "goalStateWriteAllowed": false,
+  "inputSchemaRef": "schemas/input.schema.json",
+  "outputSchemaRef": "schemas/result.schema.json",
+  "coachPolicy": {
+    "completeSolutionAllowed": false
+  }
+}

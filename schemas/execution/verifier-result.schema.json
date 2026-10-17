@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-result.schema.json",
+  "title": "VerifierResult",
+  "type": "object",
+  "required": ["verifierResultId", "schemaVersion", "createdAt", "goalContext", "verifierType", "status", "evidenceRefs", "reason", "inputVersionRefs"],
+  "properties": {
+    "verifierResultId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "verifierType": {"enum": ["process", "finalOj"]},
+    "status": {"enum": ["passed", "failed", "inconclusive", "notReady"]},
+    "evidenceRefs": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "reason": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "inputVersionRefs": {"type": "object", "minProperties": 1, "additionalProperties": {"type": ["string", "integer"]}},
+    "ojResultId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+  },
+  "allOf": [{
+    "if": {"properties": {"verifierType": {"const": "finalOj"}}, "required": ["verifierType"]},
+    "then": {"required": ["ojResultId"], "properties": {"goalContext": {"properties": {"scope": {"const": "goal"}}, "required": ["scope"]}}}
+  }],
+  "additionalProperties": false,
+  "examples": [{
+    "verifierResultId": "verify-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-08T10:09:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "goal"}, "verifierType": "finalOj",
+    "status": "passed", "evidenceRefs": ["oj-result-001"], "reason": "Trusted OJ returned AC.",
+    "inputVersionRefs": {"problemVersion": 1, "codeVersion": 1, "assetVersion": 1},
+    "ojResultId": "oj-result-001"
+  }]
+}

@@ -1,0 +1,16 @@
+{
+  "skillId": "array-and-hash",
+  "version": 5,
+  "sections": [
+    {
+      "sectionId": "read-write-order",
+      "description": "用于覆盖、累积或查询时机。",
+      "fileRef": "references/read-write-order.md"
+    },
+    {
+      "sectionId": "positions-and-duplicates",
+      "description": "用于同值不同位置、缺失键或遍历修改。",
+      "fileRef": "references/positions-and-duplicates.md"
+    }
+  ]
+}

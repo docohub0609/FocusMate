@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-create-request.schema.json",
+  "title": "GoalCreateRequest",
+  "type": "object",
+  "required": ["problemRef"],
+  "properties": {
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"}
+  },
+  "additionalProperties": false,
+  "examples": [{"problemRef": {"problemId": "problem-001", "problemVersion": 1}}]
+}

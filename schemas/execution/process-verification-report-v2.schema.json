@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/process-verification-report-v2.schema.json",
+  "title": "ProcessVerificationReportV2",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "reportId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verifierResult": {
+      "$ref": "https://focusmate.local/schemas/execution/verifier-result.schema.json"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "checkId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "notReady",
+              "inconclusive"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "factId": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "ref",
+                "text"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "evidenceType": {
+            "enum": [
+              "confirmedProblemFeature",
+              "evaluatedUserExplanation",
+              "complexityCheck",
+              "codeStructureCheck",
+              "compileResult",
+              "runResult",
+              "publicSampleRunResult",
+              "targetedRunResult"
+            ]
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "checkId",
+          "status",
+          "reason",
+          "quotes",
+          "evidenceType",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1
+    },
+    "inputSnapshot": {
+      "type": "object"
+    },
+    "method": {
+      "const": "programFactsAndSingleModelRole"
+    },
+    "progressComparison": {
+      "const": "notEstablished"
+    },
+    "promptVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workGoalVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "batchId": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "reportId",
+    "actionId",
+    "verifierResult",
+    "checks",
+    "requirements",
+    "inputSnapshot",
+    "method",
+    "progressComparison",
+    "promptVersion",
+    "workGoalVersion",
+    "batchId"
+  ],
+  "additionalProperties": false
+}

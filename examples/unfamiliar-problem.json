@@ -1,0 +1,14 @@
+{
+  "statement": "给定一个长度为 n 的整数数组，请找出一段非空连续区间，使区间内所有数字的乘积最大。",
+  "inputSpec": "第一行输入整数 n。第二行输入 n 个整数 a1, a2, ..., an。",
+  "outputSpec": "输出最大乘积的值。",
+  "constraints": "1 <= n <= 200000，-10 <= ai <= 10。时间限制 2 秒，内存限制 256 MB。",
+  "examples": [
+    {
+      "input": "5\n2 3 -2 4 -1\n",
+      "output": "48\n"
+    }
+  ],
+  "language": "python3",
+  "ioMode": "standardInputOutput"
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/common/goal-context.schema.json",
+  "title": "GoalContext",
+  "$defs": {
+    "subgoalContext": {
+      "allOf": [
+        {"$ref": "#"},
+        {"properties": {"scope": {"const": "subgoal"}}, "required": ["scope", "subgoalId"]}
+      ]
+    },
+    "goalLevelContext": {
+      "allOf": [
+        {"$ref": "#"},
+        {"properties": {"scope": {"const": "goal"}}, "required": ["scope"]}
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["goalId", "scope"],
+      "properties": {
+        "goalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+        "scope": {"const": "goal"}
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["goalId", "scope", "subgoalId"],
+      "properties": {
+        "goalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+        "scope": {"const": "subgoal"},
+        "subgoalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+      },
+      "additionalProperties": false
+    }
+  ],
+  "examples": [
+    {"goalId": "goal-001", "scope": "subgoal", "subgoalId": "implement-solution"}
+  ]
+}

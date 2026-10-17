@@ -1,0 +1,21 @@
+{
+  "skillId": "dynamic-programming",
+  "version": 4,
+  "sections": [
+    {
+      "sectionId": "state-meaning",
+      "description": "用于解释状态是否能代表子问题。",
+      "fileRef": "references/state-meaning.md"
+    },
+    {
+      "sectionId": "transition-and-base",
+      "description": "用于选择是否合法、初值与不可达状态。",
+      "fileRef": "references/transition-and-base.md"
+    },
+    {
+      "sectionId": "order-and-answer",
+      "description": "用于原地更新、记忆化依赖或返回值。",
+      "fileRef": "references/order-and-answer.md"
+    }
+  ]
+}

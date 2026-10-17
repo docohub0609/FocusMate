@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-contract-review-candidates.schema.json",
+  "title": "GoalContractReviewCandidates",
+  "$defs": {
+    "issueType": {"enum": ["numericMismatch", "objectMismatch", "conditionMismatch", "missingRequirement", "prescribedStrategy", "unverifiableObjective", "inappropriateEvidence", "unnecessaryDependency", "insufficientEvidence", "criticalUnknown", "solutionLeakage"]},
+    "refs": {"type": "array", "maxItems": 100, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 300, "pattern": "\\S"}},
+    "item": {
+      "type": "object",
+      "required": ["itemId", "verdict", "issueTypes", "reason", "sourceRefs", "templateRefs", "blocking"],
+      "properties": {
+        "itemId": {"type": "string", "minLength": 1, "maxLength": 400, "pattern": "\\S"},
+        "verdict": {"enum": ["supported", "contradicted", "insufficient"]},
+        "issueTypes": {"type": "array", "maxItems": 11, "uniqueItems": true, "items": {"$ref": "#/$defs/issueType"}},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 1000, "pattern": "\\S"},
+        "sourceRefs": {"$ref": "#/$defs/refs"},
+        "templateRefs": {"$ref": "#/$defs/refs"},
+        "blocking": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["items"],
+  "properties": {"items": {"type": "array", "minItems": 1, "maxItems": 500, "items": {"$ref": "#/$defs/item"}}},
+  "additionalProperties": false,
+  "examples": [{"items": [{"itemId": "node:goal-001:subgoal-01", "verdict": "supported", "issueTypes": [], "reason": "The objective and rubric preserve the stated input requirement.", "sourceRefs": ["inputSpec:0"], "templateRefs": [], "blocking": false}]}]
+}

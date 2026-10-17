@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-asset-cross-check-report.schema.json",
+  "title": "VerifierAssetCrossCheckReport",
+  "type": "object",
+  "required": ["reportId", "outcome", "checkedMaterialHash", "checksRun", "createdAt"],
+  "properties": {
+    "mutationRepairCount": {"type": "integer", "minimum": 0, "maximum": 1},
+    "buildBudgetMs": {"type": "integer", "minimum": 1, "maximum": 1800000},
+    "warningCodes": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"const": "MUTATION_CHALLENGE_UNAVAILABLE"}},
+    "assurance": {"enum": ["full", "limited"]},
+    "reportId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "outcome": {"enum": ["passed", "failed"]},
+    "checkedMaterialHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "checksRun": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "checkPolicyVersion": {"enum": ["verifier-cross-check-v1", "verifier-cross-check-v2", "verifier-cross-check-v3", "verifier-cross-check-v4"]},
+    "generatorHash": {"$ref": "https://focusmate.local/schemas/execution/verifier-cross-check-run.schema.json#/$defs/hash"},
+    "slowOracleHash": {"$ref": "https://focusmate.local/schemas/execution/verifier-cross-check-run.schema.json#/$defs/hash"},
+    "fastReferenceHash": {"$ref": "https://focusmate.local/schemas/execution/verifier-cross-check-run.schema.json#/$defs/hash"},
+    "seed": {"type": "integer", "minimum": 0, "maximum": 4294967295},
+    "smallCount": {"type": "integer", "minimum": 0, "maximum": 64},
+    "largeCount": {"type": "integer", "minimum": 0, "maximum": 4},
+    "agreementCount": {"type": "integer", "minimum": 0, "maximum": 64},
+    "mutationAttempted": {"type": "integer", "minimum": 0, "maximum": 3},
+    "mutationEligible": {"type": "integer", "minimum": 0, "maximum": 3},
+    "mutationKilled": {"type": "integer", "minimum": 0, "maximum": 3},
+    "elapsedMs": {"type": "integer", "minimum": 0},
+    "safeFailureSummaries": {"type": "array", "maxItems": 64, "items": {"$ref": "https://focusmate.local/schemas/execution/verifier-cross-check-run.schema.json#/$defs/summary"}}
+  },
+  "allOf": [{"if": {"anyOf": [{"required": ["checkPolicyVersion"]}, {"required": ["generatorHash"]}, {"required": ["slowOracleHash"]}, {"required": ["fastReferenceHash"]}, {"required": ["seed"]}, {"required": ["smallCount"]}, {"required": ["largeCount"]}, {"required": ["agreementCount"]}, {"required": ["mutationAttempted"]}, {"required": ["mutationEligible"]}, {"required": ["mutationKilled"]}, {"required": ["elapsedMs"]}, {"required": ["safeFailureSummaries"]}]}, "then": {"required": ["checkPolicyVersion", "generatorHash", "slowOracleHash", "fastReferenceHash", "seed", "smallCount", "largeCount", "agreementCount", "mutationAttempted", "mutationEligible", "mutationKilled", "elapsedMs", "safeFailureSummaries"]}}, {"if": {"properties": {"checkPolicyVersion": {"enum": ["verifier-cross-check-v2", "verifier-cross-check-v3", "verifier-cross-check-v4"]}}, "required": ["checkPolicyVersion"]}, "then": {"required": ["assurance", "warningCodes", "buildBudgetMs", "mutationRepairCount"]}, "else": {"not": {"anyOf": [{"required": ["assurance"]}, {"required": ["warningCodes"]}, {"required": ["buildBudgetMs"]}, {"required": ["mutationRepairCount"]}]}}}, {"if": {"properties": {"checkPolicyVersion": {"enum": ["verifier-cross-check-v2", "verifier-cross-check-v3"]}, "outcome": {"const": "passed"}}, "required": ["checkPolicyVersion", "outcome"]}, "then": {"oneOf": [{"properties": {"assurance": {"const": "full"}, "warningCodes": {"maxItems": 0}, "mutationEligible": {"minimum": 1}}}, {"properties": {"assurance": {"const": "limited"}, "warningCodes": {"const": ["MUTATION_CHALLENGE_UNAVAILABLE"]}, "mutationEligible": {"const": 0}, "mutationKilled": {"const": 0}, "mutationRepairCount": {"const": 1}}}]}}, {"if": {"properties": {"checkPolicyVersion": {"enum": ["verifier-cross-check-v4"]}, "outcome": {"const": "passed"}}, "required": ["checkPolicyVersion", "outcome"]}, "then": {"oneOf": [{"properties": {"assurance": {"const": "full"}, "warningCodes": {"maxItems": 0}, "mutationEligible": {"minimum": 1}}}, {"properties": {"assurance": {"const": "limited"}, "warningCodes": {"const": ["MUTATION_CHALLENGE_UNAVAILABLE"]}, "mutationEligible": {"const": 0}, "mutationKilled": {"const": 0}, "mutationRepairCount": {"const": 0}}}]}}],
+  "additionalProperties": false,
+  "examples": [
+  {
+    "reportId": "report-001",
+    "outcome": "passed",
+    "checkedMaterialHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "checksRun": [
+      "referenceAgreement"
+    ],
+    "createdAt": "2026-08-29T12:00:00Z"
+  },
+  {
+    "outcome": "passed",
+    "seed": 123,
+    "generatorHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "slowOracleHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "fastReferenceHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "smallCount": 8,
+    "largeCount": 1,
+    "agreementCount": 8,
+    "mutationAttempted": 1,
+    "mutationEligible": 1,
+    "mutationKilled": 1,
+    "elapsedMs": 150000,
+    "checkPolicyVersion": "verifier-cross-check-v2",
+    "createdAt": "2026-09-10T00:00:00Z",
+    "safeFailureSummaries": [
+      {
+        "caseHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "scale": "small",
+        "tags": [
+          "boundary"
+        ],
+        "inputByteCount": 4,
+        "inputLineCount": 1,
+        "inputTokenCount": 1,
+        "failureKind": "mutantDetected"
+      }
+    ],
+    "reportId": "check-001",
+    "checkedMaterialHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "checksRun": [
+      "compile",
+      "generatorDeterminism",
+      "publicExamples",
+      "smallDifferential",
+      "largeDeterminism",
+      "mutation",
+      "sealedMaterialIntegrity"
+    ],
+    "assurance": "full",
+    "warningCodes": [],
+    "buildBudgetMs": 300000,
+    "mutationRepairCount": 0
+  },
+  {
+    "outcome": "passed",
+    "seed": 123,
+    "generatorHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "slowOracleHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "fastReferenceHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "smallCount": 8,
+    "largeCount": 1,
+    "agreementCount": 8,
+    "mutationAttempted": 0,
+    "mutationEligible": 0,
+    "mutationKilled": 0,
+    "elapsedMs": 150000,
+    "checkPolicyVersion": "verifier-cross-check-v2",
+    "createdAt": "2026-09-10T00:00:00Z",
+    "safeFailureSummaries": [],
+    "reportId": "check-001",
+    "checkedMaterialHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "checksRun": [
+      "compile",
+      "generatorDeterminism",
+      "publicExamples",
+      "smallDifferential",
+      "largeDeterminism",
+      "mutation",
+      "sealedMaterialIntegrity"
+    ],
+    "assurance": "limited",
+    "warningCodes": [
+      "MUTATION_CHALLENGE_UNAVAILABLE"
+    ],
+    "buildBudgetMs": 300000,
+    "mutationRepairCount": 1
+  }
+]
+}

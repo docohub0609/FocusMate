@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["applicability", "findings", "unknowns"],
+  "properties": {
+    "applicability": {
+      "type": "object",
+      "required": ["status", "reason", "evidenceRefs"],
+      "properties": {
+        "status": {"enum": ["applicable", "notApplicable", "uncertain"]},
+        "reason": {"type": "string", "minLength": 1},
+        "evidenceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["summary", "evidenceRefs"],
+        "properties": {
+          "summary": {"type": "string", "minLength": 1},
+          "evidenceRefs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "unknowns": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "applicability": {"status": "uncertain", "reason": "当前请求没有提供足够领域信息。", "evidenceRefs": ["request:1"]},
+    "findings": [],
+    "unknowns": ["缺少可支持领域判断的题目事实。"]
+  }]
+}
+

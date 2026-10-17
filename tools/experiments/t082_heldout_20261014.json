@@ -1,0 +1,44 @@
+[
+  {
+    "name": "closed-interval-contact",
+    "journey": "follow-hint",
+    "statement": "给定若干闭区间，合并所有有公共点的区间，按左端点递增输出合并后的区间。两个闭区间在端点处相接也要合并。",
+    "inputSpec": "第一行一个正整数n，随后n行，每行两个空格分隔的整数l和r，表示闭区间[l,r]。",
+    "outputSpec": "每行输出一个合并后的区间的左右端点，以空格分隔。",
+    "constraints": "1<=n<=100；-1000<=l<=r<=1000。",
+    "examples": [{"input":"3\n1 3\n3 5\n8 9\n","output":"1 5\n8 9\n"},{"input":"2\n2 2\n2 2\n","output":"2 2\n"}],
+    "code": "n=int(input())\nintervals=sorted(tuple(map(int,input().split())) for _ in range(n))\nout=[]\nfor l,r in intervals:\n    if out and l<out[-1][1]:\n        out[-1][1]=max(out[-1][1],r)\n    else:\n        out.append([l,r])\nfor l,r in out:\n    print(l,r)\n",
+    "fixed": "n=int(input())\nintervals=sorted(tuple(map(int,input().split())) for _ in range(n))\nout=[]\nfor l,r in intervals:\n    if out and l<=out[-1][1]:\n        out[-1][1]=max(out[-1][1],r)\n    else:\n        out.append([l,r])\nfor l,r in out:\n    print(l,r)\n",
+    "reference": "n=int(input())\na=sorted(tuple(map(int,input().split())) for _ in range(n))\nleft,right=a[0]\nfor start,end in a[1:]:\n    if start>right:\n        print(left,right)\n        left,right=start,end\n    else:\n        right=max(right,end)\nprint(left,right)\n",
+    "ask": "为什么1到3和3到5没有合并？请给局部提示，把端点相接这个问题留着，等我改好再检查。不要给完整代码，也不要执行。",
+    "check": "我改好了，请只检查端点相接时是否会合并。不要扩成整题正确性检查，不要执行代码。",
+    "privateExamples": [{"input":"1\n-2 4\n","output":"-2 4\n"},{"input":"4\n5 6\n1 2\n2 5\n9 10\n","output":"1 6\n9 10\n"},{"input":"3\n-3 -1\n-1 0\n1 1\n","output":"-3 0\n1 1\n"},{"input":"3\n1 9\n2 3\n4 5\n","output":"1 9\n"}]
+  },
+  {
+    "name": "frequency-tie-lexical",
+    "journey": "alternative-solution-and-new-topic",
+    "statement": "给定一行小写英文单词，输出出现次数最多的单词。如果多个单词的出现次数相同，输出其中字典序最小的单词。",
+    "inputSpec": "一行空格分隔的小写英文单词。",
+    "outputSpec": "一行一个单词。",
+    "constraints": "单词数量1到1000，每个单词长度1到20。",
+    "examples": [{"input":"pear apple pear apple\n","output":"apple\n"},{"input":"z z a\n","output":"z\n"}],
+    "code": "words=input().split()\ncounts={}\nfor word in words:\n    counts[word]=counts.get(word,0)+1\nanswer=max(counts,key=counts.get)\nprint(answer)\n",
+    "fixed": "from collections import Counter\ncounts=Counter(input().split())\nanswer=sorted(counts,key=lambda word:(-counts[word],word))[0]\nprint(answer)\n",
+    "ask": "出现次数并列的时候，我好像选成了最先读到的单词。给一点提示，把并列选择这个问题留着，之后我自己改。不要完整代码，不要执行。",
+    "check": "我改成了先排序再取第一个，不一定沿用你建议的写法。请检查相同次数时是否会选字典序最小的词，只检查这个问题，不要执行。",
+    "nextQuestion": "另外，Counter和普通字典是什么关系？这里只想知道概念，不用另建问题让我以后检查。"
+  },
+  {
+    "name": "gcd-zero-second-number",
+    "journey": "first-request-is-check",
+    "statement": "输入两个非负整数a和b，输出它们的最大公约数。a和b不同时为0。规定gcd(a,0)=a。",
+    "inputSpec": "一行两个以空格分隔的非负整数a和b。",
+    "outputSpec": "一行一个整数，最大公约数。",
+    "constraints": "0<=a,b<=1000000000，且a+b>0。",
+    "examples": [{"input":"12 8\n","output":"4\n"},{"input":"7 0\n","output":"7\n"}],
+    "code": "a,b=map(int,input().split())\nwhile a%b!=0:\n    a,b=b,a%b\nprint(b)\n",
+    "fixed": "a,b=map(int,input().split())\nwhile b!=0:\n    a,b=b,a%b\nprint(a)\n",
+    "ask": "请检查我的循环在b一开始就是0时是否安全；如果不安全，只提示这一处，并留作我改完后的检查。不要给完整代码，不要执行。",
+    "check": "已修改，直接检查刚才b为0的边界：不能对0取余，并且应输出a。只看这一个问题，不要执行。"
+  }
+]

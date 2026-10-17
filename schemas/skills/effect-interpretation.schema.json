@@ -1,0 +1,58 @@
+{
+  "type": "object",
+  "properties": {
+    "actionId": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "classification": {
+      "enum": [
+        "notHelpful",
+        "misunderstood",
+        "other",
+        "supports",
+        "notSupported",
+        "uncertain"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "ref",
+          "quote"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "actionId",
+    "classification",
+    "evidence",
+    "reason"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/skills/effect-interpretation.schema.json",
+  "title": "EffectInterpretation"
+}

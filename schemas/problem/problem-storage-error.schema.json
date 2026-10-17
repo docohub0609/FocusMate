@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-storage-error.schema.json",
+  "title": "ProblemStorageError",
+  "type": "object",
+  "required": [
+    "requestId",
+    "schemaVersion",
+    "createdAt",
+    "code",
+    "message",
+    "fieldErrors"
+  ],
+  "properties": {
+    "requestId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "schemaVersion": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "code": {
+      "enum": [
+        "PROBLEM_NOT_FOUND",
+        "PROBLEM_VERSION_FROZEN",
+        "DRAFT_REVISION_CONFLICT",
+        "BASE_VERSION_NOT_FROZEN",
+        "BASE_VERSION_NOT_LATEST",
+        "DRAFT_ALREADY_EXISTS",
+        "FEATURE_NOT_FOUND",
+        "FEATURE_CONTEXT_MISMATCH",
+        "FEATURE_STALE",
+        "FEATURE_CONFLICT",
+        "INVALID_REVISION_REQUEST",
+        "INVALID_FREEZE_REQUEST",
+        "INVALID_PROBLEM_UPDATE",
+        "PROBLEM_STORAGE_INTERNAL_ERROR",
+        "IDEMPOTENCY_CONFLICT",
+        "INVALID_OPERATION_KEY",
+        "INVALID_LIST_REQUEST",
+        "INVALID_EXTRACTION_REQUEST",
+        "EXTRACTION_BUSY",
+        "EXTRACTION_NOT_FOUND",
+        "PRESENTATION_INCOMPLETE"
+      ]
+    },
+    "message": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "fieldErrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "field",
+          "code",
+          "message"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "requestId": "request-001",
+      "schemaVersion": "1.0.0",
+      "createdAt": "2026-08-18T10:00:00Z",
+      "code": "DRAFT_REVISION_CONFLICT",
+      "message": "The draft has changed; reload it before saving.",
+      "fieldErrors": []
+    }
+  ]
+}

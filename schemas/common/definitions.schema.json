@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/common/definitions.schema.json",
+  "title": "FocusMate common definitions",
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true
+    },
+    "problemRef": {
+      "type": "object",
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "properties": {
+        "problemId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "problemVersion": {
+          "$ref": "#/$defs/version"
+        }
+      },
+      "additionalProperties": false
+    },
+    "coachPolicy": {
+      "type": "object",
+      "required": [
+        "completeSolutionAllowed"
+      ],
+      "properties": {
+        "completeSolutionAllowed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "goalCoachPolicy": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/coachPolicy"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "completeSolutionAllowed": {
+              "const": false
+            },
+            "policyVersion": {
+              "const": "2.0.0"
+            },
+            "fullSolutionOnExplicitRequest": {
+              "const": true
+            }
+          },
+          "required": [
+            "completeSolutionAllowed",
+            "policyVersion",
+            "fullSolutionOnExplicitRequest"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

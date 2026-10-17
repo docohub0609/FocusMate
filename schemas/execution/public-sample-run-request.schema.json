@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/public-sample-run-request.schema.json",
+  "title": "PublicSampleRunRequest",
+  "type": "object",
+  "required": ["goalContext", "problemRef", "codeVersion", "resourcePolicyRef"],
+  "properties": {
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "codeVersion": {"type": "integer", "minimum": 1},
+    "resourcePolicyRef": {"const": "python-default-v1"}
+  },
+  "additionalProperties": false,
+  "examples": [{"goalContext": {"goalId": "goal-001", "scope": "goal"}, "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "codeVersion": 1, "resourcePolicyRef": "python-default-v1"}]
+}

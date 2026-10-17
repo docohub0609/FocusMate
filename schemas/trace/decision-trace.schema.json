@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/trace/decision-trace.schema.json",
+  "title": "DecisionTrace",
+  "type": "object",
+  "required": ["traceId", "schemaVersion", "createdAt", "goalContext", "observationRefs", "skillInvocationRefs", "decision", "decisionReasons", "uncertainty"],
+  "properties": {
+    "traceId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "observationRefs": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"},
+    "skillInvocationRefs": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"},
+    "decision": {"enum": ["continue", "wait", "askPermission", "intervene", "verify", "pause", "end"]},
+    "decisionReasons": {"allOf": [{"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"}, {"minItems": 1}]},
+    "uncertainty": {"type": "array", "items": {"type": "string"}},
+    "actionRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "ojResultRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "verifierResultRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "goalStateVersionAfter": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "traceId": "trace-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-08T10:10:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "goal"}, "observationRefs": [],
+    "skillInvocationRefs": [], "decision": "verify", "decisionReasons": ["final submission completed"],
+    "uncertainty": [], "ojResultRef": "oj-result-001", "verifierResultRef": "verify-001",
+    "goalStateVersionAfter": 2
+  }]
+}

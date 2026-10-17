@@ -1,0 +1,9 @@
+{
+  "statement": "给定一个无向图和两个顶点s、t，判断是否存在从s到t的路径。顶点从0开始编号。\n图可以不连通，可以有自环和重复边。起点与终点相同时视为存在路径。",
+  "inputSpec": "第一行包含n、m、s、t。\n随后m行，每行两个整数u和v，表示一条无向边。",
+  "outputSpec": "存在路径时输出YES，否则输出NO。",
+  "constraints": "1 <= n <= 100000\n0 <= m <= 200000\n0 <= s, t, u, v < n",
+  "examples": [{"input": "4 2 0 2\n0 1\n1 2\n", "output": "YES\n"}, {"input": "3 1 0 2\n0 1\n", "output": "NO\n"}, {"input": "1 0 0 0\n", "output": "YES\n"}],
+  "language": "python3",
+  "ioMode": "standardInputOutput"
+}

@@ -1,0 +1,21 @@
+{
+  "skillId": "tree-and-graph",
+  "version": 7,
+  "sections": [
+    {
+      "sectionId": "visit-control",
+      "description": "检查访问标记时机、重复扩展、父节点过滤与有环图风险。",
+      "fileRef": "references/visit-control.md"
+    },
+    {
+      "sectionId": "coverage-termination",
+      "description": "检查遍历推进和终止、孤立点、连通分量及提前退出覆盖。",
+      "fileRef": "references/coverage-termination.md"
+    },
+    {
+      "sectionId": "path-cost",
+      "description": "区分连通、路径、边数和权重代价，核对最短路方法依据。",
+      "fileRef": "references/path-cost.md"
+    }
+  ]
+}

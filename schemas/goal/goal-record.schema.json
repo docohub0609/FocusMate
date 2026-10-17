@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-record.schema.json",
+  "title": "GoalRecord",
+  "type": "object",
+  "required": ["goalId", "schemaVersion", "createdAt", "problemRef", "status"],
+  "properties": {
+    "goalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "status": {"const": "active"}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "goalId": "goal-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-23T10:00:00Z",
+    "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "status": "active"
+  }]
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-contract-review-result.schema.json",
+  "title": "GoalContractReview",
+  "type": "object",
+  "required": ["goalId", "contractVersion", "problemRef", "problemContentHash", "featureSetId", "contentHash", "createdAt", "promptVersion", "status", "issues", "items"],
+  "properties": {
+    "goalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "contractVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "problemContentHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "featureSetId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "contentHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "promptVersion": {"enum": ["goal-contract-review-v1", "goal-contract-review-v2", "goal-contract-review-v3", "goal-contract-review-v4", "goal-contract-review-v5"]},
+    "status": {"enum": ["passed", "needsReview", "unavailable"]},
+    "model": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "\\S"},
+    "providerResponseId": {"type": "string", "minLength": 1, "maxLength": 300, "pattern": "\\S"},
+    "items": {"type": "array", "maxItems": 500, "items": {"$ref": "https://focusmate.local/schemas/goal/goal-contract-review-candidates.schema.json#/$defs/item"}},
+    "issues": {
+      "type": "array", "maxItems": 5500,
+      "items": {
+        "type": "object", "required": ["type", "message"],
+        "properties": {
+          "type": {"anyOf": [{"$ref": "https://focusmate.local/schemas/goal/goal-contract-review-candidates.schema.json#/$defs/issueType"}, {"const": "reviewUnavailable"}]},
+          "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+          "itemId": {"type": "string", "minLength": 1},
+          "subgoalId": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "error": {
+      "type": "object", "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "retryable": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "passed"}}}, "then": {"properties": {"issues": {"maxItems": 0}, "items": {"minItems": 1}}, "required": ["model", "providerResponseId"], "not": {"required": ["error"]}}},
+    {"if": {"properties": {"status": {"const": "needsReview"}}}, "then": {"properties": {"issues": {"minItems": 1}, "items": {"minItems": 1}}, "required": ["model", "providerResponseId"], "not": {"required": ["error"]}}},
+    {"if": {"properties": {"status": {"const": "unavailable"}}}, "then": {"properties": {"items": {"maxItems": 0}}}}
+  ],
+  "examples": [{
+    "goalId": "goal-001", "contractVersion": 1,
+    "problemRef": {"problemId": "problem-001", "problemVersion": 1},
+    "problemContentHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "featureSetId": "features-001", "contentHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "createdAt": "2026-09-12T03:00:00Z", "promptVersion": "goal-contract-review-v5", "status": "unavailable",
+    "items": [], "issues": [{"type": "reviewUnavailable", "message": "The review service is unavailable; retain this draft."}],
+    "error": {"code": "LLM_UNAVAILABLE", "message": "The review is temporarily unavailable.", "retryable": true}
+  }]
+}

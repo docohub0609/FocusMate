@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/trusted-asset-build-manifest.schema.json",
+  "title": "TrustedAssetBuildManifest",
+  "type": "object",
+  "required": ["manifestId", "schemaVersion", "problemRef", "privateTests"],
+  "properties": {
+    "manifestId": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": "1.0.0"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "privateTests": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"type": "object", "required": ["caseKey", "stdin", "answerSource"], "properties": {"caseKey": {"type": "string", "minLength": 1}, "stdin": {"type": "string"}, "answerSource": {"enum": ["expectedOutput", "referenceOracle"]}, "expectedOutput": {"type": "string"}}, "allOf": [{"if": {"properties": {"answerSource": {"const": "expectedOutput"}}, "required": ["answerSource"]}, "then": {"required": ["expectedOutput"]}, "else": {"not": {"required": ["expectedOutput"]}}}], "additionalProperties": false}},
+    "referenceOracle": {"type": "object", "required": ["language", "sourceCode", "origin", "resourcePolicyRef"], "properties": {"language": {"const": "python3"}, "sourceCode": {"type": "string", "minLength": 1}, "origin": {"enum": ["internalProvided", "generatedCandidate"]}, "resourcePolicyRef": {"const": "python-default-v1"}}, "additionalProperties": false}
+  },
+  "additionalProperties": false,
+  "examples": [{"manifestId": "manifest-001", "schemaVersion": "1.0.0", "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "privateTests": [{"caseKey": "negative", "stdin": "-3\n", "answerSource": "expectedOutput", "expectedOutput": "9\n"}]}]
+}

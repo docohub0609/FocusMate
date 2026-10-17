@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/feature-extraction-job-request.schema.json",
+  "title": "FeatureExtractionJobRequest",
+  "type": "object",
+  "required": [
+    "problemId",
+    "problemVersion",
+    "expectedDraftRevision",
+    "contentHash"
+  ],
+  "properties": {
+    "problemId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "problemVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "expectedDraftRevision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

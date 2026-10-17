@@ -1,0 +1,21 @@
+{
+  "skillId": "two-pointers-and-window",
+  "version": 5,
+  "sections": [
+    {
+      "sectionId": "movement-basis",
+      "description": "用于为什么移动不会漏掉目标。",
+      "fileRef": "references/movement-basis.md"
+    },
+    {
+      "sectionId": "window-state",
+      "description": "用于固定窗口和、计数、端点是否同步。",
+      "fileRef": "references/window-state.md"
+    },
+    {
+      "sectionId": "bounds-and-exit",
+      "description": "用于越界、漏末窗或循环停止。",
+      "fileRef": "references/bounds-and-exit.md"
+    }
+  ]
+}

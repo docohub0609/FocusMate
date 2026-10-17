@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/private-test-case.schema.json",
+  "title": "PrivateTestCase",
+  "type": "object",
+  "required": ["testCaseId", "schemaVersion", "problemRef", "verifierAssetRef", "caseKey", "ordinal", "stdin", "expectedOutput", "answerSource", "contentHash", "visibility", "createdAt"],
+  "properties": {
+    "testCaseId": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": "1.0.0"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "verifierAssetRef": {"type": "object", "required": ["assetId", "assetVersion"], "properties": {"assetId": {"type": "string", "minLength": 1}, "assetVersion": {"type": "integer", "minimum": 1}}, "additionalProperties": false},
+    "caseKey": {"type": "string", "minLength": 1},
+    "ordinal": {"type": "integer", "minimum": 0},
+    "stdin": {"type": "string"},
+    "expectedOutput": {"type": "string"},
+    "answerSource": {"type": "object", "required": ["type"], "properties": {"type": {"enum": ["expectedOutput", "referenceOracle"]}, "oracleRef": {"type": "object", "required": ["oracleId", "oracleVersion", "codeHash"], "properties": {"oracleId": {"type": "string", "minLength": 1}, "oracleVersion": {"type": "integer", "minimum": 1}, "codeHash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}, "additionalProperties": false}}, "allOf": [{"if": {"properties": {"type": {"const": "referenceOracle"}}, "required": ["type"]}, "then": {"required": ["oracleRef"]}, "else": {"not": {"required": ["oracleRef"]}}}], "additionalProperties": false},
+    "contentHash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "visibility": {"const": "private"},
+    "createdAt": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false,
+  "examples": [{"testCaseId": "private-test-001", "schemaVersion": "1.0.0", "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "verifierAssetRef": {"assetId": "asset-001", "assetVersion": 1}, "caseKey": "negative-boundary", "ordinal": 0, "stdin": "1\n-3\n", "expectedOutput": "9\n", "answerSource": {"type": "expectedOutput"}, "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "visibility": "private", "createdAt": "2026-09-06T12:00:00Z"}]
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["userRequest", "goalRequirement", "problemFacts", "code", "runEvidence"],
+  "properties": {
+    "userRequest": {"$ref": "#/$defs/evidence"},
+    "goalRequirement": {"$ref": "#/$defs/evidence"},
+    "problemFacts": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "code": {
+      "type": "object",
+      "required": ["snapshotRef", "text"],
+      "properties": {
+        "snapshotRef": {"type": "string", "minLength": 1},
+        "text": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "runEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref", "text", "codeSnapshotRef"],
+        "properties": {
+          "ref": {"type": "string", "minLength": 1},
+          "text": {"type": "string", "minLength": 1},
+          "codeSnapshotRef": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["ref", "text"],
+      "properties": {
+        "ref": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "userRequest": {"ref": "request:1", "text": "请检查我当前的思路。"},
+    "goalRequirement": {"ref": "goal:1", "text": "解释当前实现的边界。"},
+    "problemFacts": [{"ref": "fact:1", "text": "输入规模最多为 100。"}],
+    "code": {"snapshotRef": "code:current", "text": ""},
+    "runEvidence": []
+  }]
+}
+

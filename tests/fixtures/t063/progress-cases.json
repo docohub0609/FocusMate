@@ -1,0 +1,640 @@
+[
+  {
+    "id": "d01",
+    "group": "development",
+    "goal": "0/1背包，每件物品最多使用一次，容量为5，物品(重量,价值)为[(2,3)]。",
+    "before": "dp = [0]*6\nfor w,v in [(2,3)]:\n    pass\n",
+    "after": "dp = [0]*6\nfor w,v in [(2,3)]:\n    for j in range(5,w-1,-1):\n        dp[j]=max(dp[j],dp[j-w]+v)\n",
+    "user": "我补了更新部分。",
+    "expected": {
+      "mustInclude": [
+        "progressing"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "从pass到倒序容量更新是目标相关新增，但没有运行和完整输出，不能宣布整题正确。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d02",
+    "group": "development",
+    "goal": "计算整数数组元素总和，包括空数组。",
+    "before": "def total(a):\n    return sum(a)\n",
+    "after": "def total(values):\n    return sum(values)\n",
+    "user": "只把a改为values。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "progressing",
+        "regression_candidate",
+        "blocked_candidate"
+      ],
+      "reviewBasis": "形参和使用处一致改名，没有目标相关行为变化。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d03",
+    "group": "development",
+    "goal": "0/1背包，单件重量2价值3，容量4，每件只能用一次。",
+    "before": "dp=[0]*5\nfor j in range(2,5):\n    dp[j]=max(dp[j],dp[j-2]+3)\n",
+    "after": "dp=[0]*5\nfor j in range(2,5):\n    dp[j]=max(dp[j],dp[j-2]+3)\n",
+    "user": "我不知道为什么同一件物品好像用了两次，还是没明白当前循环。",
+    "expected": {
+      "mustInclude": [
+        "blocked_candidate"
+      ],
+      "mustNotInclude": [
+        "progressing"
+      ],
+      "reviewBasis": "明确自述当前困难，可说可能受阻；相同代码不表示用户完全没思考。正序读取了本轮dp[2]，dp[4]变6。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d04",
+    "group": "development",
+    "goal": "输出整数5。",
+    "before": "print(2+2)\n",
+    "after": "print(2+2)\n",
+    "user": "这是第一次运行。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "blocked_candidate",
+        "regression_candidate"
+      ],
+      "reviewBasis": "一次实际输出4不符5，不足以推断用户受阻，也不是相较旧代码退步。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "5\n",
+        "actualOutput": "4\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      }
+    ],
+    "factChecks": [
+      {
+        "code": "print(2+2)\n",
+        "stdout": "4\n",
+        "exitCode": 0,
+        "method": "Developer executes fixed authored code with Python, not a learner run or Docker claim."
+      }
+    ]
+  },
+  {
+    "id": "d05",
+    "group": "development",
+    "goal": "输出整数8。",
+    "before": "print(7)\n",
+    "after": "print(7)\n",
+    "user": "我连续按了三次运行，暂时没有修改。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "blocked_candidate",
+        "regression_candidate"
+      ],
+      "reviewBasis": "三份相同输出7不符8只证明重复失败，不能单凭次数判受阻。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "8\n",
+        "actualOutput": "7\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      },
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "8\n",
+        "actualOutput": "7\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      },
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "8\n",
+        "actualOutput": "7\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      }
+    ],
+    "factChecks": [
+      {
+        "code": "print(7)\n",
+        "stdout": "7\n",
+        "exitCode": 0,
+        "method": "Developer executes fixed authored code with Python, not a learner run or Docker claim."
+      }
+    ]
+  },
+  {
+    "id": "d06",
+    "group": "development",
+    "goal": "返回数组总和，空数组返回0。",
+    "before": "def total(a):\n    return sum(a)\n",
+    "after": "def total(a):\n    s=a[0]\n    for x in a[1:]: s+=x\n    return s\n",
+    "user": "我重写了累加。",
+    "expected": {
+      "mustInclude": [
+        "regression_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "旧版sum([])=0，新版a[0]对空数组越界；仅限空数组行为，不评价学习能力。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d07",
+    "group": "development",
+    "goal": "解释0/1背包容量倒序更新为何避免同一物品重复使用。",
+    "before": null,
+    "after": "for j in range(capacity,w-1,-1):\n    dp[j]=max(dp[j],dp[j-w]+v)\n",
+    "user": "因为j-w比j小，倒序时它还没被当前物品更新，所以读取的是上一轮结果。",
+    "expected": {
+      "mustInclude": [
+        "verification_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change",
+        "progressing"
+      ],
+      "reviewBasis": "这段解释可交正确性检查；没有旧材料不能声称刚有推进。当前解释未被验证。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d08",
+    "group": "development",
+    "goal": "处理有向图可达性。",
+    "before": null,
+    "after": "def visit(v):\n    pass\n",
+    "user": "只剩这份代码，之前版本没有保存。",
+    "expected": {
+      "mustInclude": [
+        "unknown"
+      ],
+      "mustNotInclude": [
+        "no_material_change",
+        "progressing",
+        "regression_candidate"
+      ],
+      "reviewBasis": "缺比较起点，无法判断变化；不能把没旧代码说成没变化。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d09",
+    "group": "development",
+    "goal": "输出整数5。",
+    "before": "print(5)\n",
+    "after": "print(6)\n",
+    "user": "这份通过记录是改之前跑的。",
+    "expected": {
+      "mustInclude": [
+        "regression_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "静态可见5改6偏离要求；r01明确c01，不能作为c02已通过或当前运行证据。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c01",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "5\n",
+        "actualOutput": "5\n",
+        "outcome": "passed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      }
+    ],
+    "factChecks": [
+      {
+        "code": "print(5)\n",
+        "stdout": "5\n",
+        "exitCode": 0,
+        "method": "Developer executes fixed authored code with Python, not a learner run or Docker claim."
+      }
+    ]
+  },
+  {
+    "id": "d10",
+    "group": "development",
+    "goal": "输出整数2。",
+    "before": "print(1)\n",
+    "after": "print(2)\n",
+    "user": "保存材料里输出写成3，我不清楚原因。",
+    "expected": {
+      "mustInclude": [
+        "unknown"
+      ],
+      "mustNotInclude": [],
+      "reviewBasis": "明确标注模拟冲突：同一固定print(2)代码却记录3，必须指出冲突；不可相信3去否定源码，也不可声称运行可靠。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "actualOutput": "3\n",
+        "expectedOutput": "2\n",
+        "outcome": "failed",
+        "sourceNotice": "Simulated contradictory result for conflict testing, not actual execution."
+      }
+    ]
+  },
+  {
+    "id": "d11",
+    "group": "development",
+    "goal": "0/1背包，重量2价值3的物品只有一件，容量4。",
+    "before": "dp=[0]*5\nfor j in range(2,5): dp[j]=max(dp[j],dp[j-2]+3)\n",
+    "after": "dp=[0]*5\nfor j in range(4,1,-1): dp[j]=max(dp[j],dp[j-2]+3)\n",
+    "user": "我改成倒序了，但不懂它为什么避免重复，我仍卡在这个原因上。",
+    "expected": {
+      "mustInclude": [
+        "progressing",
+        "blocked_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "循环方向发生目标相关变化；用户明确仍理解困难，两者并存。不能把理解困难否定为没有任何推进。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "d12",
+    "group": "development",
+    "goal": "当前目标只检查二分查找在空数组上返回-1。",
+    "before": "def search(a):\n    if not a: return -1\n    return 0\n",
+    "after": "# prettier heading\ndef search(a):\n    if not a: return -1\n    return 0\n",
+    "user": "加了一行注释。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "progressing",
+        "blocked_candidate"
+      ],
+      "reviewBasis": "注释未改变空数组分支，不扩展到尚未要求的完整二分实现。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h01",
+    "group": "holdout",
+    "goal": "统计字符串中每个字符的出现次数。",
+    "before": "def count(s):\n    counts={}\n    return counts\n",
+    "after": "def count(s):\n    counts={}\n    for ch in s: counts[ch]=counts.get(ch,0)+1\n    return counts\n",
+    "user": "补了逐字符计数。",
+    "expected": {
+      "mustInclude": [
+        "progressing"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "新增计数循环符合目标，仍不宣布已验证。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h02",
+    "group": "holdout",
+    "goal": "返回列表长度。",
+    "before": "def size(items):\n    return len(items)\n",
+    "after": "def size(values):\n    return len(values)\n",
+    "user": "统一改了变量名。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "progressing",
+        "regression_candidate",
+        "blocked_candidate"
+      ],
+      "reviewBasis": "同样返回len，改名不是实质行为推进。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h03",
+    "group": "holdout",
+    "goal": "遍历无向图，避免沿同一条边反复递归。",
+    "before": "def walk(v, adj):\n    for w in adj[v]: walk(w,adj)\n",
+    "after": "def walk(v, adj):\n    for w in adj[v]: walk(w,adj)\n",
+    "user": "我仍不知道怎样阻止两个相邻点来回递归，检查后还是不理解。",
+    "expected": {
+      "mustInclude": [
+        "blocked_candidate"
+      ],
+      "mustNotInclude": [
+        "progressing"
+      ],
+      "reviewBasis": "明确针对重复递归的困难，结合无访问记录的代码定位，不能编造实际运行。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h04",
+    "group": "holdout",
+    "goal": "输出整数6。",
+    "before": "print(10-3)\n",
+    "after": "print(10-3)\n",
+    "user": "第一次测试返回了这个结果。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "blocked_candidate",
+        "regression_candidate"
+      ],
+      "reviewBasis": "实测7不符6，单次失败不代表卡住；无代码变更不能称退步。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "6\n",
+        "actualOutput": "7\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      }
+    ],
+    "factChecks": [
+      {
+        "code": "print(10-3)\n",
+        "stdout": "7\n",
+        "exitCode": 0,
+        "method": "Developer executes fixed authored code with Python, not a learner run or Docker claim."
+      }
+    ]
+  },
+  {
+    "id": "h05",
+    "group": "holdout",
+    "goal": "输出整数3。",
+    "before": "print(len([1,2]))\n",
+    "after": "print(len([1,2]))\n",
+    "user": "相同程序连续运行三次，没有改代码。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "blocked_candidate",
+        "regression_candidate"
+      ],
+      "reviewBasis": "重复实际输出2，不能以重复次数推断学习受阻。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "3\n",
+        "actualOutput": "2\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      },
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "3\n",
+        "actualOutput": "2\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      },
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "3\n",
+        "actualOutput": "2\n",
+        "outcome": "failed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      }
+    ],
+    "factChecks": [
+      {
+        "code": "print(len([1,2]))\n",
+        "stdout": "2\n",
+        "exitCode": 0,
+        "method": "Developer executes fixed authored code with Python, not a learner run or Docker claim."
+      }
+    ]
+  },
+  {
+    "id": "h06",
+    "group": "holdout",
+    "goal": "返回字符串首字符；空字符串返回空字符串。",
+    "before": "def first(s):\n    return s[:1]\n",
+    "after": "def first(s):\n    return s[0]\n",
+    "user": "换了取首字符的写法。",
+    "expected": {
+      "mustInclude": [
+        "regression_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "旧切片空串返回空串，新索引空串越界，只限该边界。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h07",
+    "group": "holdout",
+    "goal": "解释BFS为什么在入队时标记访问可以避免重复入队。",
+    "before": null,
+    "after": "seen={start}\nq=[start]\nfor v in q:\n    for w in adj[v]:\n        if w not in seen:\n            seen.add(w)\n            q.append(w)\n",
+    "user": "首次入队前把节点加入seen，之后其他边再遇到它会被条件挡住，所以不会再次入队。",
+    "expected": {
+      "mustInclude": [
+        "verification_candidate"
+      ],
+      "mustNotInclude": [
+        "progressing",
+        "no_material_change"
+      ],
+      "reviewBasis": "解释与代码可供检查；无历史起点不能确定它是否刚取得进展。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h08",
+    "group": "holdout",
+    "goal": "计算矩形面积。",
+    "before": null,
+    "after": "def area(w,h):\n    return w*h\n",
+    "user": "没有更早的代码和解释记录。",
+    "expected": {
+      "mustInclude": [
+        "unknown"
+      ],
+      "mustNotInclude": [
+        "no_material_change",
+        "progressing",
+        "regression_candidate"
+      ],
+      "reviewBasis": "当前代码清楚仍不能推出最近是否变化；缺历史应限定变化判断未知。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h09",
+    "group": "holdout",
+    "goal": "输出3乘3的结果9。",
+    "before": "print(3*3)\n",
+    "after": "print(3+3)\n",
+    "user": "通过结果来自旧版。",
+    "expected": {
+      "mustInclude": [
+        "regression_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "当前加法变成6，旧版9通过不属于当前；不能把旧运行迁移为当前证据。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c01",
+        "completed": true,
+        "input": "No stdin; literals are in code.",
+        "expectedOutput": "9\n",
+        "actualOutput": "9\n",
+        "outcome": "passed",
+        "exitCode": 0,
+        "conditionsHash": "fixture-fixed-literals-v1"
+      }
+    ],
+    "factChecks": [
+      {
+        "code": "print(3*3)\n",
+        "stdout": "9\n",
+        "exitCode": 0,
+        "method": "Developer executes fixed authored code with Python, not a learner run or Docker claim."
+      }
+    ]
+  },
+  {
+    "id": "h10",
+    "group": "holdout",
+    "goal": "输出列表[1,2]的长度2。",
+    "before": "print(0)\n",
+    "after": "print(len([1,2]))\n",
+    "user": "记录称输出4，请保留这项不一致。",
+    "expected": {
+      "mustInclude": [
+        "unknown"
+      ],
+      "mustNotInclude": [],
+      "reviewBasis": "模拟相同版本却输出4的冲突，不当作真实执行；应承認无法确认这份结果，不能宣称代码确实输出4。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    },
+    "runs": [
+      {
+        "evidenceType": "targetedRunResult",
+        "codeSnapshotRef": "c02",
+        "completed": true,
+        "actualOutput": "4\n",
+        "expectedOutput": "2\n",
+        "outcome": "failed",
+        "sourceNotice": "Simulated contradictory result for conflict testing, not actual execution."
+      }
+    ]
+  },
+  {
+    "id": "h11",
+    "group": "holdout",
+    "goal": "有向图可达性，避免环导致重复递归。",
+    "before": "def walk(v,adj,seen):\n    for w in adj[v]: walk(w,adj,seen)\n",
+    "after": "def walk(v,adj,seen):\n    if v in seen: return\n    seen.add(v)\n    for w in adj[v]: walk(w,adj,seen)\n",
+    "user": "补了seen，但我还是不知道为什么必须先标记再递归，卡在这个顺序。",
+    "expected": {
+      "mustInclude": [
+        "progressing",
+        "blocked_candidate"
+      ],
+      "mustNotInclude": [
+        "no_material_change"
+      ],
+      "reviewBasis": "新增访问检查是目标相关变化，用户又明确说明顺序理解困难；不能据此宣布算法已验证。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  },
+  {
+    "id": "h12",
+    "group": "holdout",
+    "goal": "当前只要求返回空集合的大小0。",
+    "before": "def size(s):\n    return len(s)\n",
+    "after": "def size(s):\n    # size\n    return len(s)\n",
+    "user": "只是加注释。",
+    "expected": {
+      "mustInclude": [
+        "no_material_change"
+      ],
+      "mustNotInclude": [
+        "progressing",
+        "blocked_candidate"
+      ],
+      "reviewBasis": "注释变化与目标无实质关联，不扩大检查到未要求的集合算法。",
+      "common": "逐条核对理由和引用，不扩大到整体正确或用户完成。验证候选可选，但必须匹配验收项。明确缺材料场景正确返回unknown可以符合预期；复核者拿不准则不计通过。"
+    }
+  }
+]

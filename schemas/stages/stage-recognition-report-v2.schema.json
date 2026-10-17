@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/stages/stage-recognition-report-v2.schema.json",
+  "title": "StageRecognitionReportV2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "goalContext",
+    "promptVersion"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "status": {
+      "enum": [
+        "recognized",
+        "failed"
+      ]
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "promptVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "codeSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref",
+        "version",
+        "contentHash"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "contextSnapshot": {
+      "$ref": "https://focusmate.local/schemas/context/context-snapshot.schema.json"
+    },
+    "request": {
+      "type": "object"
+    },
+    "response": {
+      "type": "object"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "reasons",
+        "unknowns"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "draft",
+            "strategy_hypothesis",
+            "implementation_in_progress",
+            "test_ready",
+            "unknown"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/item"
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/item"
+          }
+        }
+      }
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "reason"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "input",
+            "context",
+            "provider"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "recognized"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "createdAt",
+          "codeSnapshot",
+          "contextSnapshot",
+          "request",
+          "response",
+          "result"
+        ],
+        "not": {
+          "required": [
+            "failure"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "failure"
+        ],
+        "not": {
+          "required": [
+            "result"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

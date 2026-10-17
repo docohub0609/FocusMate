@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/context/context-build-request.schema.json",
+  "title": "ContextBuildRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "purpose": {
+      "enum": [
+        "skillExecution",
+        "skillReview",
+        "toolUse",
+        "stageRecognition",
+        "goalProgressEstimation",
+        "diagnosis",
+        "actionPlanning",
+        "actionReview",
+        "processVerification"
+      ]
+    },
+    "policyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "systemPrompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mandatoryPayload": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "dialogueRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sourceRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contextWindowTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reservedOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safetyMarginTokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contextWindowTokens",
+        "reservedOutputTokens",
+        "safetyMarginTokens"
+      ]
+    },
+    "recentMessageCount": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "maxSummaryMessages": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "previousSummary": {
+      "$ref": "https://focusmate.local/schemas/context/conversation-summary.schema.json"
+    },
+    "summaryBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contextWindowTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reservedOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safetyMarginTokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contextWindowTokens",
+        "reservedOutputTokens",
+        "safetyMarginTokens"
+      ]
+    }
+  },
+  "required": [
+    "goalContext",
+    "purpose",
+    "policyVersion",
+    "systemPrompt",
+    "mandatoryPayload",
+    "dialogueRefs",
+    "budget"
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/skills/session-adaptation-episode.schema.json",
+  "title": "SessionAdaptationEpisode",
+  "type": "object",
+  "required": [
+    "sessionId",
+    "goalContext",
+    "episodeId",
+    "skillRef",
+    "invocationId",
+    "sectionIds",
+    "actionId",
+    "actionType",
+    "hintLevel",
+    "triggerRefs",
+    "codeSnapshotRef"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "episodeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skillRef": {
+      "type": "object",
+      "required": [
+        "skillId",
+        "skillVersion",
+        "skillHash"
+      ],
+      "properties": {
+        "skillId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "skillVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "skillHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "invocationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sectionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "actionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "actionType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hintLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "triggerRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "codeSnapshotRef": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-feature-extraction-error.schema.json",
+  "title": "ProblemFeatureExtractionError",
+  "type": "object",
+  "required": ["requestId", "schemaVersion", "createdAt", "code", "message", "retryable", "fieldErrors"],
+  "properties": {
+    "requestId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "code": {"enum": ["INVALID_JSON", "REQUEST_BODY_TOO_LARGE", "UNSUPPORTED_MEDIA_TYPE", "INVALID_EXTRACTION_REQUEST", "INVALID_FEATURE_CONFIRMATION", "FEATURE_CONTEXT_MISMATCH", "LLM_CONFIGURATION_MISSING", "LLM_AUTHENTICATION_FAILED", "LLM_PAYMENT_REQUIRED", "LLM_REQUEST_REJECTED", "LLM_UNAVAILABLE", "LLM_OUTPUT_EMPTY", "LLM_OUTPUT_INVALID", "LLM_EVIDENCE_INVALID", "FEATURE_EXTRACTION_INTERNAL_ERROR", "FEATURE_CONFIRMATION_INTERNAL_ERROR"]},
+    "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "userMessage": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "allowedActions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["retry", "editProblem", "createFeaturesManually", "checkConfiguration"]}
+    },
+    "retryable": {"type": "boolean"},
+    "fieldErrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "code", "message"],
+        "properties": {
+          "field": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+          "code": {"enum": ["required", "invalidType", "invalidValue", "unknownField", "invalidStructure", "evidenceMismatch", "evidenceRefUnknown", "evidenceContextMismatch", "contextMismatch"]},
+          "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"code": {"enum": ["LLM_UNAVAILABLE", "LLM_OUTPUT_EMPTY", "LLM_OUTPUT_INVALID", "LLM_EVIDENCE_INVALID", "FEATURE_EXTRACTION_INTERNAL_ERROR"]}}, "required": ["code"]},
+      "then": {"properties": {"retryable": {"const": true}}},
+      "else": {"properties": {"retryable": {"const": false}}}
+    }
+  ],
+  "additionalProperties": false,
+  "examples": [{
+    "requestId": "request-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-15T10:02:00Z",
+    "problemRef": {"problemId": "problem-001", "problemVersion": 1},
+    "code": "LLM_UNAVAILABLE", "message": "The semantic extraction service is temporarily unavailable.",
+    "retryable": true, "fieldErrors": []
+  }]
+}

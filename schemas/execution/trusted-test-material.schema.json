@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/trusted-test-material.schema.json",
+  "title": "TrustedTestMaterial",
+  "type": "object",
+  "required": ["schemaVersion", "problemRef", "verifierAssetRef", "publicTestCount", "privateTestCount", "testCount", "buildMethod", "materialHashVersion", "materialHash", "resourcePolicyRef", "comparisonPolicy", "sealedAt"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "verifierAssetRef": {"type": "object", "required": ["assetId", "assetVersion"], "properties": {"assetId": {"type": "string", "minLength": 1}, "assetVersion": {"type": "integer", "minimum": 1}}, "additionalProperties": false},
+    "publicTestCount": {"type": "integer", "minimum": 1},
+    "privateTestCount": {"type": "integer", "minimum": 1},
+    "testCount": {"type": "integer", "minimum": 2},
+    "buildMethod": {"enum": ["expectedOutputs", "referenceOracle", "hybrid"]},
+    "materialHashVersion": {"const": "material-v1"},
+    "materialHash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "resourcePolicyRef": {"const": "python-default-v1"},
+    "comparisonPolicy": {"type": "object", "required": ["normalizeLineEndings", "ignoreOneFinalNewline", "caseSensitive", "otherWhitespaceSensitive"], "properties": {"normalizeLineEndings": {"const": true}, "ignoreOneFinalNewline": {"const": true}, "caseSensitive": {"const": true}, "otherWhitespaceSensitive": {"const": true}}, "additionalProperties": false},
+    "sealedAt": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false,
+  "examples": [{"schemaVersion": "1.0.0", "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "verifierAssetRef": {"assetId": "asset-001", "assetVersion": 1}, "publicTestCount": 1, "privateTestCount": 2, "testCount": 3, "buildMethod": "hybrid", "materialHashVersion": "material-v1", "materialHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "resourcePolicyRef": "python-default-v1", "comparisonPolicy": {"normalizeLineEndings": true, "ignoreOneFinalNewline": true, "caseSensitive": true, "otherWhitespaceSensitive": true}, "sealedAt": "2026-09-06T12:00:00Z"}]
+}

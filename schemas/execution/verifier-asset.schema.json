@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-asset.schema.json",
+  "title": "VerifierAsset",
+  "type": "object",
+  "required": ["assetId", "schemaVersion", "assetVersion", "problemRef", "status", "createdAt", "updatedAt"],
+  "properties": {
+    "assetId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "assetVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "status": {"enum": ["missing", "building", "crossChecking", "ready", "rejected"]},
+    "materialSummary": {"$ref": "https://focusmate.local/schemas/execution/verifier-asset-material-summary.schema.json"},
+    "crossCheckReportRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "rejectionReason": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "updatedAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"}
+  },
+  "additionalProperties": false,
+  "examples": [{"assetId": "asset-001", "schemaVersion": "1.0.0", "assetVersion": 1, "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "status": "missing", "createdAt": "2026-08-29T12:00:00Z", "updatedAt": "2026-08-29T12:00:00Z"}]
+}

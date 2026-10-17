@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-asset-material-summary.schema.json",
+  "title": "VerifierAssetMaterialSummary",
+  "type": "object",
+  "required": ["testCount", "buildMethod", "materialHash"],
+  "properties": {
+    "testCount": {"type": "integer", "minimum": 1},
+    "buildMethod": {"enum": ["publicExamplesOnly", "expectedOutputs", "referenceOracle", "hybrid"]},
+    "materialHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+  },
+  "additionalProperties": false,
+  "examples": [{"testCount": 12, "buildMethod": "hybrid", "materialHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}]
+}

@@ -1,0 +1,28 @@
+{
+  "skillId": "two-pointers-and-window",
+  "schemaVersion": "1.0.0",
+  "version": 5,
+  "createdAt": "2026-09-15T00:00:00Z",
+  "hash": "sha256:558082e7cda87a9a3ee14e320b3dfcaec223d705bba35d2b16d7760b0b4726d8",
+  "appliesTo": [
+    "two-pointers",
+    "sliding-window"
+  ],
+  "capabilities": [
+    "structuredEvidence"
+  ],
+  "requiredInputs": [
+    "userRequest",
+    "goalRequirement",
+    "problemFacts",
+    "code",
+    "runEvidence"
+  ],
+  "requiredTools": [],
+  "goalStateWriteAllowed": false,
+  "inputSchemaRef": "schemas/input.schema.json",
+  "outputSchemaRef": "schemas/result.schema.json",
+  "coachPolicy": {
+    "completeSolutionAllowed": false
+  }
+}

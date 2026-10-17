@@ -1,0 +1,356 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-compilation.schema.json",
+  "title": "GoalCompilation",
+  "type": "object",
+  "required": [
+    "contract",
+    "publicGoals",
+    "rubrics",
+    "strategyCandidates",
+    "sourceCatalog",
+    "generation"
+  ],
+  "properties": {
+    "contract": {
+      "$ref": "https://focusmate.local/schemas/goal/goal-contract.schema.json"
+    },
+    "publicGoals": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "required": [
+          "subgoalId",
+          "stage",
+          "text"
+        ],
+        "properties": {
+          "subgoalId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "stage": {
+            "enum": [
+              "problemUnderstanding",
+              "feasibleStrategy",
+              "coreStateAndCorrectness",
+              "coreImplementation",
+              "boundaryAndTesting"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rubrics": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "required": [
+          "goalId",
+          "subgoalId",
+          "sourceRefs",
+          "sources",
+          "checks",
+          "dependencies"
+        ],
+        "properties": {
+          "goalId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "subgoalId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "sourceRefs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "$ref": "https://focusmate.local/schemas/problem/problem-features.schema.json#/$defs/evidence"
+            }
+          },
+          "checks": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "required": [
+                "check",
+                "sourceRefs",
+                "sources"
+              ],
+              "properties": {
+                "check": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "sourceRefs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "uniqueItems": true
+                },
+                "sources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "items": {
+                    "$ref": "https://focusmate.local/schemas/problem/problem-features.schema.json#/$defs/evidence"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "required": [
+                "subgoalId",
+                "reason",
+                "sourceRefs",
+                "sources"
+              ],
+              "properties": {
+                "subgoalId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "sourceRefs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "uniqueItems": true
+                },
+                "sources": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "items": {
+                    "$ref": "https://focusmate.local/schemas/problem/problem-features.schema.json#/$defs/evidence"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "strategyCandidates": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "goalId",
+          "status",
+          "label",
+          "approach",
+          "applicability",
+          "uncertainties",
+          "subgoalIds",
+          "sourceRefs",
+          "sources"
+        ],
+        "properties": {
+          "goalId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "status": {
+            "const": "hypothesis"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "approach": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "applicability": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uncertainties": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          },
+          "subgoalIds": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "sourceRefs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "uniqueItems": true
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "$ref": "https://focusmate.local/schemas/problem/problem-features.schema.json#/$defs/evidence"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "sourceCatalog": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "$ref": "https://focusmate.local/schemas/problem/problem-features.schema.json#/$defs/evidence"
+      }
+    },
+    "generation": {
+      "type": "object",
+      "required": [
+        "promptVersion",
+        "model",
+        "providerResponseId",
+        "problemContentHash",
+        "featureSetId",
+        "inputHash",
+        "unknowns",
+        "inputUncertainties",
+        "semanticStatus",
+        "goalId",
+        "problemRef"
+      ],
+      "properties": {
+        "promptVersion": {
+          "enum": ["goal-compilation-v1", "goal-compilation-v2", "goal-compilation-v3", "goal-compilation-v4", "goal-compilation-v5", "goal-compilation-v6"]
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "providerResponseId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "problemContentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "featureSetId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "unknowns": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "inputUncertainties": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 100,
+          "items": {
+            "$ref": "https://focusmate.local/schemas/problem/problem-features.schema.json#/$defs/feature"
+          }
+        },
+        "semanticStatus": {
+          "const": "unverified"
+        },
+        "goalId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "problemRef": {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "recognized",
+  "goalContext": {
+    "goalId": "fixture-goal",
+    "scope": "goal"
+  },
+  "promptVersion": "fixture-v1",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "codeSnapshot": {
+    "ref": "fixture-code",
+    "version": 1,
+    "contentHash": "sha256:f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d"
+  },
+  "contextSnapshot": {
+    "schemaVersion": "1.0.0",
+    "goalContext": {
+      "goalId": "fixture-goal",
+      "scope": "goal"
+    },
+    "purpose": "stageRecognition",
+    "policyVersion": "fixture-v1",
+    "systemPrompt": "Synthetic rendering fixture.",
+    "modelPayload": {},
+    "includedRefs": [],
+    "excludedRefs": [],
+    "sourceVersions": {},
+    "budget": {
+      "contextWindowTokens": 1000,
+      "reservedOutputTokens": 100,
+      "safetyMarginTokens": 100,
+      "inputTokenLimit": 800,
+      "estimatedInputTokens": 0,
+      "estimator": "fixture"
+    },
+    "contentHash": "sha256:f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+    "contextSnapshotId": "fixture-context",
+    "createdAt": "2026-01-01T00:00:00Z"
+  },
+  "request": {
+    "testOnly": true
+  },
+  "response": {
+    "model": "fake",
+    "testOnly": true
+  },
+  "result": {
+    "stage": "unknown",
+    "reasons": [],
+    "unknowns": []
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/context/context-snapshot.schema.json",
+  "title": "ContextSnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "purpose": {
+      "enum": [
+        "skillExecution",
+        "skillReview",
+        "toolUse",
+        "stageRecognition",
+        "goalProgressEstimation",
+        "diagnosis",
+        "actionPlanning",
+        "actionReview",
+        "processVerification"
+      ]
+    },
+    "policyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "systemPrompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "modelPayload": {
+      "type": "object"
+    },
+    "includedRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "excludedRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "ref",
+          "reason"
+        ]
+      }
+    },
+    "sourceVersions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "contentHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "version",
+          "contentHash"
+        ]
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contextWindowTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reservedOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "safetyMarginTokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inputTokenLimit": {
+          "type": "integer"
+        },
+        "estimatedInputTokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "estimator": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "contextWindowTokens",
+        "reservedOutputTokens",
+        "safetyMarginTokens",
+        "inputTokenLimit",
+        "estimatedInputTokens",
+        "estimator"
+      ]
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "contextSnapshotId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "goalContext",
+    "purpose",
+    "policyVersion",
+    "systemPrompt",
+    "modelPayload",
+    "includedRefs",
+    "excludedRefs",
+    "sourceVersions",
+    "budget",
+    "contentHash",
+    "contextSnapshotId",
+    "createdAt"
+  ]
+}

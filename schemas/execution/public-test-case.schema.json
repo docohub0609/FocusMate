@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/public-test-case.schema.json",
+  "title": "PublicTestCase",
+  "type": "object",
+  "required": ["testCaseId", "schemaVersion", "problemRef", "verifierAssetRef", "exampleIndex", "stdin", "expectedOutput", "contentHash", "visibility", "createdAt"],
+  "properties": {
+    "testCaseId": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": "1.0.0"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "verifierAssetRef": {"type": "object", "required": ["assetId", "assetVersion"], "properties": {"assetId": {"type": "string", "minLength": 1}, "assetVersion": {"type": "integer", "minimum": 1}}, "additionalProperties": false},
+    "exampleIndex": {"type": "integer", "minimum": 0},
+    "stdin": {"type": "string"},
+    "expectedOutput": {"type": "string"},
+    "contentHash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "visibility": {"const": "public"},
+    "createdAt": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false,
+  "examples": [{"testCaseId": "public-test-001", "schemaVersion": "1.0.0", "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "verifierAssetRef": {"assetId": "asset-001", "assetVersion": 1}, "exampleIndex": 0, "stdin": "1 2\n", "expectedOutput": "3\n", "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "visibility": "public", "createdAt": "2026-09-06T12:00:00Z"}]
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-feature-review-candidates.schema.json",
+  "title": "ProblemFeatureReviewCandidates",
+  "$defs": {
+    "verdictConsistency": {
+      "allOf": [
+        {
+          "if": {"properties": {"verdict": {"const": "supported"}}, "required": ["verdict"]},
+          "then": {"properties": {"issue": {"const": "none"}}}
+        },
+        {
+          "if": {"properties": {"verdict": {"const": "contradicted"}}, "required": ["verdict"]},
+          "then": {"properties": {
+            "issue": {"enum": ["objectMismatch", "relationMismatch", "numericMismatch", "unitMismatch", "conditionMismatch"]},
+            "evidenceRefs": {"minItems": 1}
+          }}
+        },
+        {
+          "if": {"properties": {"verdict": {"const": "insufficient"}}, "required": ["verdict"]},
+          "then": {"properties": {"issue": {"const": "insufficientEvidence"}}}
+        }
+      ]
+    },
+    "verdict": {"enum": ["supported", "contradicted", "insufficient"]},
+    "issue": {"enum": ["none", "objectMismatch", "relationMismatch", "numericMismatch", "unitMismatch", "conditionMismatch", "insufficientEvidence"]},
+    "evidenceRefs": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "item": {
+      "type": "object",
+      "required": ["itemId", "verdict", "issue", "evidenceRefs"],
+      "properties": {
+        "itemId": {"type": "string", "pattern": "^(feature-(0|[1-9][0-9]*)|io-proposal)$"},
+        "verdict": {"$ref": "#/$defs/verdict"},
+        "issue": {"$ref": "#/$defs/issue"},
+        "evidenceRefs": {"$ref": "#/$defs/evidenceRefs"}
+      },
+      "allOf": [{"$ref": "#/$defs/verdictConsistency"}],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["items"],
+  "properties": {"items": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/item"}}},
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/public-sample-run-result.schema.json",
+  "title": "PublicSampleRunResult",
+  "type": "object",
+  "required": ["runId", "schemaVersion", "createdAt", "goalContext", "problemRef", "codeVersion", "verifierAssetRef", "status", "caseResults"],
+  "properties": {
+    "runId": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": "1.0.0"},
+    "createdAt": {"type": "string", "format": "date-time"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "codeVersion": {"type": "integer", "minimum": 1},
+    "verifierAssetRef": {"type": "object", "required": ["assetId", "assetVersion"], "properties": {"assetId": {"type": "string", "minLength": 1}, "assetVersion": {"type": "integer", "minimum": 1}}, "additionalProperties": false},
+    "status": {"enum": ["passed", "failed", "infrastructureError"]},
+    "caseResults": {"type": "array", "items": {"type": "object", "required": ["testCaseId", "outcome"], "properties": {"testCaseId": {"type": "string", "minLength": 1}, "outcome": {"enum": ["passed", "outputMismatch", "compileError", "runtimeError", "timeLimitExceeded", "infrastructureError"]}}, "additionalProperties": false}}
+  },
+  "additionalProperties": false,
+  "examples": [{"runId": "sample-run-001", "schemaVersion": "1.0.0", "createdAt": "2026-09-06T12:00:00Z", "goalContext": {"goalId": "goal-001", "scope": "goal"}, "problemRef": {"problemId": "problem-001", "problemVersion": 1}, "codeVersion": 1, "verifierAssetRef": {"assetId": "asset-001", "assetVersion": 1}, "status": "passed", "caseResults": [{"testCaseId": "public-test-001", "outcome": "passed"}]}]
+}

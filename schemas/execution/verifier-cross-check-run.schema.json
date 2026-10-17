@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-cross-check-run.schema.json",
+  "title": "VerifierCrossCheckRun",
+  "type": "object",
+  "required": ["runId", "schemaVersion", "problemRef", "featureSetId", "outcome", "seed", "generatorHash", "slowOracleHash", "fastReferenceHash", "smallCount", "largeCount", "agreementCount", "mutationAttempted", "mutationEligible", "mutationKilled", "elapsedMs", "checkPolicyVersion", "safeFailureSummaries", "createdAt"],
+  "properties": {
+    "mutationRepairCount": {"type": "integer", "minimum": 0, "maximum": 1},
+    "buildBudgetMs": {"type": "integer", "minimum": 1, "maximum": 1800000},
+    "warningCodes": {"type": "array", "maxItems": 1, "uniqueItems": true, "items": {"const": "MUTATION_CHALLENGE_UNAVAILABLE"}},
+    "assurance": {"enum": ["full", "limited"]},
+    "runId": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": "1.0.0"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "featureSetId": {"type": "string", "minLength": 1},
+    "outcome": {"enum": ["passed", "failed", "inconclusive"]},
+    "checkedMaterialHash": {"$ref": "#/$defs/hash"},
+    "generatorHash": {"$ref": "#/$defs/hash"},
+    "slowOracleHash": {"$ref": "#/$defs/hash"},
+    "fastReferenceHash": {"$ref": "#/$defs/hash"},
+    "seed": {"type": "integer", "minimum": 0, "maximum": 4294967295},
+    "smallCount": {"type": "integer", "minimum": 0, "maximum": 64},
+    "largeCount": {"type": "integer", "minimum": 0, "maximum": 4},
+    "agreementCount": {"type": "integer", "minimum": 0, "maximum": 64},
+    "mutationAttempted": {"type": "integer", "minimum": 0, "maximum": 3},
+    "mutationEligible": {"type": "integer", "minimum": 0, "maximum": 3},
+    "mutationKilled": {"type": "integer", "minimum": 0, "maximum": 3},
+    "elapsedMs": {"type": "integer", "minimum": 0},
+    "checkPolicyVersion": {"enum": ["verifier-cross-check-v1", "verifier-cross-check-v2", "verifier-cross-check-v3", "verifier-cross-check-v4"]},
+    "safeFailureSummaries": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/summary"}},
+    "createdAt": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [{"if": {"properties": {"checkPolicyVersion": {"enum": ["verifier-cross-check-v2", "verifier-cross-check-v3", "verifier-cross-check-v4"]}}, "required": ["checkPolicyVersion"]}, "then": {"required": ["assurance", "warningCodes", "buildBudgetMs", "mutationRepairCount"]}, "else": {"not": {"anyOf": [{"required": ["assurance"]}, {"required": ["warningCodes"]}, {"required": ["buildBudgetMs"]}, {"required": ["mutationRepairCount"]}]}}}, {"if": {"properties": {"checkPolicyVersion": {"enum": ["verifier-cross-check-v2", "verifier-cross-check-v3"]}, "outcome": {"const": "passed"}}, "required": ["checkPolicyVersion", "outcome"]}, "then": {"oneOf": [{"properties": {"assurance": {"const": "full"}, "warningCodes": {"maxItems": 0}, "mutationEligible": {"minimum": 1}}}, {"properties": {"assurance": {"const": "limited"}, "warningCodes": {"const": ["MUTATION_CHALLENGE_UNAVAILABLE"]}, "mutationEligible": {"const": 0}, "mutationKilled": {"const": 0}, "mutationRepairCount": {"const": 1}}}]}}, {"if": {"properties": {"checkPolicyVersion": {"enum": ["verifier-cross-check-v4"]}, "outcome": {"const": "passed"}}, "required": ["checkPolicyVersion", "outcome"]}, "then": {"oneOf": [{"properties": {"assurance": {"const": "full"}, "warningCodes": {"maxItems": 0}, "mutationEligible": {"minimum": 1}}}, {"properties": {"assurance": {"const": "limited"}, "warningCodes": {"const": ["MUTATION_CHALLENGE_UNAVAILABLE"]}, "mutationEligible": {"const": 0}, "mutationKilled": {"const": 0}, "mutationRepairCount": {"const": 0}}}]}}],
+  "additionalProperties": false,
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "summary": {
+      "type": "object",
+      "required": ["caseHash", "scale", "tags", "inputByteCount", "inputLineCount", "inputTokenCount", "failureKind"],
+      "properties": {
+        "caseHash": {"$ref": "#/$defs/hash"},
+        "scale": {"enum": ["small", "large"]},
+        "tags": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["minimumSize", "maximumSize", "randomSmall", "randomLarge", "duplicates", "allEqual", "sorted", "reverseSorted", "negativeValues", "zeroValues", "disconnected", "cycle", "singleElement", "emptyAllowed", "boundary"]}},
+        "inputByteCount": {"type": "integer", "minimum": 0, "maximum": 1048576},
+        "inputLineCount": {"type": "integer", "minimum": 0},
+        "inputTokenCount": {"type": "integer", "minimum": 0},
+        "failureKind": {"enum": ["candidateExecutionFailed", "referenceDisagreement", "mutantDetected"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "examples": [
+  {
+    "runId": "check-001",
+    "schemaVersion": "1.0.0",
+    "problemRef": {
+      "problemId": "problem-001",
+      "problemVersion": 1
+    },
+    "featureSetId": "features-001",
+    "outcome": "passed",
+    "seed": 123,
+    "generatorHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "slowOracleHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "fastReferenceHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "smallCount": 8,
+    "largeCount": 1,
+    "agreementCount": 8,
+    "mutationAttempted": 1,
+    "mutationEligible": 1,
+    "mutationKilled": 1,
+    "elapsedMs": 1000,
+    "checkPolicyVersion": "verifier-cross-check-v1",
+    "createdAt": "2026-09-10T00:00:00Z",
+    "safeFailureSummaries": [
+      {
+        "caseHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "scale": "small",
+        "tags": [
+          "boundary"
+        ],
+        "inputByteCount": 4,
+        "inputLineCount": 1,
+        "inputTokenCount": 1,
+        "failureKind": "mutantDetected"
+      }
+    ]
+  },
+  {
+    "runId": "check-001",
+    "schemaVersion": "1.0.0",
+    "problemRef": {
+      "problemId": "problem-001",
+      "problemVersion": 1
+    },
+    "featureSetId": "features-001",
+    "outcome": "passed",
+    "seed": 123,
+    "generatorHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "slowOracleHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "fastReferenceHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "smallCount": 8,
+    "largeCount": 1,
+    "agreementCount": 8,
+    "mutationAttempted": 1,
+    "mutationEligible": 1,
+    "mutationKilled": 1,
+    "elapsedMs": 150000,
+    "checkPolicyVersion": "verifier-cross-check-v2",
+    "createdAt": "2026-09-10T00:00:00Z",
+    "safeFailureSummaries": [
+      {
+        "caseHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "scale": "small",
+        "tags": [
+          "boundary"
+        ],
+        "inputByteCount": 4,
+        "inputLineCount": 1,
+        "inputTokenCount": 1,
+        "failureKind": "mutantDetected"
+      }
+    ],
+    "assurance": "full",
+    "warningCodes": [],
+    "buildBudgetMs": 300000,
+    "mutationRepairCount": 0
+  },
+  {
+    "runId": "check-001",
+    "schemaVersion": "1.0.0",
+    "problemRef": {
+      "problemId": "problem-001",
+      "problemVersion": 1
+    },
+    "featureSetId": "features-001",
+    "outcome": "passed",
+    "seed": 123,
+    "generatorHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "slowOracleHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "fastReferenceHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "smallCount": 8,
+    "largeCount": 1,
+    "agreementCount": 8,
+    "mutationAttempted": 0,
+    "mutationEligible": 0,
+    "mutationKilled": 0,
+    "elapsedMs": 150000,
+    "checkPolicyVersion": "verifier-cross-check-v2",
+    "createdAt": "2026-09-10T00:00:00Z",
+    "safeFailureSummaries": [],
+    "assurance": "limited",
+    "warningCodes": [
+      "MUTATION_CHALLENGE_UNAVAILABLE"
+    ],
+    "buildBudgetMs": 300000,
+    "mutationRepairCount": 1
+  }
+]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/code-snapshot-create-request.schema.json",
+  "title": "CodeSnapshotCreateRequest",
+  "type": "object",
+  "required": ["language", "sourceCode"],
+  "properties": {
+    "language": {"const": "python3"},
+    "sourceCode": {"type": "string", "minLength": 1, "pattern": ".*\\S.*"}
+  },
+  "additionalProperties": false,
+  "examples": [{"language": "python3", "sourceCode": "print(input())\n"}]
+}

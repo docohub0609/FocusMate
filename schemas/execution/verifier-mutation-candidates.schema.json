@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/verifier-mutation-candidates.schema.json",
+  "title": "VerifierMutationCandidates",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "role",
+    "problemRef",
+    "problemContentHash",
+    "featureSetId",
+    "mutants"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "role": {
+      "const": "mutationGenerator"
+    },
+    "problemRef": {
+      "type": "object",
+      "required": [
+        "problemId",
+        "problemVersion"
+      ],
+      "properties": {
+        "problemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problemVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "problemContentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "featureSetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mutants": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "mutantKey",
+          "defectTag",
+          "source",
+          "witnessInput",
+          "defectDescription",
+          "legalityReason"
+        ],
+        "properties": {
+          "mutantKey": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "defectTag": {
+            "enum": [
+              "offByOne",
+              "wrongBoundary",
+              "duplicates",
+              "wrongOrder",
+              "overflow",
+              "wrongInitialization",
+              "disconnected",
+              "wrongCondition",
+              "missingCase"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 262144
+          },
+          "witnessInput": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 16384,
+            "pattern": "\\S"
+          },
+          "defectDescription": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096,
+            "pattern": "\\S"
+          },
+          "legalityReason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096,
+            "pattern": "\\S"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

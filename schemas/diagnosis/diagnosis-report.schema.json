@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/diagnosis/diagnosis-report.schema.json",
+  "title": "DiagnosisReport",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "diagnosisId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2400
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "problemRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+    },
+    "contractVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "const": "diagnosed"
+    },
+    "handoff": {
+      "const": "action_planning_not_integrated"
+    },
+    "semanticStatus": {
+      "const": "notVerified"
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "questionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "maxItems": 64,
+            "minItems": 1
+          },
+          "subgoals": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "subgoalId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2400
+                  },
+                  "maxItems": 64,
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "subgoalId",
+                "reason",
+                "evidenceRefs"
+              ]
+            }
+          },
+          "findings": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2400
+                  },
+                  "maxItems": 64,
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "text",
+                "evidenceRefs"
+              ]
+            }
+          },
+          "unknowns": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2400
+                  },
+                  "maxItems": 64,
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "text",
+                "evidenceRefs"
+              ]
+            }
+          },
+          "history": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "relation": {
+                "enum": [
+                  "same",
+                  "new",
+                  "unknown"
+                ]
+              },
+              "previousQuestionRefs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "maxItems": 64
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2400
+              },
+              "evidenceRefs": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2400
+                },
+                "maxItems": 64,
+                "minItems": 1
+              }
+            },
+            "required": [
+              "relation",
+              "previousQuestionRefs",
+              "reason",
+              "evidenceRefs"
+            ]
+          },
+          "dependsOn": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "maxItems": 64
+          }
+        },
+        "required": [
+          "questionKey",
+          "question",
+          "evidenceRefs",
+          "subgoals",
+          "findings",
+          "unknowns",
+          "history",
+          "dependsOn"
+        ]
+      }
+    },
+    "contractConcerns": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2400
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "maxItems": 64,
+            "minItems": 1
+          }
+        },
+        "required": [
+          "text",
+          "evidenceRefs"
+        ]
+      }
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2400
+      },
+      "maxItems": 64
+    },
+    "inputSnapshot": {
+      "type": "object"
+    },
+    "promptVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2400
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "diagnosisId",
+    "createdAt",
+    "goalContext",
+    "problemRef",
+    "contractVersion",
+    "status",
+    "handoff",
+    "semanticStatus",
+    "questions",
+    "contractConcerns",
+    "evidenceRefs",
+    "inputSnapshot",
+    "promptVersion"
+  ]
+}

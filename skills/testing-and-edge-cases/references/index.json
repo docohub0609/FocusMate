@@ -1,0 +1,16 @@
+{
+  "skillId": "testing-and-edge-cases",
+  "version": 4,
+  "sections": [
+    {
+      "sectionId": "evidence-and-snapshot",
+      "description": "用于旧版本是否证明当前版本、样例是否证明整体。",
+      "fileRef": "references/evidence-and-snapshot.md"
+    },
+    {
+      "sectionId": "cases-and-expectations",
+      "description": "用于选择边界或定位实际差异。",
+      "fileRef": "references/cases-and-expectations.md"
+    }
+  ]
+}

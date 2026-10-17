@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/submission.schema.json",
+  "title": "Submission",
+  "type": "object",
+  "required": ["submissionId", "schemaVersion", "createdAt", "goalContext", "problemRef", "codeVersion", "language", "resourcePolicyRef", "idempotencyKey", "status"],
+  "properties": {
+    "submissionId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "problemRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"},
+    "codeVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "language": {"const": "python3"},
+    "resourcePolicyRef": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "idempotencyKey": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "status": {"enum": ["awaitingAssets", "queued", "preparing", "running", "finished", "failed", "expired"]},
+    "statusReason": {"enum": ["verifierAssetRejected"]}
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "submissionId": "submission-001", "schemaVersion": "1.0.0", "createdAt": "2026-08-08T10:07:00+08:00",
+    "goalContext": {"goalId": "goal-001", "scope": "goal"},
+    "problemRef": {"problemId": "problem-001", "problemVersion": 1},
+    "codeVersion": 1, "language": "python3", "resourcePolicyRef": "python-default-v1",
+    "idempotencyKey": "submit-click-001", "status": "awaitingAssets"
+  }]
+}

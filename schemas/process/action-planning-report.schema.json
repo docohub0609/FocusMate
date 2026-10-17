@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/action-planning-report.schema.json",
+  "title": "ActionPlanningReport",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "sessionId": {
+      "type": "string"
+    },
+    "roundId": {
+      "type": "string"
+    },
+    "goalContext": {
+      "$ref": "../common/goal-context.schema.json"
+    },
+    "contractVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "notCompleted"
+      ]
+    },
+    "failure": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "action": {
+      "oneOf": [
+        {
+          "$ref": "learning-action-v2.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "stepIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "semanticStatus": {
+      "const": "notLearningVerification"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "sessionId",
+    "roundId",
+    "goalContext",
+    "contractVersion",
+    "status",
+    "failure",
+    "action",
+    "stepIds",
+    "semanticStatus"
+  ],
+  "additionalProperties": false
+}

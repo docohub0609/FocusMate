@@ -1,0 +1,352 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/manager/manager-step-result.schema.json",
+  "title": "ManagerStepResult",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "candidate"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "tool"
+        },
+        "call": {
+          "type": "object",
+          "properties": {
+            "callId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "toolName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "arguments": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "callId",
+            "toolName",
+            "arguments"
+          ],
+          "additionalProperties": false
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "call"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "tool_result"
+        },
+        "result": {
+          "type": "object"
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "failure"
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "checked"
+        },
+        "accepted": {
+          "type": "boolean"
+        },
+        "source": {
+          "enum": [
+            "developerFixture",
+            "user",
+            "trusted"
+          ]
+        },
+        "notice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "accepted",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "verified"
+        },
+        "source": {
+          "enum": [
+            "developerFixture",
+            "user",
+            "trusted"
+          ]
+        },
+        "actionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "codeVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "inconclusive",
+            "notReady"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "actionId",
+        "codeVersion",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "nextKind",
+        "payload"
+      ],
+      "properties": {
+        "kind": {
+          "const": "diagnosis_next"
+        },
+        "nextKind": {
+          "enum": [
+            "diagnosis_prepare",
+            "diagnosis_model",
+            "diagnosis_skill",
+            "diagnosis_stage",
+            "diagnosis_progress",
+            "diagnosis_summary",
+            "action_prepare",
+            "action_model",
+            "action_review",
+            "action_repair",
+            "action_summary",
+            "action_accept"
+          ]
+        },
+        "payload": {
+          "type": "object"
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "report"
+      ],
+      "properties": {
+        "kind": {
+          "const": "diagnosis_ready"
+        },
+        "report": {
+          "$ref": "https://focusmate.local/schemas/diagnosis/diagnosis-report.schema.json"
+        },
+        "contextSnapshot": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        },
+        "visibleResponse": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "action_ready"
+        },
+        "action": {
+          "$ref": "../process/learning-action-v2.schema.json"
+        },
+        "audit": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "verification_next"
+        },
+        "nextKind": {
+          "enum": [
+            "verification_prepare",
+            "verification_model",
+            "verification_accept"
+          ]
+        },
+        "payload": {
+          "type": "object"
+        },
+        "contextSnapshot": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "nextKind",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "verification_ready"
+        },
+        "report": {
+          "$ref": "https://focusmate.local/schemas/execution/process-verification-report.schema.json"
+        },
+        "visibleResponse": {
+          "type": "object"
+        },
+        "modelConfig": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "kind",
+        "report"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

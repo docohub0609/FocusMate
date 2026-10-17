@@ -1,0 +1,445 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/observation-v2.schema.json",
+  "title": "ObservationV2",
+  "type": "object",
+  "required": [
+    "observationId",
+    "schemaVersion",
+    "createdAt",
+    "goalContext",
+    "sourceEventIds",
+    "trigger",
+    "priority",
+    "evidence",
+    "uncertainty",
+    "delta",
+    "kind",
+    "organization"
+  ],
+  "properties": {
+    "observationId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "goalContext": {
+      "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+    },
+    "sourceEventIds": {
+      "allOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/stringArray"
+        },
+        {
+          "minItems": 1
+        }
+      ]
+    },
+    "trigger": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "priority": {
+      "const": "observationReady"
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "uncertainty": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "delta": {
+      "type": "object"
+    },
+    "artifactRef": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "kind": {
+      "enum": [
+        "codeChange",
+        "runRequested",
+        "submissionRequested",
+        "ojResultProduced",
+        "helpRequested",
+        "actionFeedbackProvided",
+        "sessionPaused",
+        "sessionResumed",
+        "publicRunFinished",
+        "runFinished"
+      ]
+    },
+    "organization": {
+      "type": "object",
+      "required": [
+        "scope",
+        "policy"
+      ],
+      "properties": {
+        "scope": {
+          "type": "object",
+          "required": [
+            "goalContext",
+            "problemRef",
+            "contractVersion",
+            "sessionRef"
+          ],
+          "properties": {
+            "goalContext": {
+              "$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"
+            },
+            "problemRef": {
+              "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+            },
+            "contractVersion": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sessionRef": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "policy": {
+          "type": "object",
+          "required": [
+            "quiet_seconds",
+            "max_seconds",
+            "diff_max_bytes",
+            "rule_version"
+          ],
+          "properties": {
+            "quiet_seconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "max_seconds": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "diff_max_bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65536
+            },
+            "rule_version": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "codeChange"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "required": [
+              "startVersion",
+              "endVersion",
+              "codeRefs",
+              "firstReceivedAt",
+              "lastReceivedAt",
+              "eventTimes"
+            ],
+            "properties": {
+              "startVersion": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "endVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "codeRefs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "firstReceivedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastReceivedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "eventTimes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "eventId",
+                    "createdAt"
+                  ],
+                  "properties": {
+                    "eventId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "delta": {
+            "type": "object",
+            "required": [
+              "changed",
+              "diff",
+              "truncated"
+            ],
+            "properties": {
+              "changed": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "diff": {
+                "type": "string"
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "evidence": {
+            "type": "object",
+            "required": [
+              "occurredAt",
+              "receivedAt",
+              "source",
+              "actor"
+            ],
+            "properties": {
+              "occurredAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "receivedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "actor": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "delta": {
+            "type": "object",
+            "required": [
+              "newFact"
+            ],
+            "properties": {
+              "newFact": {
+                "const": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "publicRunFinished"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "required": [
+              "runId",
+              "loopId",
+              "codeVersion",
+              "problemRef",
+              "status"
+            ],
+            "properties": {
+              "runId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "loopId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "codeVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "problemRef": {
+                "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+              },
+              "status": {
+                "enum": [
+                  "succeeded",
+                  "failed",
+                  "cancelled",
+                  "interrupted"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "ojResultProduced"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "required": [
+              "submissionId",
+              "ojResultId",
+              "codeVersion",
+              "verdict"
+            ],
+            "properties": {
+              "submissionId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ojResultId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "codeVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "verdict": {
+                "enum": [
+                  "AC",
+                  "WA",
+                  "TLE",
+                  "RE",
+                  "CE"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "runFinished"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "required": [
+              "runId",
+              "codeVersion",
+              "problemRef",
+              "runMode",
+              "status"
+            ],
+            "properties": {
+              "runId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "codeVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "problemRef": {
+                "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/problemRef"
+              },
+              "status": {
+                "enum": [
+                  "finished",
+                  "failed",
+                  "interrupted"
+                ]
+              },
+              "runMode": {
+                "enum": [
+                  "publicExample",
+                  "customInput"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/execution/final-oj-report.schema.json",
+  "title": "FinalOJReport",
+  "type": "object",
+  "required": ["schemaVersion", "requestId", "goalContext", "submissionId", "goalContractVersion", "status", "reason", "updatedAt", "inputVersionRefs"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "requestId": {"type": "string", "minLength": 1},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "submissionId": {"type": "string", "minLength": 1},
+    "goalContractVersion": {"type": "integer", "minimum": 1},
+    "status": {"enum": ["waitingResult", "verified", "alreadyCompleted", "requestFailed", "superseded"]},
+    "reason": {"type": "string", "minLength": 1},
+    "updatedAt": {"type": "string", "format": "date-time"},
+    "inputVersionRefs": {"type": "object", "additionalProperties": {"type": ["string", "integer"]}},
+    "verifierResult": {"$ref": "https://focusmate.local/schemas/execution/verifier-result.schema.json"},
+    "completionResultId": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "verified"}}}, "then": {"required": ["verifierResult"]}, "else": {"not": {"required": ["verifierResult"]}}},
+    {"if": {"properties": {"status": {"const": "alreadyCompleted"}}}, "then": {"required": ["completionResultId"]}}
+  ],
+  "additionalProperties": false
+}

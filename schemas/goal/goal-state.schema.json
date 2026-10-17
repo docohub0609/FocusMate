@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-state.schema.json",
+  "title": "GoalState",
+  "type": "object",
+  "required": ["goalId", "schemaVersion", "version", "createdAt", "updatedAt", "goalContractVersion", "status", "subgoalStates"],
+  "properties": {
+    "goalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "version": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "updatedAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "goalContractVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"},
+    "status": {"enum": ["active", "paused", "completed", "ended"]},
+    "currentSubgoalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "lastVerifierResultId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "subgoalStates": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "required": ["subgoalId", "status"],
+        "properties": {
+          "subgoalId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+          "status": {"enum": ["notStarted", "observing", "evidenceAvailable", "verified"]},
+          "verifierResultId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+        },
+        "allOf": [{"if": {"properties": {"status": {"const": "verified"}}, "required": ["status"]}, "then": {"required": ["verifierResultId"]}}],
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "completed"}}, "required": ["status"]}, "then": {"required": ["lastVerifierResultId"]}}
+  ],
+  "additionalProperties": false,
+  "examples": [{
+    "goalId": "goal-001", "schemaVersion": "1.0.0", "version": 1,
+    "createdAt": "2026-08-08T10:01:00+08:00", "updatedAt": "2026-08-08T10:02:00+08:00",
+    "goalContractVersion": 1, "status": "active", "currentSubgoalId": "implement-solution",
+    "subgoalStates": [{"subgoalId": "implement-solution", "status": "observing"}]
+  }]
+}

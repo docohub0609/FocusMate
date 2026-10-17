@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/stages/stage-recognition-request.schema.json",
+  "title": "StageRecognitionRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "goalContext", "goalRef", "problemRequirementRef", "codeSnapshotRef", "observationRefs", "userStatementRefs", "runRecordRefs", "dialogueRefs", "currentVersions", "budget"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "goalContext": {"$ref": "https://focusmate.local/schemas/common/goal-context.schema.json"},
+    "goalRef": {"type": "string", "minLength": 1},
+    "problemRequirementRef": {"type": "string", "minLength": 1},
+    "codeSnapshotRef": {"type": "string", "minLength": 1},
+    "historicalCodeRefs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "observationRefs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "userStatementRefs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "runRecordRefs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "dialogueRefs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "currentVersions": {"type": "object", "minProperties": 3, "additionalProperties": {"oneOf": [{"type": "integer", "minimum": 1}, {"type": "string", "minLength": 1}]}},
+    "budget": {"type": "object", "additionalProperties": false, "required": ["contextWindowTokens", "reservedOutputTokens", "safetyMarginTokens"], "properties": {
+      "contextWindowTokens": {"type": "integer", "minimum": 1},
+      "reservedOutputTokens": {"type": "integer", "minimum": 1},
+      "safetyMarginTokens": {"type": "integer", "minimum": 0}
+    }},
+    "previousSummary": {"$ref": "https://focusmate.local/schemas/context/conversation-summary.schema.json"}
+  }
+}

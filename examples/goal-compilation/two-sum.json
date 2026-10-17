@@ -1,0 +1,9 @@
+{
+  "statement": "给定一个整数数组和目标值，返回两个不同位置，使对应数值之和等于目标值。位置从0开始编号。\n每个输入恰有一组答案。两个位置的数值可以相同，但不能重复使用同一个位置。",
+  "inputSpec": "第一行包含整数n和目标值target。\n第二行包含n个整数。",
+  "outputSpec": "输出两个不同的下标，小的下标在前，用空格分隔。",
+  "constraints": "2 <= n <= 100000\n-1000000000 <= 数组元素, target <= 1000000000",
+  "examples": [{"input": "4 9\n2 7 11 15\n", "output": "0 1\n"}, {"input": "2 6\n3 3\n", "output": "0 1\n"}],
+  "language": "python3",
+  "ioMode": "standardInputOutput"
+}

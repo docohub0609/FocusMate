@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/problem/problem-intake-error.schema.json",
+  "title": "ProblemIntakeError",
+  "type": "object",
+  "required": ["requestId", "schemaVersion", "createdAt", "code", "message", "fieldErrors"],
+  "properties": {
+    "requestId": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "schemaVersion": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/schemaVersion"},
+    "createdAt": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"},
+    "code": {
+      "enum": [
+        "INVALID_JSON",
+        "REQUEST_BODY_TOO_LARGE",
+        "UNSUPPORTED_MEDIA_TYPE",
+        "INVALID_PROBLEM_INPUT",
+        "UNSUPPORTED_LANGUAGE",
+        "UNSUPPORTED_IO_MODE",
+        "PROBLEM_INTAKE_INTERNAL_ERROR"
+      ]
+    },
+    "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+    "fieldErrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "code", "message"],
+        "properties": {
+          "field": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"},
+          "code": {
+            "enum": ["required", "blank", "invalidType", "invalidValue", "unknownField", "invalidStructure"]
+          },
+          "message": {"$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [{
+    "requestId": "request-001",
+    "schemaVersion": "1.0.0",
+    "createdAt": "2026-08-14T10:00:00Z",
+    "code": "INVALID_PROBLEM_INPUT",
+    "message": "The problem input contains invalid fields.",
+    "fieldErrors": [{"field": "constraints", "code": "required", "message": "constraints is required."}]
+  }]
+}

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-contract-record-v2.schema.json",
+  "title": "GoalContractRecordV2",
+  "description": "Authoritative lifecycle metadata around immutable requirement snapshots. A superseded record retains compilation.contract.contractStatus=frozen; strategies are a projection of separately retained history.",
+  "type": "object",
+  "required": [
+    "goalId",
+    "version",
+    "draftRevision",
+    "status",
+    "contentHash",
+    "compilation",
+    "originalGeneration",
+    "basedOnVersion",
+    "changeReason",
+    "createdAt",
+    "updatedAt",
+    "frozenAt",
+    "supersededAt",
+    "reviews"
+  ],
+  "properties": {
+    "goalId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "version": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+    },
+    "draftRevision": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "frozen",
+        "superseded"
+      ]
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "compilation": {
+      "type": "object",
+      "required": [
+        "contract",
+        "strategyCandidates"
+      ],
+      "properties": {
+        "contract": {
+          "$ref": "https://focusmate.local/schemas/goal/goal-contract-v2.schema.json"
+        },
+        "strategyCandidates": {
+          "const": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "originalGeneration": {
+      "type": "object",
+      "required": [
+        "source",
+        "problemContentHash"
+      ],
+      "properties": {
+        "source": {
+          "const": "confirmedProblem"
+        },
+        "problemContentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "basedOnVersion": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "changeReason": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "updatedAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "frozenAt": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "supersededAt": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reviews": {
+      "const": []
+    }
+  },
+  "additionalProperties": false
+}

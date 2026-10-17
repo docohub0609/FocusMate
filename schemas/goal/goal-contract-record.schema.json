@@ -1,0 +1,985 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/goal/goal-contract-record.schema.json",
+  "title": "GoalContractRecord",
+  "description": "Authoritative lifecycle metadata around immutable requirement snapshots. A superseded record retains compilation.contract.contractStatus=frozen; strategies are a projection of separately retained history.",
+  "type": "object",
+  "required": [
+    "goalId",
+    "version",
+    "draftRevision",
+    "status",
+    "contentHash",
+    "compilation",
+    "originalGeneration",
+    "basedOnVersion",
+    "changeReason",
+    "createdAt",
+    "updatedAt",
+    "frozenAt",
+    "supersededAt",
+    "reviews"
+  ],
+  "properties": {
+    "goalId": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+    },
+    "version": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+    },
+    "draftRevision": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "frozen",
+        "superseded"
+      ]
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "compilation": {
+      "$ref": "https://focusmate.local/schemas/goal/goal-compilation.schema.json"
+    },
+    "originalGeneration": {
+      "$ref": "https://focusmate.local/schemas/goal/goal-compilation.schema.json"
+    },
+    "basedOnVersion": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "changeReason": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "createdAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "updatedAt": {
+      "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+    },
+    "frozenAt": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "supersededAt": {
+      "anyOf": [
+        {
+          "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "reviewId",
+          "draftRevision",
+          "stale",
+          "result"
+        ],
+        "properties": {
+          "reviewId": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+          },
+          "draftRevision": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/version"
+          },
+          "stale": {
+            "type": "boolean"
+          },
+          "result": {
+            "$ref": "https://focusmate.local/schemas/goal/goal-contract-review-result.schema.json"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "draft"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "frozenAt": {
+            "type": "null"
+          },
+          "supersededAt": {
+            "type": "null"
+          },
+          "compilation": {
+            "properties": {
+              "contract": {
+                "properties": {
+                  "contractStatus": {
+                    "const": "draft"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "frozen",
+              "superseded"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "frozenAt": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+          },
+          "compilation": {
+            "properties": {
+              "contract": {
+                "properties": {
+                  "contractStatus": {
+                    "const": "frozen"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "frozen"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "supersededAt": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "superseded"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "supersededAt": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/timestamp"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "basedOnVersion": {
+            "type": "integer"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "changeReason": {
+            "$ref": "https://focusmate.local/schemas/common/definitions.schema.json#/$defs/nonEmptyString"
+          }
+        }
+      }
+    }
+  ],
+  "examples": [
+    {
+      "goalId": "goal-t041-merge-intervals",
+      "version": 1,
+      "draftRevision": 1,
+      "status": "draft",
+      "contentHash": "d049c2c1a79861ed58aa9b61fe58c065752d1e1423753b1ba55345f63f398cab",
+      "compilation": {
+        "contract": {
+          "coachPolicy": {
+            "completeSolutionAllowed": false
+          },
+          "contractStatus": "draft",
+          "createdAt": "2026-09-12T03:00:00Z",
+          "finalCriterion": {
+            "requiredVerdict": "AC",
+            "verifierType": "finalOj"
+          },
+          "goalId": "goal-t041-merge-intervals",
+          "navigationPolicy": {
+            "allowRevisit": true,
+            "allowSkip": true,
+            "mode": "adaptive",
+            "offRouteHandling": "temporaryBranch",
+            "processStagesRequiredForCompletion": false,
+            "stageOrder": "defaultOnly",
+            "stalledRouteFallback": "latestVerifiedSubgoal"
+          },
+          "objective": "Produce a Python solution accepted by the trusted OJ.",
+          "problemRef": {
+            "problemId": "problem-t041-merge-intervals",
+            "problemVersion": 1
+          },
+          "schemaVersion": "1.0.0",
+          "subgoals": [
+            {
+              "acceptableEvidence": [
+                "evaluatedUserExplanation"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "problemUnderstanding",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-01"
+            },
+            {
+              "acceptableEvidence": [
+                "evaluatedUserExplanation"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "feasibleStrategy",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-02"
+            },
+            {
+              "acceptableEvidence": [
+                "evaluatedUserExplanation"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "coreStateAndCorrectness",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-03"
+            },
+            {
+              "acceptableEvidence": [
+                "runResult"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "coreImplementation",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-04"
+            },
+            {
+              "acceptableEvidence": [
+                "targetedRunResult"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "boundaryAndTesting",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-05"
+            }
+          ],
+          "version": 1
+        },
+        "generation": {
+          "featureSetId": "features-de9fc1f7-5b1f-45ec-bba8-8c7f14ecaf6b",
+          "goalId": "goal-t041-merge-intervals",
+          "inputHash": "07d7ab5a6ac4a6e281f1abb5bdfe4237e43baf8c170d40e638210d6978c8e966",
+          "inputUncertainties": [
+            {
+              "category": "resourceConstraint",
+              "evidence": [],
+              "featureKey": "resource.primary",
+              "reason": "题面未给出单独的执行时间或内存限制。",
+              "status": "unknown"
+            }
+          ],
+          "model": "fake",
+          "problemContentHash": "f1435c016cd66e202d20ae64d75104eb575e3a730dcbd6c02dc5f940268bc6b1",
+          "problemRef": {
+            "problemId": "problem-t041-merge-intervals",
+            "problemVersion": 1
+          },
+          "promptVersion": "goal-compilation-v6",
+          "providerResponseId": "response-1",
+          "semanticStatus": "unverified",
+          "unknowns": [
+            "当前尚无经过验证的算法候选"
+          ]
+        },
+        "publicGoals": [
+          {
+            "stage": "problemUnderstanding",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-01",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "feasibleStrategy",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-02",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "coreStateAndCorrectness",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-03",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "coreImplementation",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-04",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "boundaryAndTesting",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-05",
+            "text": "说明区间端点需要满足的条件"
+          }
+        ],
+        "rubrics": [
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-01"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-02"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-03"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-04"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-05"
+          }
+        ],
+        "sourceCatalog": [
+          {
+            "evidenceId": "statement:0",
+            "sourceField": "statement",
+            "sourcePath": "statement",
+            "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+          },
+          {
+            "evidenceId": "statement:1",
+            "sourceField": "statement",
+            "sourcePath": "statement",
+            "sourceText": "两个区间端点相接也视为有交集，例如[1,2]与[2,4]合并为[1,4]。输入顺序不固定，可以出现重复区间或包含关系。"
+          },
+          {
+            "evidenceId": "inputSpec:0",
+            "sourceField": "inputSpec",
+            "sourcePath": "inputSpec",
+            "sourceText": "第一行是区间数量n。"
+          },
+          {
+            "evidenceId": "inputSpec:1",
+            "sourceField": "inputSpec",
+            "sourcePath": "inputSpec",
+            "sourceText": "随后n行，每行包含左端点l和右端点r。"
+          },
+          {
+            "evidenceId": "outputSpec:0",
+            "sourceField": "outputSpec",
+            "sourcePath": "outputSpec",
+            "sourceText": "第一行输出合并后区间数量k。"
+          },
+          {
+            "evidenceId": "outputSpec:1",
+            "sourceField": "outputSpec",
+            "sourcePath": "outputSpec",
+            "sourceText": "随后k行按左端点从小到大输出每个区间的左右端点。"
+          },
+          {
+            "evidenceId": "constraints:0",
+            "sourceField": "constraints",
+            "sourcePath": "constraints",
+            "sourceText": "1 <= n <= 100000"
+          },
+          {
+            "evidenceId": "constraints:1",
+            "sourceField": "constraints",
+            "sourcePath": "constraints",
+            "sourceText": "-1000000000 <= l <= r <= 1000000000"
+          },
+          {
+            "evidenceId": "examples:0:input",
+            "sourceField": "examples",
+            "sourcePath": "examples.0.input",
+            "sourceText": "3\n1 2\n2 4\n7 8\n"
+          },
+          {
+            "evidenceId": "examples:0:output",
+            "sourceField": "examples",
+            "sourcePath": "examples.0.output",
+            "sourceText": "2\n1 4\n7 8\n"
+          },
+          {
+            "evidenceId": "examples:1:input",
+            "sourceField": "examples",
+            "sourcePath": "examples.1.input",
+            "sourceText": "3\n2 3\n1 5\n1 5\n"
+          },
+          {
+            "evidenceId": "examples:1:output",
+            "sourceField": "examples",
+            "sourcePath": "examples.1.output",
+            "sourceText": "1\n1 5\n"
+          }
+        ],
+        "strategyCandidates": []
+      },
+      "basedOnVersion": null,
+      "changeReason": null,
+      "createdAt": "2026-09-12T03:00:00Z",
+      "updatedAt": "2026-09-12T03:00:00Z",
+      "frozenAt": null,
+      "supersededAt": null,
+      "originalGeneration": {
+        "contract": {
+          "coachPolicy": {
+            "completeSolutionAllowed": false
+          },
+          "contractStatus": "draft",
+          "createdAt": "2026-09-12T02:00:00Z",
+          "finalCriterion": {
+            "requiredVerdict": "AC",
+            "verifierType": "finalOj"
+          },
+          "goalId": "goal-t041-merge-intervals",
+          "navigationPolicy": {
+            "allowRevisit": true,
+            "allowSkip": true,
+            "mode": "adaptive",
+            "offRouteHandling": "temporaryBranch",
+            "processStagesRequiredForCompletion": false,
+            "stageOrder": "defaultOnly",
+            "stalledRouteFallback": "latestVerifiedSubgoal"
+          },
+          "objective": "Produce a Python solution accepted by the trusted OJ.",
+          "problemRef": {
+            "problemId": "problem-t041-merge-intervals",
+            "problemVersion": 1
+          },
+          "schemaVersion": "1.0.0",
+          "subgoals": [
+            {
+              "acceptableEvidence": [
+                "evaluatedUserExplanation"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "problemUnderstanding",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-01"
+            },
+            {
+              "acceptableEvidence": [
+                "evaluatedUserExplanation"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "feasibleStrategy",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-02"
+            },
+            {
+              "acceptableEvidence": [
+                "evaluatedUserExplanation"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "coreStateAndCorrectness",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-03"
+            },
+            {
+              "acceptableEvidence": [
+                "runResult"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "coreImplementation",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-04"
+            },
+            {
+              "acceptableEvidence": [
+                "targetedRunResult"
+              ],
+              "dependsOn": [],
+              "objective": "说明区间端点的题目要求",
+              "stage": "boundaryAndTesting",
+              "subgoalId": "goal-t041-merge-intervals:subgoal-05"
+            }
+          ],
+          "version": 1
+        },
+        "generation": {
+          "featureSetId": "features-de9fc1f7-5b1f-45ec-bba8-8c7f14ecaf6b",
+          "goalId": "goal-t041-merge-intervals",
+          "inputHash": "07d7ab5a6ac4a6e281f1abb5bdfe4237e43baf8c170d40e638210d6978c8e966",
+          "inputUncertainties": [
+            {
+              "category": "resourceConstraint",
+              "evidence": [],
+              "featureKey": "resource.primary",
+              "reason": "题面未给出单独的执行时间或内存限制。",
+              "status": "unknown"
+            }
+          ],
+          "model": "fake",
+          "problemContentHash": "f1435c016cd66e202d20ae64d75104eb575e3a730dcbd6c02dc5f940268bc6b1",
+          "problemRef": {
+            "problemId": "problem-t041-merge-intervals",
+            "problemVersion": 1
+          },
+          "promptVersion": "goal-compilation-v6",
+          "providerResponseId": "response-1",
+          "semanticStatus": "unverified",
+          "unknowns": [
+            "当前尚无经过验证的算法候选"
+          ]
+        },
+        "publicGoals": [
+          {
+            "stage": "problemUnderstanding",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-01",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "feasibleStrategy",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-02",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "coreStateAndCorrectness",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-03",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "coreImplementation",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-04",
+            "text": "说明区间端点需要满足的条件"
+          },
+          {
+            "stage": "boundaryAndTesting",
+            "subgoalId": "goal-t041-merge-intervals:subgoal-05",
+            "text": "说明区间端点需要满足的条件"
+          }
+        ],
+        "rubrics": [
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-01"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-02"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-03"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-04"
+          },
+          {
+            "checks": [
+              {
+                "check": "说明端点含义",
+                "sourceRefs": [
+                  "outputSpec:0"
+                ],
+                "sources": [
+                  {
+                    "evidenceId": "outputSpec:0",
+                    "sourceField": "outputSpec",
+                    "sourcePath": "outputSpec",
+                    "sourceText": "第一行输出合并后区间数量k。"
+                  }
+                ]
+              }
+            ],
+            "dependencies": [],
+            "goalId": "goal-t041-merge-intervals",
+            "sourceRefs": [
+              "statement:0"
+            ],
+            "sources": [
+              {
+                "evidenceId": "statement:0",
+                "sourceField": "statement",
+                "sourcePath": "statement",
+                "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+              }
+            ],
+            "subgoalId": "goal-t041-merge-intervals:subgoal-05"
+          }
+        ],
+        "sourceCatalog": [
+          {
+            "evidenceId": "statement:0",
+            "sourceField": "statement",
+            "sourcePath": "statement",
+            "sourceText": "给定n个闭区间，合并所有有交集的区间，输出合并结果。"
+          },
+          {
+            "evidenceId": "statement:1",
+            "sourceField": "statement",
+            "sourcePath": "statement",
+            "sourceText": "两个区间端点相接也视为有交集，例如[1,2]与[2,4]合并为[1,4]。输入顺序不固定，可以出现重复区间或包含关系。"
+          },
+          {
+            "evidenceId": "inputSpec:0",
+            "sourceField": "inputSpec",
+            "sourcePath": "inputSpec",
+            "sourceText": "第一行是区间数量n。"
+          },
+          {
+            "evidenceId": "inputSpec:1",
+            "sourceField": "inputSpec",
+            "sourcePath": "inputSpec",
+            "sourceText": "随后n行，每行包含左端点l和右端点r。"
+          },
+          {
+            "evidenceId": "outputSpec:0",
+            "sourceField": "outputSpec",
+            "sourcePath": "outputSpec",
+            "sourceText": "第一行输出合并后区间数量k。"
+          },
+          {
+            "evidenceId": "outputSpec:1",
+            "sourceField": "outputSpec",
+            "sourcePath": "outputSpec",
+            "sourceText": "随后k行按左端点从小到大输出每个区间的左右端点。"
+          },
+          {
+            "evidenceId": "constraints:0",
+            "sourceField": "constraints",
+            "sourcePath": "constraints",
+            "sourceText": "1 <= n <= 100000"
+          },
+          {
+            "evidenceId": "constraints:1",
+            "sourceField": "constraints",
+            "sourcePath": "constraints",
+            "sourceText": "-1000000000 <= l <= r <= 1000000000"
+          },
+          {
+            "evidenceId": "examples:0:input",
+            "sourceField": "examples",
+            "sourcePath": "examples.0.input",
+            "sourceText": "3\n1 2\n2 4\n7 8\n"
+          },
+          {
+            "evidenceId": "examples:0:output",
+            "sourceField": "examples",
+            "sourcePath": "examples.0.output",
+            "sourceText": "2\n1 4\n7 8\n"
+          },
+          {
+            "evidenceId": "examples:1:input",
+            "sourceField": "examples",
+            "sourcePath": "examples.1.input",
+            "sourceText": "3\n2 3\n1 5\n1 5\n"
+          },
+          {
+            "evidenceId": "examples:1:output",
+            "sourceField": "examples",
+            "sourcePath": "examples.1.output",
+            "sourceText": "1\n1 5\n"
+          }
+        ],
+        "strategyCandidates": []
+      },
+      "reviews": []
+    }
+  ]
+}

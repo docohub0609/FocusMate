@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://focusmate.local/schemas/process/action-candidate.schema.json",
+  "title": "ActionCandidate",
+  "type": "object",
+  "properties": {
+    "questionKeys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "minItems": 1,
+      "maxItems": 24,
+      "uniqueItems": true
+    },
+    "subgoalIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "minItems": 0,
+      "maxItems": 24,
+      "uniqueItems": true
+    },
+    "actionType": {
+      "enum": [
+        "hint",
+        "microTask",
+        "reflectionQuestion",
+        "testSuggestion",
+        "clarificationRequest",
+        "answer"
+      ]
+    },
+    "hintLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "answerScope": {
+      "enum": [
+        "guided",
+        "localCode",
+        "fullSolution"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "minItems": 1,
+      "maxItems": 24,
+      "uniqueItems": true
+    },
+    "requestQuotes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": [
+          "ref",
+          "text"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 3,
+      "uniqueItems": true
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 48000
+    },
+    "diagnosisCorrections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "questionKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "minItems": 1,
+            "maxItems": 24,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "questionKey",
+          "reason",
+          "evidenceRefs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 24,
+      "uniqueItems": true
+    },
+    "followUp": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "awaitInformation",
+            "awaitEvidence",
+            "none"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "criterionIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minItems": 0,
+          "maxItems": 24,
+          "uniqueItems": true
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "userExplanation",
+              "codeStructure",
+              "runEvidence"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 24,
+          "uniqueItems": true
+        },
+        "expectedUserAction": {
+          "type": "string",
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "kind",
+        "reason",
+        "criterionIds",
+        "checks",
+        "expectedUserAction"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "questionKeys",
+    "subgoalIds",
+    "actionType",
+    "hintLevel",
+    "answerScope",
+    "reason",
+    "evidenceRefs",
+    "requestQuotes",
+    "content",
+    "diagnosisCorrections",
+    "followUp"
+  ],
+  "additionalProperties": false
+}
